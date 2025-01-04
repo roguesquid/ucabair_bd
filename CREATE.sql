@@ -1,7 +1,5 @@
-DROP DATABASE IF EXISTS UCABAIR;
-CREATE DATABASE UCABAIR;
-
-USE UCABAIR;
+-- DROP DATABASE IF EXISTS UCABAIR;
+-- CREATE DATABASE UCABAIR;
 
 CREATE TABLE lugar(
     lugar_codigo SERIAL,
@@ -14,7 +12,7 @@ CREATE TABLE lugar(
 
 CREATE TABLE Persona_Juridica (
     persona_jur_codigo SERIAL,
-    persona_jur_rif INT,
+    persona_jur_rif VARCHAR(20) NOT NULL UNIQUE,
     persona_jur_direccion_fiscal VARCHAR(200),
     persona_jur_razon_social VARCHAR(50),
     persona_jur_pagina_web VARCHAR(50),
@@ -95,18 +93,10 @@ CREATE TABLE usuario(
     CONSTRAINT fk_rol FOREIGN KEY(usuario_fk_rol) REFERENCES rol(rol_codigo)
 );
 
-CREATE TABLE accion(
-    accion_codigo SERIAL,
-    accion_fecha DATE,
-    accion_descripcion VARCHAR(300),
-    accion_fk_usuario INTEGER,
-    CONSTRAINT pk_accion PRIMARY KEY(accion_codigo),
-    CONSTRAINT fk_usuario FOREIGN KEY(accion_fk_usuario) REFERENCES usuario(usuario_codigo)
-);
-
 CREATE TABLE privilegio(
     privilegio_codigo SERIAL,
     privilegio_descripcion VARCHAR(300) NOT NULL,
+    privilegio_tipo VARCHAR(40),
     CONSTRAINT pk_privilegio PRIMARY KEY(privilegio_codigo)
 );
 
@@ -122,19 +112,19 @@ CREATE TABLE rol_privilegio(
 CREATE TABLE contacto(
     contacto_id SERIAL,
     contacto_nombre VARCHAR(80) NOT NULL,
-    contacto_red_social VARCHAR(20),
-    contacto_fk_empleado INTEGER,
+    contacto_red_social VARCHAR(128),
+    contacto_fk_empleado INTEGER NOT NULL,
     CONSTRAINT pk_contacto PRIMARY KEY(contacto_id),
     CONSTRAINT fk_empleado FOREIGN KEY(contacto_fk_empleado) REFERENCES Empleado(cod_empleado)
 );
 
 CREATE TABLE Telefono (
     telefono_codigo SERIAL,
-    telefono_codigo_area INTEGER NOT NULL,
-    telefono_numero INTEGER NOT NULL,
+    telefono_codigo_area VARCHAR(5) NOT NULL,
+    telefono_numero VARCHAR(9) NOT NULL,
     FK_persona_jur INTEGER,
     FK_persona_nat INTEGER,
-    FK_contacto INTEGER NOT NULL,
+    FK_contacto INTEGER,
     Constraint PK_telefono primary key (telefono_codigo),
     Constraint FK_perjur_telf foreign key (FK_persona_jur) references Persona_juridica (persona_jur_codigo),
     Constraint FK_pernat_telf foreign key (FK_persona_nat) references Persona_Natural (persona_nat_codigo),
@@ -153,9 +143,9 @@ CREATE TABLE Correo (
 
 CREATE TABLE Titulo (
     titulo_codigo SERIAL,
-    titulo_tipo VARCHAR(10) NOT NULL,
-    titulo_nombre VARCHAR(50) NOT NULL,
-    titulo_universidad VARCHAR(60) NOT NULL,
+    titulo_tipo VARCHAR(16) NOT NULL,
+    titulo_nombre VARCHAR(128) NOT NULL,
+    titulo_universidad VARCHAR(128) NOT NULL,
     titulo_fecha_obtencion DATE NOT NULL,
     Constraint PK_titulo primary key (titulo_codigo)
 );
@@ -199,7 +189,7 @@ CREATE TABLE Vacacion (
 
 CREATE TABLE Beneficio (
     beneficio_codigo SERIAL,
-    beneficio_nombre VARCHAR(30) NOT NULL,
+    beneficio_nombre VARCHAR(80) NOT NULL,
     beneficio_descripcion VARCHAR(200) NOT NULL,
     beneficio_tipo VARCHAR(20) NOT NULL,
     Constraint PK_beneficio primary key (beneficio_codigo)
@@ -218,7 +208,7 @@ CREATE TABLE Contrato_P_Beneficio (
 CREATE TABLE Cargo (
     cargo_codigo SERIAL,
     cargo_nombre VARCHAR(30) NOT NULL,
-    cargo_descripcion VARCHAR (40) NOT NULL,
+    cargo_descripcion VARCHAR (100) NOT NULL,
     Constraint PK_cargo primary key (cargo_codigo)
 );
 
@@ -319,13 +309,12 @@ CREATE TABLE banco(
 
 CREATE TABLE tdc(
     tdc_metodo_pago_cod SERIAL,
-    tdc_numero_tarjeta BIGINT,
-    tdc_cvv INTEGER,
-    tdc_fecha_vencimiento DATE,
-    tdc_tarjtahabiente VARCHAR(80),
+    tdc_numero_tarjeta VARCHAR(16) NOT NULL,
+    tdc_cvv VARCHAR(3) NOT NULL,
+    tdc_fecha_vencimiento DATE NOT NULL,
     tdc_fk_persona_nat INTEGER,
     tdc_fk_persona_jur INTEGER,
-    tdc_fk_banco INTEGER,
+    tdc_fk_banco INTEGER NOT NULL,
     constraint pk_tdc primary key(tdc_metodo_pago_cod),
     constraint fk_persona_nat foreign key(tdc_fk_persona_nat) references Persona_Natural(persona_nat_codigo),
     constraint fk_persona_jur foreign key(tdc_fk_persona_jur) references Persona_Juridica(persona_jur_codigo),
@@ -334,13 +323,12 @@ CREATE TABLE tdc(
 
 CREATE TABLE tdd(
     tdd_metodo_pago_cod SERIAL,
-    tdd_numero_tarjeta BIGINT,
-    tdd_cvv INTEGER,
-    tdd_fecha_vencimiento DATE,
-    tdd_tarjtahabiente VARCHAR(80),
+    tdd_numero_tarjeta VARCHAR(16) NOT NULL,
+    tdd_cvv VARCHAR(3) NOT NULL,
+    tdd_fecha_vencimiento DATE NOT NULL,
     tdd_fk_persona_nat INTEGER,
     tdd_fk_persona_jur INTEGER,
-    tdd_fk_banco INTEGER,
+    tdd_fk_banco INTEGER NOT NULL,
     constraint pk_tdd primary key(tdd_metodo_pago_cod),
     constraint fk_persona_nat foreign key(tdd_fk_persona_nat) references Persona_Natural(persona_nat_codigo),
     constraint fk_persona_jur foreign key(tdd_fk_persona_jur) references Persona_Juridica(persona_jur_codigo),
@@ -349,10 +337,10 @@ CREATE TABLE tdd(
 
 CREATE TABLE cheque(
     cheque_metodo_pago_cod SERIAL,
-    cheque_numero BIGINT,
+    cheque_numero VARCHAR(8) NOT NULL,
     cheque_fk_per_nat INTEGER,
     cheque_fk_per_jur INTEGER,
-    cheque_fk_banco INTEGER,
+    cheque_fk_banco INTEGER NOT NULL,
     constraint pk_cheque primary key(cheque_metodo_pago_cod),
     constraint fk_persona_nat foreign key(cheque_fk_per_nat) references Persona_Natural(persona_nat_codigo),
     constraint fk_persona_jur foreign key(cheque_fk_per_jur) references Persona_Juridica(persona_jur_codigo),
@@ -361,7 +349,7 @@ CREATE TABLE cheque(
 
 CREATE TABLE efectivo(
     efectivo_metodo_pago_cod SERIAL,
-    efectivo_denominacion INTEGER,
+    efectivo_denominacion VARCHAR(20) NOT NULL,
     efectivo_cant_piezas INTEGER,
     efectivo_fk_per_nat INTEGER,
     efectivo_fk_per_jur INTEGER,
@@ -413,7 +401,7 @@ CREATE TABLE Inventario_Almacen (
 
 CREATE TABLE Historico_Tasa_Dolar (
   H_tasa_id SERIAL,
-  H_tasa_precio INTEGER NOT NULL,
+  H_tasa_precio DECIMAL(4,2) NOT NULL,
   H_tasa_fecha_inicio DATE NOT NULL,
   H_tasa_fecha_fin DATE,
     CONSTRAINT PK_historico_tasa_dolar PRIMARY KEY (H_tasa_id)
@@ -572,6 +560,8 @@ CREATE TABLE Historico_Estatus_Prueba_Avion(
 
 CREATE TABLE Modelo_Avion_Caracteristica(
     modelo_avion_caract_id SERIAL,
+    modelo_avion_caract_valor DECIMAL(10,5),
+    modelo_avion_caract_unidad_medida VARCHAR(20),
     modelo_avion_caract_fk_modelo INTEGER NOT NULL,
     modelo_avion_caract_fk_caract INTEGER NOT NULL,
     CONSTRAINT pk_modelo_avion_caracteristica PRIMARY KEY(modelo_avion_caract_id),
