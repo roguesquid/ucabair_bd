@@ -2994,23 +2994,100 @@ VALUES
 
 -- PERSONA JURIDICA
 INSERT INTO Persona_Juridica (
-  persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, persona_jur_fecha_inicio_op, pj_fk_lugar_fiscal, pj_fk_lugar_fisica
-) VALUES
-  ('J1234567890', 'Av. Principal, Edificio Central', 'ABC Company C.A.', 'https://www.abc-company.com', 'Calle Comercial, Edif. Plaza', '2018-04-06', 1003, 1004),
-  ('V9876543210', 'Calle Empresarial, Torre A', 'XYZ Corporation S.A.', 'https://www.xyz-corp.com', 'Avenida Industrial, Bloque 5', '2010-08-30',694, 695),
-  ('G8765432100', 'Ruta Empresarial, Edif. Central', 'LMN Enterprises C.A.', 'https://www.lmn-enterprises.com', 'Plaza Ejecutiva, Piso 10', '2016-01-07', 696, 697),
-  ('E5678901230', 'Calle de Negocios, Centro Ejecutivo', 'PQR Solutions S.A.', 'https://www.pqr-solutions.com', 'Avenida Empresarial, Edificio 3', '2007-05-13', 701, 702),
-  ('P0123456780', 'Zona Industrial, Bloque 7', 'UVW Group C.A.', 'https://www.uvw-group.com', 'Calle del Comercio, Torre B', '2008-02-26', 706, 707),
-  ('J1111111111', 'Avenida Principal, Edificio Ejecutivo', 'Alpha Corporation C.A.', 'https://www.alpha-corp.com', 'Calle Empresarial, Edificio 2', '2006-02-01', 708, 709),
-  ('V2222222222', 'Ruta Empresarial, Edif. Plaza', 'Beta Solutions S.A.', 'https://www.beta-solutions.com', 'Avenida Comercial, Torre A', '2010-07-01',713, 714),
-  ('G3333333333', 'Calle de Negocios, Edif. Ejecutivo','Gamma Trading C.A.',  'https://www.gamma-trading.com', 'Plaza Principal, Piso 8', '2020-11-15',715, 716),
-  ('E4444444444', 'Zona Industrial, Bloque 5','Delta Enterprises C.A.', 'https://www.delta-enterprises.com', 'Avenida Ejecutiva, Edificio 4', '2003-12-24', 718, 719),
-  ('P5555555555', 'Calle Empresarial, Edif. Central','Omega Group S.A.',  'https://www.omega-group.com', 'Calle de Negocios, Torre B', '2012-10-27',1014, 1016),
-  ('J075601840', 'Estación el Consejo, S.A.','Aeropostal C.A.', 'https://aeropostal.com', 'Av. Eugenio Mendoza, Torre Letonia, PB, Local 5H, La Castellana', '2000-01-10', 209, 209),
-  ('J000107912', 'CC Bello monte, Mezzanina, Oficina 3, Caracas', 'Rutaca C.A ', 'https://www.boeing.com.ve', 'Torre el pepio, Av Sucre', '1997-11-3', 1003, 1177),
-  ('J313303305', 'Rones del Caribe Calle 8, Edificio Araguaney', 'Conviasa S.A.', 'https://www.mcdonellDouglas.com.ve', 'Edificio Araguaney, La Urbina, Caracas 1070', '1972-1-10', 1039, 1039),
-  ('J514263512', 'Av. Ppal. Cinzano PB', 'Avior C.A.', 'https://www.Aviorair.com', 'CC Plaza las Américas, Local 2012', '2008-03-09', 1040, 1028),
-  ('J300215938', 'Av. San Felipe, P-6 Distrito Federal, Caracas', 'Laser C.A.','https://www.laserairlines.com/', 'Av. San Felipe, Edificio Ctro. Coinaza', '2008-03-05', 1388, 1388);
+    persona_jur_rif, 
+    persona_jur_direccion_fiscal, 
+    persona_jur_razon_social, 
+    persona_jur_pagina_web, 
+    persona_jur_direccion_fisica, 
+    pj_fk_lugar_fiscal, 
+    pj_fk_lugar_fisica, 
+    persona_jur_fecha_inicio_op
+)VALUES
+  ('J-00000001-1', 'Calle 1, Amazonas', 'Empresa A1', 'www.empresaA1.com', 'Calle 1, Amazonas', 1, 1, '2023-01-01'),
+('J-00000002-1', 'Calle 2, Amazonas', 'Empresa A2', 'www.empresaA2.com', 'Calle 2, Amazonas', 1, 1, '2023-01-02'),
+('J-00000003-1', 'Calle 3, Amazonas', 'Empresa A3', 'www.empresaA3.com', 'Calle 3, Amazonas', 1, 1, '2023-01-03'),
+('J-00000004-1', 'Calle 4, Amazonas', 'Empresa A4', 'www.empresaA4.com', 'Calle 4, Amazonas', 1, 1, '2023-01-04'),
+('J-00000001-2', 'Calle 1, Anzoategui', 'Empresa An1', 'www.empresaA1.com', 'Calle 1, Anzoategui', 2, 2, '2023-01-01'),
+('J-00000002-2', 'Calle 2, Anzoategui', 'Empresa An2', 'www.empresaA2.com', 'Calle 2, Anzoategui', 2, 2, '2023-01-02'),
+('J-00000003-2', 'Calle 3,Anzoategui', 'Empresa An3', 'www.empresaA3.com', 'Calle 3, Anzoategui', 2, 2, '2023-01-03'),
+('J-00000004-2', 'Calle 4,Anzoategui', 'Empresa An4', 'www.empresaA4.com', 'Calle 4, Anzoategui', 2, 2, '2023-01-04'),
+('J-00000001-3', 'Calle 1, Apure', 'Empresa Ap1', 'www.empresaA1.com', 'Calle 1, Anzoategui', 3, 3, '2023-01-01'),
+('J-00000002-3', 'Calle 2, Apure', 'Empresa Ap2', 'www.empresaA2.com', 'Calle 2, Anzoategui', 3, 3, '2023-01-02'),
+('J-00000003-3', 'Calle 3,Apure', 'Empresa Ap3', 'www.empresaA3.com', 'Calle 3, Anzoategui', 3, 3, '2023-01-03'),
+('J-00000004-3', 'Calle 4,Apure', 'Empresa Ap4', 'www.empresaA4.com', 'Calle 4, Anzoategui', 3, 3, '2023-01-04'),
+('J-00000001-4', 'Calle 1, Aragua', 'Empresa Ar1', 'www.empresaA1.com', 'Calle 1, Aragua', 4, 4, '2023-01-01'),
+('J-00000002-4', 'Calle 2, Aragua', 'Empresa Ar2', 'www.empresaA2.com', 'Calle 2, Aragua', 4, 4, '2023-01-02'),
+('J-00000003-4', 'Calle 3,Aragua', 'Empresa Ar3', 'www.empresaA3.com', 'Calle 3, Aragua', 4, 4, '2023-01-03'),
+('J-00000004-4', 'Calle 4,Aragua', 'Empresa Ar4', 'www.empresaA4.com', 'Calle 4, Aragua', 4, 4, '2023-01-04'),
+('J-00000004-5', 'Calle 1, Barinas', 'Empresa B1', 'www.empresaA4.com', 'Calle 4, Barinas', 5, 5, '2023-01-04'),
+('J-00000001-5', 'Calle 2, Barinas', 'Empresa B2', 'www.empresaA1.com', 'Calle 1, Barinas', 5, 5, '2023-01-01'),
+('J-00000002-5', 'Calle 3, Barinas', 'Empresa B3', 'www.empresaA2.com', 'Calle 2, Barinas', 5, 5, '2023-01-02'),
+('J-00000003-5', 'Calle 4, Barinas', 'Empresa B4', 'www.empresaA3.com', 'Calle 3, Barinas', 5, 5, '2023-01-03'),
+('J-00000004-6', 'Calle 1, Bolivar', 'Empresa Bo1', 'www.empresaA4.com', 'Calle 4, Bolivar', 6, 6, '2023-01-04'),
+('J-00000001-6', 'Calle 2, Bolivar', 'Empresa Bo2', 'www.empresaA1.com', 'Calle 1, Bolivar', 6, 6, '2023-01-01'),
+('J-00000002-6', 'Calle 3, Bolivar', 'Empresa Bo3', 'www.empresaA2.com', 'Calle 2, Bolivar', 6, 6, '2023-01-02'),
+('J-00000003-6', 'Calle 4,Bolivar', 'Empresa Bo4', 'www.empresaA3.com', 'Calle 3,Bolivar', 6, 6, '2023-01-03'),
+('J-00000004-7', 'Calle 1, Carabobo', 'Empresa C1', 'www.empresaA4.com', 'Calle 4, Carabobo', 7, 7, '2023-01-04'),
+('J-00000001-7', 'Calle 2, Carabobo', 'Empresa C2', 'www.empresaA1.com', 'Calle 1, Carabobo', 7, 7, '2023-01-01'),
+('J-00000002-7', 'Calle 3, Carabobo', 'Empresa C3', 'www.empresaA2.com', 'Calle 2, Carabobo', 7, 7, '2023-01-02'),
+('J-00000003-7', 'Calle 4,Carabobo', 'Empresa C4', 'www.empresaA3.com', 'Calle 3,Carabobo', 7, 7, '2023-01-03'),
+('J-00000004-8', 'Calle 1, Cojedes', 'Empresa Co1', 'www.empresaA4.com', 'Calle 4, Cojedes', 8, 8, '2023-01-04'),
+('J-00000001-8', 'Calle 2, Cojedes', 'Empresa Co2', 'www.empresaA1.com', 'Calle 1, Cojedes', 8, 8, '2023-01-01'),
+('J-00000002-8', 'Calle 3, Cojedes', 'Empresa Co3', 'www.empresaA2.com', 'Calle 2, Cojedes', 8, 8, '2023-01-02'),
+('J-00000003-8', 'Calle 4,Cojedes', 'Empresa Co4', 'www.empresaA3.com', 'Calle 3,Cojedes', 8 , 8, '2023-01-03'),
+('J-00000004-9', 'Calle 1, Delta Amacuro', 'Empresa DA1', 'www.empresaA4.com', 'Calle 4, Delta Amacuro', 9, 9, '2023-01-04'),
+('J-00000001-9', 'Calle 2, Delta Amacuro', 'Empresa DA2', 'www.empresaA1.com', 'Calle 1, Delta Amacuro', 9, 9, '2023-01-01'),
+('J-00000002-9', 'Calle 3, Delta Amacuro', 'Empresa DA3', 'www.empresaA2.com', 'Calle 2, Delta Amacuro', 9, 9, '2023-01-02'),
+('J-00000003-9', 'Calle 4, Delta Amacuro', 'Empresa DA4', 'www.empresaA3.com', 'Calle 3,Delta Amacuro', 9 , 9, '2023-01-03'),
+('J-00000004-10', 'Calle 1, Distrito Capital', 'Empresa DC1', 'www.empresaA4.com', 'Calle 4, Distrito Capital', 10, 10, '2023-01-04'),
+('J-00000001-10', 'Calle 2, Distrito Capital', 'Empresa DC2', 'www.empresaA1.com', 'Calle 1, Distrito Capital', 10, 10, '2023-01-01'),
+('J-00000002-10', 'Calle 3, Distrito Capital', 'Empresa DC3', 'www.empresaA2.com', 'Calle 2, Distrito Capital', 10, 10, '2023-01-02'),
+('J-00000003-10', 'Calle 4, Distrito Capital', 'Empresa DC4', 'www.empresaA3.com', 'Calle 3, Distrito Capital', 10, 10, '2023-01-03'),
+('J-00000004-11', 'Calle 1, Falcon', 'Empresa f1', 'www.empresaA4.com', 'Calle 4, Falcon', 11, 11, '2023-01-04'),
+('J-00000001-11', 'Calle 2, Falcon', 'Empresa f2', 'www.empresaA1.com', 'Calle 1, Falcon', 11, 11, '2023-01-01'),
+('J-00000002-11', 'Calle 3, Falcon', 'Empresa f3', 'www.empresaA2.com', 'Calle 2, Falcon', 11, 11, '2023-01-02'),
+('J-00000003-11', 'Calle 4, Falcon', 'Empresa f4', 'www.empresaA3.com', 'Calle 3, Falcon', 11, 11, '2023-01-03'),
+('J-00000004-12', 'Calle 1, Guarico', 'Empresa g1', 'www.empresaA4.com', 'Calle 4, Guarico', 12, 12, '2023-01-04'),
+('J-00000001-12', 'Calle 2, Guarico', 'Empresa g2', 'www.empresaA1.com', 'Calle 1, Guarico', 12, 12, '2023-01-01'),
+('J-00000002-12', 'Calle 3, Guarico', 'Empresa g3', 'www.empresaA2.com', 'Calle 2, Guarico', 12, 12, '2023-01-02'),
+('J-00000003-12', 'Calle 4, Guarico', 'Empresa g4', 'www.empresaA3.com', 'Calle 3, Guarico', 12, 12, '2023-01-03'),
+('J-00000004-13', 'Calle 1, Lara', 'Empresa L1', 'www.empresaA4.com', 'Calle 4, Lara', 13, 13, '2023-01-04'),
+('J-00000001-13', 'Calle 2, Lara', 'Empresa L2', 'www.empresaA1.com', 'Calle 1, Lara', 13, 13, '2023-01-01'),
+('J-00000002-13', 'Calle 3, Lara', 'Empresa L3', 'www.empresaA2.com', 'Calle 2, Lara', 13, 13, '2023-01-02'),
+('J-00000003-13', 'Calle 4, Lara', 'Empresa L4', 'www.empresaA3.com', 'Calle 3, Lara', 13, 13, '2023-01-03'),
+('J-00000004-14', 'Calle 1, La Guaira', 'Empresa Lg1', 'www.empresaA4.com', 'Calle 4, La Guaira', 14, 14, '2023-01-04'),
+('J-00000001-14', 'Calle 2, La Guaira', 'Empresa Lg2', 'www.empresaA1.com', 'Calle 1, La Guaira', 14, 14, '2023-01-01'),
+('J-00000002-14', 'Calle 3, La Guaira', 'Empresa Lg3', 'www.empresaA2.com', 'Calle 2, La Guaira', 14, 14, '2023-01-02'),
+('J-00000003-14', 'Calle 4, La Guaira', 'Empresa Lg4', 'www.empresaA3.com', 'Calle 3, La Guaira', 14, 14, '2023-01-03'),
+('J-00000004-15', 'Calle 1, Merida', 'Empresa m1', 'www.empresaA4.com', 'Calle 4, Merida', 15, 15, '2023-01-04'),
+('J-00000001-15', 'Calle 2, Merida', 'Empresa m2', 'www.empresaA1.com', 'Calle 1, Merida', 15, 15, '2023-01-01'),
+('J-00000002-16', 'Calle 3, Miranda', 'Empresa mi3', 'www.empresaA2.com', 'Calle 2, Miranda', 16, 16, '2023-01-02'),
+('J-00000003-16', 'Calle 4, Miranda', 'Empresa mi4', 'www.empresaA3.com', 'Calle 3, Miranda', 16, 16, '2023-01-03'),
+('J-00000004-17', 'Calle 1, Monagas', 'Empresa mo1', 'www.empresaA4.com', 'Calle 4,  Monagas', 17, 17, '2023-01-04'),
+('J-00000001-17', 'Calle 2, Monagas', 'Empresa mo2', 'www.empresaA1.com', 'Calle 1,  Monagas', 17, 17, '2023-01-01'),
+('J-00000002-18', 'Calle 3, Nueva Esparta', 'Empresa mi3', 'www.empresaA2.com', 'Calle 2, Miranda', 18, 18, '2023-01-02'),
+('J-00000003-18', 'Calle 4, Nueva Esparta', 'Empresa mi4', 'www.empresaA3.com', 'Calle 3, Miranda', 18, 18, '2023-01-03'),
+('J-00000004-19', 'Calle 1, Portuguesa', 'Empresa p1', 'www.empresaA4.com', 'Calle 4,  Portuguesa', 19, 19, '2023-01-04'),
+('J-00000001-19', 'Calle 2, Portuguesa', 'Empresa p2', 'www.empresaA1.com', 'Calle 1,  Portuguesa', 19, 19, '2023-01-01'),
+('J-00000002-20', 'Calle 3, Sucre', 'Empresa mi3', 'www.empresaA2.com', 'Calle 2, Miranda', 20, 20, '2023-01-02'),
+('J-00000003-20', 'Calle 4, Sucre', 'Empresa mi4', 'www.empresaA3.com', 'Calle 3, Sucre', 20, 20, '2023-01-03'),
+('J-00000004-21', 'Calle 1, Tachira', 'Empresa t1', 'www.empresaA4.com', 'Calle 4,  Tachira', 21, 21, '2023-01-04'),
+('J-00000001-21', 'Calle 2,  Tachira', 'Empresa t2', 'www.empresaA1.com', 'Calle 1,   Tachira', 21, 21, '2023-01-01'),
+('J-00000002-22', 'Calle 3, Trujillo', 'Empresa tru3', 'www.empresaA2.com', 'Calle 2, Trujillo', 22, 22, '2023-01-02'),
+('J-00000003-22', 'Calle 4, Trujillo', 'Empresa tru4', 'www.empresaA3.com', 'Calle 3, Trujillo', 22, 22, '2023-01-03'),
+('J-00000004-23', 'Calle 1, Yaracuy', 'Empresa y1', 'www.empresaA4.com', 'Calle 4,  Yaracuy', 23, 23, '2023-01-04'),
+('J-00000001-23', 'Calle 2,  Yaracuy', 'Empresa y2', 'www.empresaA1.com', 'Calle 1,   Yaracuy', 23, 23, '2023-01-01'),
+('J-00000002-24', 'Calle 3, Zulia', 'Empresa zu3', 'www.empresaA2.com', 'Calle 2, Zulia', 24, 24, '2023-01-02'),
+('J-00000003-24', 'Calle 4, Zulia', 'Empresa zu4', 'www.empresaA3.com', 'Calle 3, Zulia', 24, 24, '2023-01-03'),
+;
+
+
+--CLIENTE JURIDICO
+INSERT INTO Cliente_Juridico (cj_fk_persona_juri)
+VALUES
+(1), (2), (3), (4), (10), (11), (12), (13), (14), (15), (16), (17), (18), (19), (20), (21), (22), (23), (24), (25), (26), (27), (28), (29), (30), (31), (32), (33), (34), (35), (36), (37),
+(38), (39), (40), (41), (42), (43), (44), (45), (46), (47), (48), (49), (50), (51), (52), (53), (54), (55), (56), (57), (58), (59), (60), (61);
+
 
 -- CORREO
 
@@ -3060,49 +3137,141 @@ INSERT INTO proveedor (prov_fk_persona_juri, proveedor_calificacion)
 VALUES
   (1, 8),
   (2, 7),
-  (3, 6),
-  (4, 5),
-  (5, 4),
-  (6, 3),
-  (7, 2),
-  (8, 1),
-  (9, 10),
-  (10, 9);
+  (10, 6),
+  (11, 5),
+  (14, 4),
+  (15, 3),
+  (18, 2),
+  (19, 1),
+  (22, 10),
+  (23, 9),
+  (26, 7),
+  (27, 6),
+  (30, 5),
+  (31, 4),
+  (34, 3),
+  (35, 2),
+  (38, 1),
+  (39, 10),
+  (42, 9),
+  (43, 4),
+  (46, 3),
+  (47, 2),
+  (50, 1),
+  (51, 10),
+  (54, 10),
+  (55, 9),
+  (58, 7),
+  (59, 6),
+  (62, 5),
+  (63, 4),
+  (64, 3),
+  (65, 2),
+  (66, 1),
+  (67, 10),
+  (68, 9),
+  (69, 4),
+  (70, 3),
+  (71, 2),
+  (72,6),
+  (73,9),
+  (74,2),
+  (75,5),
+  (76,9),
+  (77,8),
+  (78,8),
+  (79,6),
+  (80,2)
+  (81,4);
 
 INSERT INTO Persona_Natural (
   persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre,
   persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal
 ) VALUES
-  ('V123456789', 'Av. Principal, Edificio Residencial', '21478963', 'Juan', 'Carlos', 'Pérez', 'Gómez', '1990-05-15', 701),
-  ('V98765432', 'Calle Empresarial, Edif. Ejecutivo', '28569714', 'María', 'Isabel', 'López', 'González', '1985-12-08', 702),
-  ('V876543210', 'Ruta Empresarial, Edif. Plaza', '15896374', 'Carlos', NULL, 'Martínez', 'Fernández', '1978-09-23', 703),
-  ('V567890123', 'Calle de Negocios, Torre A', '20076865', 'Ana', 'Carolina', 'Rodríguez', 'Mendoza', '1982-03-02', 704),
-  ('V940837293', 'Zona Industrial, Edif. Central', '29097425', 'Luis', NULL, 'Gutiérrez', NULL, '1995-06-10', 705),
-  ('V274639284', 'Avenida Principal, Edificio Comercial', '8987651', 'Elena', 'María', 'Fernández', 'Pérez', '1987-11-30', 706),
-  ('V093749273', 'Calle Empresarial, Edif. Ejecutivo', '8098943', 'Miguel', NULL, 'Sánchez', NULL, '1992-08-17', 707),
-  ('V016384245', 'Ruta Empresarial, Edif. Plaza', '10987654', 'Laura', 'Isabel', 'Gómez', 'Pérez', '1980-02-25', 708),
-  ('V293847567', 'Calle de Negocios, Torre A', '30980765', 'Pedro', 'Antonio', 'Fernández', 'Martínez', '1989-07-12', 709),
-  ('V103948203', 'Zona Industrial, Edif. Central', '9542378', 'Mónica', NULL, 'González', NULL, '1984-04-05', 710),
-  ('V102493728', 'Avenida Principal, Edificio Comercial', '15521768', 'Carlos', 'José', 'Pérez', 'Gómez', '1991-09-20', 711),
-  ('V294758493', 'Calle Empresarial, Edif. Ejecutivo', '9987095', 'Isabel', 'María', 'Martínez', 'Fernández', '1983-12-03', 712),
-  ('V101201394', 'Ruta Empresarial, Edif. Plaza', '26987654', 'Francisco', 'Javier', 'Gómez', 'Pérez', '1975-06-18', 713),
-  ('V302930134', 'Calle de Negocios, Torre A', '29015732', 'Carla', NULL, 'Fernández', NULL, '1994-02-08', 714),
-  ('V729173650', 'Ruta Empresarial, Edif. Plaza', '27588935', 'Estefany', NULL, 'Torres', 'Mendoza', '2000-11-26', 715),
-  ('V938467502', 'Av. Principal, Edif. Residencial', '27246584', 'Luis', 'Ricardo', 'Martín', 'Lira', '2000-09-15', 716),
-  ('V374819203', 'Calle de Negocios, Torre A', '26838242', 'Maria', 'Fernanda', 'Suarez', 'Malave', '1999-03-08', 717),
-  ('V289103675', 'Torre Empresarial, Piso 4', '26838243', 'Zarah', 'Valentina', 'Roa', 'Pacheco', '2001-07-09', 718),
-  ('V389201374', 'Torre Empresarial, Piso 1', '30136096', 'Leandro', 'Emanuel', 'Andrade', 'Da Silva', '2003-06-08', 719),
-  ('V493765392', 'Calle de Negocio, Torre B', '30005364', 'Rafael', 'Eduardo', 'Marcano', 'Mora', '2003-04-28', 720),
-  ('V654321098', 'Calle Empresarial, Edif. Residencial', '38571624', 'Luis', 'Alberto', 'González', 'Pérez', '1988-07-05', 721),
-  ('V876543211', 'Av. Principal, Edificio Comercial', '26783201', 'Verónica', 'Isabel', 'Martínez', 'Fernández', '1993-12-18', 722),
-  ('V234567890', 'Ruta Empresarial, Edif. Plaza', '7871234', 'David', NULL, 'Gómez', NULL, '1976-09-30', 723),
-  ('V109876543', 'Calle de Negocios, Torre A', '12345678', 'Daniela', 'Carolina', 'Rodríguez', 'Mendoza', '1991-03-15', 724),
-  ('V765432109', 'Zona Industrial, Edif. Central', '17654321', 'Miguel', 'Ángel', 'Gutiérrez', 'Fernández', '1984-11-22', 725),
-  ('V212345678', 'Calle Real de Catia, Edif. La Torre, Piso 10, Apto. 1001', '12345679', 'María', 'José', 'Pérez', 'Rodríguez', '1990-01-20', 726),
-  ('V987654323', 'Av. Francisco de Miranda, Edif. Torre Británica, Piso 20, Apto. 2002', '98765432', 'Juan', 'Pedro', 'González', 'Pérez', '1985-02-15', 727),
-  ('V654321099', 'Calle Urdaneta, Edif. El Capitolio, Piso 30, Apto. 3003', '65432109', 'Ana', 'María', 'López', 'Hernández', '1970-03-30', 728),
-  ('V543210987', 'Calle Bolívar, Edif. La Catedral, Piso 40, Apto. 4004', '54321098', 'Carlos', 'Antonio', 'Sánchez', 'García', '1965-05-01', 729),
-  ('V432109876', 'Calle Sucre, Edif. El Palacio de Miraflores, Piso 50, Apto. 5005', '43210987', 'Pedro', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 730);
+  ('V123456789', 'Av. Principal, Edificio Residencial', '21478963', 'Juan', 'Carlos', 'Pérez', 'Gómez', '1990-05-15', 15),
+  ('V98765432', 'Calle Empresarial, Edif. Ejecutivo', '28569714', 'María', 'Isabel', 'López', 'González', '1985-12-08', 15),
+  ('V876543210', 'Ruta Empresarial, Edif. Plaza', '15896374', 'Carlos', NULL, 'Martínez', 'Fernández', '1978-09-23', 15),
+  ('V567890123', 'Calle de Negocios, Torre A', '20076865', 'Ana', 'Carolina', 'Rodríguez', 'Mendoza', '1982-03-02', 15),
+  ('V940837293', 'Zona Industrial, Edif. Central', '29097425', 'Luis', NULL, 'Gutiérrez', NULL, '1995-06-10', 16),
+  ('V274639284', 'Avenida Principal, Edificio Comercial', '8987651', 'Elena', 'María', 'Fernández', 'Pérez', '1987-11-30', 16),
+  ('V093749273', 'Calle Empresarial, Edif. Ejecutivo', '8098943', 'Miguel', NULL, 'Sánchez', NULL, '1992-08-17', 16),
+  ('V016384245', 'Ruta Empresarial, Edif. Plaza', '10987654', 'Laura', 'Isabel', 'Gómez', 'Pérez', '1980-02-25', 16),
+  ('V293847567', 'Calle de Negocios, Torre A', '30980765', 'Pedro', 'Antonio', 'Fernández', 'Martínez', '1989-07-12', 17),
+  ('V103948203', 'Zona Industrial, Edif. Central', '9542378', 'Mónica', NULL, 'González', NULL, '1984-04-05', 17),
+  ('V102493728', 'Avenida Principal, Edificio Comercial', '15521768', 'Carlos', 'José', 'Pérez', 'Gómez', '1991-09-20', 17),
+  ('V294758493', 'Calle Empresarial, Edif. Ejecutivo', '9987095', 'Isabel', 'María', 'Martínez', 'Fernández', '1983-12-03', 17),
+  ('V101201394', 'Ruta Empresarial, Edif. Plaza', '26987654', 'Francisco', 'Javier', 'Gómez', 'Pérez', '1975-06-18', 18),
+  ('V302930134', 'Calle de Negocios, Torre A', '29015732', 'Carla', NULL, 'Fernández', NULL, '1994-02-08', 18),
+  ('V729173650', 'Ruta Empresarial, Edif. Plaza', '27588935', 'Estefany', NULL, 'Torres', 'Mendoza', '2000-11-26', 18),
+  ('V938467502', 'Av. Principal, Edif. Residencial', '27246584', 'Luis', 'Ricardo', 'Martín', 'Lira', '2000-09-15', 18),
+  ('V374819203', 'Calle de Negocios, Torre A', '26838242', 'Maria', 'Fernanda', 'Suarez', 'Malave', '1999-03-08', 19),
+  ('V289103675', 'Torre Empresarial, Piso 4', '26838243', 'Zarah', 'Valentina', 'Roa', 'Pacheco', '2001-07-09', 19),
+  ('V389201374', 'Torre Empresarial, Piso 1', '30136096', 'Leandro', 'Emanuel', 'Andrade', 'Da Silva', '2003-06-08', 19),
+  ('V493765392', 'Calle de Negocio, Torre B', '30005364', 'Rafael', 'Eduardo', 'Marcano', 'Mora', '2003-04-28', 19),
+  ('V654321098', 'Calle Empresarial, Edif. Residencial', '38571624', 'Luis', 'Alberto', 'González', 'Pérez', '1988-07-05', 20),
+  ('V876543211', 'Av. Principal, Edificio Comercial', '26783201', 'Verónica', 'Isabel', 'Martínez', 'Fernández', '1993-12-18', 20),
+  ('V234567890', 'Ruta Empresarial, Edif. Plaza', '7871234', 'David', NULL, 'Gómez', NULL, '1976-09-30', 20),
+  ('V109876543', 'Calle de Negocios, Torre A', '12345678', 'Daniela', 'Carolina', 'Rodríguez', 'Mendoza', '1991-03-15', 20),
+  ('V765432109', 'Zona Industrial, Edif. Central', '17654321', 'Miguel', 'Ángel', 'Gutiérrez', 'Fernández', '1984-11-22', 21),
+  ('V212345678', 'Calle Real de Catia, Edif. La Torre, Piso 10, Apto. 1001', '12345679', 'María', 'José', 'Pérez', 'Rodríguez', '1990-01-20', 21),
+  ('V987654323', 'Av. Francisco de Miranda, Edif. Torre Británica, Piso 20, Apto. 2002', '98765432', 'Juan', 'Pedro', 'González', 'Pérez', '1985-02-15', 21),
+  ('V654321099', 'Calle Urdaneta, Edif. El Capitolio, Piso 30, Apto. 3003', '65432109', 'Ana', 'María', 'López', 'Hernández', '1970-03-30', 21),
+  ('V543210987', 'Calle Bolívar, Edif. La Catedral, Piso 40, Apto. 4004', '54321098', 'Carlos', 'Antonio', 'Sánchez', 'García', '1965-05-01', 22),
+  ('V432109876', 'Calle Sucre, Edif. El Palacio de Miraflores, Piso 50, Apto. 5005', '43210987', 'Pedro', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 22),
+('V432109894', 'Calle Sur, Edif. El Palacio, Piso 50, Apto. 5015', '43710987', 'Pablo', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 22),
+('V832109894', 'Calle Norte, Edif. El rosal, Piso 40, Apto. 5215', '43790987', 'Ricardo', 'Luis', 'Pages', 'Martínez', '1950-07-15', 22),
+('V223765392', 'Callejon de Negocio, Torre B', '30004464', 'Rafael', 'Eduardo', 'Martinez', 'Mora', '2003-04-28', 23),
+  ('V654321098', 'Calle cedeño, Edif. Residencial', '38589624', 'Luis', 'Alberto', 'Urrutia', 'Pérez', '1988-07-05', 23),
+  ('V876543221', 'Av. Principal Los Manzanos, Edificio Comercial', '22783201', 'Verónica', 'Laura', 'Mambiche', 'Fernández', '1993-12-18', 23),
+  ('V234567800', 'Ruta Empresarial, Edif. Plaza', '7879234', 'David', NULL, 'Gónzalez', NULL, '1976-09-30', 23),
+('V223735392', 'Callejon de Negocio, Torre D', '33004469', 'Rafael', 'Jose', 'Martinez', 'Monasterio', '2003-04-28', 24),
+  ('V654325098', 'Calle cedeño, Edif. Residencial yaracuy', '38989624', 'Luis', 'Mario', 'Ramos', 'Pérez', '1988-07-05', 24),
+  ('V877543221', 'Av. Principal Los Manzanos, Edificio Comercial este', '21783201', 'Verónica', 'Laura', 'Mercedes', 'Ferrero', '1993-12-18', 24),
+  ('V284567800', 'Ruta Empresarial, Edif. Plaza', '7871234', 'David', NULL, 'Gorta', NULL, '1976-09-30', 24);
+
+INSERT INTO Cliente_Natural 
+(FK_persona_nat, cliente_nat_fecha_inicio_op)
+VALUES
+(1, '2018-04-06'),
+(2, '2010-08-30'),
+(3, '2016-01-07'),
+(4, '2007-05-13'),
+(5, '2008-02-26'),
+(6, '2006-02-01'),
+(7, '2010-07-01'),
+(8, '2020-11-15'),
+(9, '2003-12-24'),
+(10, '2012-10-27'),
+(11, '2018-04-06'),
+(12, '2010-08-30'),
+(13, '2016-01-07'),
+(14, '2007-05-13'),
+(15, '2008-02-26'),
+(16, '2006-02-01'),
+(17, '2010-07-01'),
+(18, '2020-11-15'),
+(19, '2003-12-24'),
+(20, '2012-10-27').
+(21, '2018-04-06'),
+(22, '2010-08-30'),
+(23, '2016-01-07'),
+(24, '2007-05-13'),
+(25, '2008-02-26'),
+(26, '2006-02-01'),
+(27, '2010-07-01'),
+(28, '2020-11-15'),
+(29, '2003-12-24'),
+(30, '2012-10-27'),
+(31, '2018-04-06'),
+(32, '2010-08-30'),
+(33, '2016-01-07'),
+(34, '2007-05-13'),
+(35, '2008-02-26'),
+(36, '2006-02-01'),
+(37, '2010-07-01'),
+(38, '2020-11-15'),
+(39, '2003-12-24'),
+(40, '2012-10-27');
 
 INSERT INTO Correo (
   correo_nombre, FK_persona_nat
@@ -3175,19 +3344,7 @@ VALUES
   ('0424','5432109', 29),
   ('0424','4321098', 30);
 
-INSERT INTO Cliente_Natural 
-(FK_persona_nat, cliente_nat_fecha_inicio_op)
-VALUES
-(1, '2018-04-06'),
-(2, '2010-08-30'),
-(3, '2016-01-07'),
-(4, '2007-05-13'),
-(5, '2008-02-26'),
-(6, '2006-02-01'),
-(7, '2010-07-01'),
-(8, '2020-11-15'),
-(9, '2003-12-24'),
-(10, '2012-10-27');
+
 
 INSERT INTO Empleado (
   FK_persona_nat, empleado_exp_profesional
@@ -3324,7 +3481,8 @@ VALUES
   ('0424','6543210', 28),
   ('0424','5432109', 29);
 
-INSERT INTO "privilegio" ("privilegio_codigo", "privilegio_descripcion", "privilegio_tipo") VALUES ('1', 'Consultar datos de cualquier producto', 'Producto'), ('2', 'Crear nuevos productos', 'Producto'), ('3', 'Actualizar datos de cualquier producto', 'Producto'), ('4', 'Eliminar cualquier producto', 'Producto'), ('65', 'Consultar datos de cualquier material', 'Material'), ('66', 'Crear nuevos materiales', 'Material'), ('67', 'Actualizar datos de cualquier material', 'Material'), ('68', 'Eliminar cualquier material', 'Material'), ('85', 'Consultar datos de cualquier histórico de precio de venta', 'HistoricoPrecioVenta'), ('86', 'Consultar datos de cualquier histórico de precio de compra', 'HistoricoPrecioCompra'), ('87', 'Consultar datos de cualquier histórico de tasa de dólar', 'HistoricoTasaDolar'), ('88', 'Consultar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('89', 'Actualizar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('90', 'Consultar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('91', 'Actualizar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('94', 'Consultar datos de cualquier factura', 'Factura'), ('95', 'Crear nuevas facturas', 'Factura'), ('96', 'Actualizar datos de cualquier factura', 'Factura'), ('97', 'Eliminar cualquier factura', 'Factura'), ('98', 'Consultar datos de cualquier pedido', 'Pedido'), ('99', 'Crear nuevos pedidos', 'Pedido'), ('100', 'Actualizar datos de cualquier pedido', 'Pedido'), ('101', 'Eliminar cualquier pedido', 'Pedido'), ('102', 'Consultar datos de cualquier orden de reposición', 'Orden Reposicion'), ('103', 'Crear nuevas órdenes de reposición', 'Orden Reposicion'), ('104', 'Actualizar datos de cualquier orden de reposición', 'Orden Reposicion'), ('105', 'Eliminar cualquier orden de reposición', 'Orden Reposicion'), ('106', 'Consultar datos de cualquier estatus de orden', 'Estatus Orden'), ('107', 'Crear nuevos estatus de orden', 'Estatus Orden'), ('108', 'Actualizar datos de cualquier estatus de orden', 'Estatus Orden'), ('109', 'Eliminar datos de cualquier estatus de orden', 'Estatus Orden'), ('110', 'Consultar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('111', 'Crear nuevos estatus de pedido', 'Estatus Pedido'), ('112', 'Actualizar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('113', 'Eliminar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('114', 'Consultar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('115', 'Crear nuevos clientes jurídicos', 'Cliente Juridico'), ('116', 'Actualizar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('117', 'Eliminar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('118', 'Consultar datos de cualquier clientes natural', 'Cliente Natural'), ('119', 'Crear nuevos clientes natural', 'Cliente Natural'), ('120', 'Actualizar datos de cualquier clientes natural', 'Cliente Natural'), ('121', 'Eliminar datos de cualquier clientes natural', 'Cliente Natural'), ('122', 'Consultar datos de cualquier proveedor', 'Proveedor'), ('123', 'Crear nuevos proveedores', 'Proveedor'), ('124', 'Actualizar datos de cualquier proveedor', 'Proveedor'), ('125', 'Eliminar datos de cualquier proveedor', 'Proveedor'), ('126', 'Consultar datos de cualquier empleado', 'Empleado'), ('127', 'Crear nuevos empleados', 'Empleado'), ('128', 'Actualizar datos de cualquier empleado', 'Empleado'), ('129', 'Eliminar datos de cualquier empleado', 'Empleado'), ('130', 'Consultar datos de cualquier departamento', 'Departamento'), ('131', 'Crear nuevos departamentos', 'Departamento'), ('132', 'Actualizar datos de cualquier departamento', 'Departamento'), ('133', 'Eliminar datos de cualquier departamento', 'Departamento'), ('134', 'Consultar datos de cualquier horario', 'Horario'), ('135', 'Crear nuevos horarios', 'Horario'), ('136', 'Actualizar datos de cualquier horario', 'Horario'), ('137', 'Eliminar datos de cualquier horario', 'Horario'), ('138', 'Consultar datos de cualquier cargo', 'Cargo'), ('139', 'Crear nuevos cargos', 'Cargo'), ('140', 'Actualizar datos de cualquier cargo', 'Cargo'), ('141', 'Eliminar datos de cualquier cargo', 'Cargo'), ('142', 'Consultar datos de cualquier beneficio', 'Beneficio'), ('143', 'Crear nuevos beneficios', 'Beneficio'), ('144', 'Actualizar datos de cualquier beneficio', 'Beneficio'), ('145', 'Eliminar datos de cualquier beneficio', 'Beneficio'), ('146', 'Consultar datos de cualquier banco', 'Banco'), ('147', 'Crear nuevos bancos', 'Banco'), ('148', 'Actualizar datos de cualquier banco', 'Banco'), ('149', 'Eliminar datos de cualquier banco', 'Banco'), ('158', 'Consultar datos de cualquier rol', 'Rol'), ('159', 'Crear nuevos roles', 'Rol'), ('160', 'Actualizar datos de cualquier rol', 'Rol'), ('161', 'Eliminar datos de cualquier rol', 'Rol'), ('162', 'Consultar datos de cualquier usuario', 'Usuario'), ('163', 'Crear nuevos usuarios', 'Usuario'), ('164', 'Actualizar datos de cualquier usuario', 'Usuario'), ('165', 'Eliminar datos de cualquier usuario', 'Usuario'), ('166', 'Consultar acciones de usuario', 'Usuario'), ('167', 'Consultar datos de cualquier permiso', 'Permiso'), ('168', 'Crear nuevos permisos', 'Permiso'), ('169', 'Actualizar datos de cualquier permiso', 'Permiso'), ('170', 'Eliminar datos de cualquier permiso', 'Permiso'), ('171', 'Consultar datos de cualquier metodo de pago', 'Metodos de Pago'), ('172', 'Crear nuevos metodos de pago', 'Metodos de Pago'), ('173', 'Actualizar datos de cualquier metodo de pago', 'Metodos de Pago'), ('174', 'Eliminar datos de cualquier metodo de pago', 'Metodos de Pago'), ('175', 'Crear Modelo de Avion', 'Modelo de Avion'), ('176', 'Consultar Modelo de Avion', 'Modelo de Avion'), ('177', 'Actualizar Modelo de Avion', 'Modelo de Avion'), ('178', 'Eliminar Modelo de Avion', 'Modelo de Avion'), ('179', 'Crear Avion', 'Avion'), ('180', 'Consultar Avion', 'Avion'), ('181', 'Actualizar Avion', 'Avion'), ('182', 'Eliminar Avion', 'Avion'), ('183', 'Crear Pieza', 'Pieza'), ('184', 'Consultar Pieza', 'Pieza'), ('185', 'Actualizar Pieza', 'Pieza'), ('186', 'Eliminar Pieza', 'Pieza'), ('187', 'Crear Prueba', 'Prueba'), ('188', 'Consultar Prueba', 'Prueba'), ('189', 'Actualizar Prueba', 'Prueba'), ('190', 'Eliminar Prueba', 'Prueba'), ('191', 'Crear Tipo Prueba', 'Tipo Prueba'), ('192', 'Consultar Tipo Prueba', 'Tipo Prueba'), ('193', 'Actualizar Tipo Prueba', 'Tipo Prueba'), ('194', 'Eliminar Tipo Prueba', 'Tipo Prueba'), ('195', 'Crear Area', 'Area'), ('196', 'Consultar Area', 'Area'), ('197', 'Actualizar Area', 'Area'), ('198', 'Eliminar Area', 'Area'), ('199', 'Crear Zona', 'Zona'), ('200', 'Consultar Zona', 'Zona'), ('201', 'Actualizar Zona', 'Zona'), ('202', 'Eliminar Zona', 'Zona'), ('203', 'Crear Sede', 'Sede'), ('204', 'Consultar Sede', 'Sede'), ('205', 'Actualizar Sede', 'Sede'), ('206', 'Eliminar Sede', 'Sede'), ('207', 'Crear Equipo', 'Equipo'), ('208', 'Consultar Equipo', 'Equipo'), ('209', 'Actualizar Equipo', 'Equipo'), ('210', 'Eliminar Equipo', 'Equipo');
+INSERT INTO "privilegio" ("privilegio_codigo", "privilegio_descripcion", "privilegio_tipo") 
+VALUES ('1', 'Consultar datos de cualquier producto', 'Producto'), ('2', 'Crear nuevos productos', 'Producto'), ('3', 'Actualizar datos de cualquier producto', 'Producto'), ('4', 'Eliminar cualquier producto', 'Producto'), ('65', 'Consultar datos de cualquier material', 'Material'), ('66', 'Crear nuevos materiales', 'Material'), ('67', 'Actualizar datos de cualquier material', 'Material'), ('68', 'Eliminar cualquier material', 'Material'), ('85', 'Consultar datos de cualquier histórico de precio de venta', 'HistoricoPrecioVenta'), ('86', 'Consultar datos de cualquier histórico de precio de compra', 'HistoricoPrecioCompra'), ('87', 'Consultar datos de cualquier histórico de tasa de dólar', 'HistoricoTasaDolar'), ('88', 'Consultar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('89', 'Actualizar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('90', 'Consultar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('91', 'Actualizar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('94', 'Consultar datos de cualquier factura', 'Factura'), ('95', 'Crear nuevas facturas', 'Factura'), ('96', 'Actualizar datos de cualquier factura', 'Factura'), ('97', 'Eliminar cualquier factura', 'Factura'), ('98', 'Consultar datos de cualquier pedido', 'Pedido'), ('99', 'Crear nuevos pedidos', 'Pedido'), ('100', 'Actualizar datos de cualquier pedido', 'Pedido'), ('101', 'Eliminar cualquier pedido', 'Pedido'), ('102', 'Consultar datos de cualquier orden de reposición', 'Orden Reposicion'), ('103', 'Crear nuevas órdenes de reposición', 'Orden Reposicion'), ('104', 'Actualizar datos de cualquier orden de reposición', 'Orden Reposicion'), ('105', 'Eliminar cualquier orden de reposición', 'Orden Reposicion'), ('106', 'Consultar datos de cualquier estatus de orden', 'Estatus Orden'), ('107', 'Crear nuevos estatus de orden', 'Estatus Orden'), ('108', 'Actualizar datos de cualquier estatus de orden', 'Estatus Orden'), ('109', 'Eliminar datos de cualquier estatus de orden', 'Estatus Orden'), ('110', 'Consultar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('111', 'Crear nuevos estatus de pedido', 'Estatus Pedido'), ('112', 'Actualizar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('113', 'Eliminar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('114', 'Consultar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('115', 'Crear nuevos clientes jurídicos', 'Cliente Juridico'), ('116', 'Actualizar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('117', 'Eliminar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('118', 'Consultar datos de cualquier clientes natural', 'Cliente Natural'), ('119', 'Crear nuevos clientes natural', 'Cliente Natural'), ('120', 'Actualizar datos de cualquier clientes natural', 'Cliente Natural'), ('121', 'Eliminar datos de cualquier clientes natural', 'Cliente Natural'), ('122', 'Consultar datos de cualquier proveedor', 'Proveedor'), ('123', 'Crear nuevos proveedores', 'Proveedor'), ('124', 'Actualizar datos de cualquier proveedor', 'Proveedor'), ('125', 'Eliminar datos de cualquier proveedor', 'Proveedor'), ('126', 'Consultar datos de cualquier empleado', 'Empleado'), ('127', 'Crear nuevos empleados', 'Empleado'), ('128', 'Actualizar datos de cualquier empleado', 'Empleado'), ('129', 'Eliminar datos de cualquier empleado', 'Empleado'), ('130', 'Consultar datos de cualquier departamento', 'Departamento'), ('131', 'Crear nuevos departamentos', 'Departamento'), ('132', 'Actualizar datos de cualquier departamento', 'Departamento'), ('133', 'Eliminar datos de cualquier departamento', 'Departamento'), ('134', 'Consultar datos de cualquier horario', 'Horario'), ('135', 'Crear nuevos horarios', 'Horario'), ('136', 'Actualizar datos de cualquier horario', 'Horario'), ('137', 'Eliminar datos de cualquier horario', 'Horario'), ('138', 'Consultar datos de cualquier cargo', 'Cargo'), ('139', 'Crear nuevos cargos', 'Cargo'), ('140', 'Actualizar datos de cualquier cargo', 'Cargo'), ('141', 'Eliminar datos de cualquier cargo', 'Cargo'), ('142', 'Consultar datos de cualquier beneficio', 'Beneficio'), ('143', 'Crear nuevos beneficios', 'Beneficio'), ('144', 'Actualizar datos de cualquier beneficio', 'Beneficio'), ('145', 'Eliminar datos de cualquier beneficio', 'Beneficio'), ('146', 'Consultar datos de cualquier banco', 'Banco'), ('147', 'Crear nuevos bancos', 'Banco'), ('148', 'Actualizar datos de cualquier banco', 'Banco'), ('149', 'Eliminar datos de cualquier banco', 'Banco'), ('158', 'Consultar datos de cualquier rol', 'Rol'), ('159', 'Crear nuevos roles', 'Rol'), ('160', 'Actualizar datos de cualquier rol', 'Rol'), ('161', 'Eliminar datos de cualquier rol', 'Rol'), ('162', 'Consultar datos de cualquier usuario', 'Usuario'), ('163', 'Crear nuevos usuarios', 'Usuario'), ('164', 'Actualizar datos de cualquier usuario', 'Usuario'), ('165', 'Eliminar datos de cualquier usuario', 'Usuario'), ('166', 'Consultar acciones de usuario', 'Usuario'), ('167', 'Consultar datos de cualquier permiso', 'Permiso'), ('168', 'Crear nuevos permisos', 'Permiso'), ('169', 'Actualizar datos de cualquier permiso', 'Permiso'), ('170', 'Eliminar datos de cualquier permiso', 'Permiso'), ('171', 'Consultar datos de cualquier metodo de pago', 'Metodos de Pago'), ('172', 'Crear nuevos metodos de pago', 'Metodos de Pago'), ('173', 'Actualizar datos de cualquier metodo de pago', 'Metodos de Pago'), ('174', 'Eliminar datos de cualquier metodo de pago', 'Metodos de Pago'), ('175', 'Crear Modelo de Avion', 'Modelo de Avion'), ('176', 'Consultar Modelo de Avion', 'Modelo de Avion'), ('177', 'Actualizar Modelo de Avion', 'Modelo de Avion'), ('178', 'Eliminar Modelo de Avion', 'Modelo de Avion'), ('179', 'Crear Avion', 'Avion'), ('180', 'Consultar Avion', 'Avion'), ('181', 'Actualizar Avion', 'Avion'), ('182', 'Eliminar Avion', 'Avion'), ('183', 'Crear Pieza', 'Pieza'), ('184', 'Consultar Pieza', 'Pieza'), ('185', 'Actualizar Pieza', 'Pieza'), ('186', 'Eliminar Pieza', 'Pieza'), ('187', 'Crear Prueba', 'Prueba'), ('188', 'Consultar Prueba', 'Prueba'), ('189', 'Actualizar Prueba', 'Prueba'), ('190', 'Eliminar Prueba', 'Prueba'), ('191', 'Crear Tipo Prueba', 'Tipo Prueba'), ('192', 'Consultar Tipo Prueba', 'Tipo Prueba'), ('193', 'Actualizar Tipo Prueba', 'Tipo Prueba'), ('194', 'Eliminar Tipo Prueba', 'Tipo Prueba'), ('195', 'Crear Area', 'Area'), ('196', 'Consultar Area', 'Area'), ('197', 'Actualizar Area', 'Area'), ('198', 'Eliminar Area', 'Area'), ('199', 'Crear Zona', 'Zona'), ('200', 'Consultar Zona', 'Zona'), ('201', 'Actualizar Zona', 'Zona'), ('202', 'Eliminar Zona', 'Zona'), ('203', 'Crear Sede', 'Sede'), ('204', 'Consultar Sede', 'Sede'), ('205', 'Actualizar Sede', 'Sede'), ('206', 'Eliminar Sede', 'Sede'), ('207', 'Crear Equipo', 'Equipo'), ('208', 'Consultar Equipo', 'Equipo'), ('209', 'Actualizar Equipo', 'Equipo'), ('210', 'Eliminar Equipo', 'Equipo');
 
 INSERT INTO Rol (rol_nombre)
 VALUES
@@ -3347,6 +3505,15 @@ VALUES
 
 INSERT INTO "rol_privilegio" ("id_rol_privilegio", "rp_fk_rol", "rp_fk_privilegio") VALUES ('1', '1', '114'), ('2', '1', '115'), ('3', '1', '116'), ('4', '1', '117'), ('5', '1', '118'), ('6', '1', '119'), ('7', '1', '120'), ('8', '1', '121'), ('9', '1', '122'), ('10', '1', '123'), ('11', '1', '124'), ('12', '1', '125'), ('13', '1', '126'), ('14', '1', '127'), ('15', '1', '128'), ('16', '1', '129'), ('17', '1', '130'), ('18', '1', '131'), ('19', '1', '132'), ('20', '1', '133'), ('21', '1', '134'), ('22', '1', '135'), ('23', '1', '136'), ('24', '1', '137'), ('25', '1', '138'), ('26', '1', '139'), ('27', '1', '140'), ('28', '1', '141'), ('29', '1', '142'), ('30', '1', '143'), ('31', '1', '144'), ('32', '1', '145'), ('37', '2', '102'), ('38', '2', '103'), ('39', '2', '104'), ('40', '2', '105'), ('41', '2', '106'), ('42', '2', '107'), ('43', '2', '108'), ('44', '2', '109'), ('50', '3', '85'), ('51', '3', '86'), ('52', '3', '87'), ('53', '3', '88'), ('54', '3', '89'), ('55', '3', '90'), ('56', '3', '91'), ('59', '3', '94'), ('60', '3', '95'), ('61', '3', '96'), ('62', '3', '97'), ('63', '3', '98'), ('64', '3', '99'), ('65', '3', '100'), ('66', '3', '101'), ('71', '5', '1'), ('72', '5', '2'), ('73', '5', '3'), ('74', '5', '4'), ('130', '5', '65'), ('131', '5', '66'), ('132', '5', '67'), ('133', '5', '68'), ('150', '5', '85'), ('151', '5', '86'), ('152', '5', '87'), ('153', '5', '88'), ('154', '5', '89'), ('155', '5', '90'), ('156', '5', '91'), ('159', '5', '94'), ('160', '5', '95'), ('161', '5', '96'), ('162', '5', '97'), ('163', '5', '98'), ('164', '5', '99'), ('165', '5', '100'), ('166', '5', '101'), ('167', '5', '102'), ('168', '5', '103'), ('169', '5', '104'), ('170', '5', '105'), ('171', '5', '106'), ('172', '5', '107'), ('173', '5', '108'), ('174', '5', '109'), ('175', '5', '110'), ('176', '5', '111'), ('177', '5', '112'), ('178', '5', '113'), ('179', '5', '114'), ('180', '5', '115'), ('181', '5', '116'), ('182', '5', '117'), ('183', '5', '118'), ('184', '5', '119'), ('185', '5', '120'), ('186', '5', '121'), ('187', '5', '122'), ('188', '5', '123'), ('189', '5', '124'), ('190', '5', '125'), ('191', '5', '126'), ('192', '5', '127'), ('193', '5', '128'), ('194', '5', '129'), ('195', '5', '130'), ('196', '5', '131'), ('197', '5', '132'), ('198', '5', '133'), ('199', '5', '134'), ('200', '5', '135'), ('201', '5', '136'), ('202', '5', '137'), ('203', '5', '138'), ('204', '5', '139'), ('205', '5', '140'), ('206', '5', '141'), ('207', '5', '142'), ('208', '5', '143'), ('209', '5', '144'), ('210', '5', '145'), ('219', '5', '158'), ('220', '5', '159'), ('221', '5', '160'), ('222', '5', '161'), ('223', '5', '162'), ('224', '5', '163'), ('225', '5', '164'), ('226', '5', '165'), ('227', '5', '166'), ('228', '5', '167'), ('229', '5', '168'), ('230', '5', '169'), ('231', '5', '170'), ('232', '5', '171'), ('233', '5', '172'), ('234', '5', '173'), ('235', '5', '174'), ('236', '6', '90'), ('237', '6', '91'), ('238', '7', '100'), ('239', '8', '1'), ('244', '9', '1'), ('249', '10', '1'), ('254', '11', '114'), ('255', '11', '115'), ('256', '11', '116'), ('257', '11', '117'), ('258', '11', '118'), ('259', '11', '119'), ('260', '11', '120'), ('261', '11', '121'), ('262', '11', '122'), ('263', '11', '123'), ('264', '11', '124'), ('265', '11', '125'), ('266', '11', '126'), ('267', '11', '127'), ('268', '11', '128'), ('269', '11', '129'), ('270', '11', '130'), ('271', '11', '131'), ('272', '11', '132'), ('273', '11', '133'), ('274', '11', '134'), ('275', '11', '135'), ('276', '11', '136'), ('277', '11', '137'), ('278', '11', '138'), ('279', '11', '139'), ('280', '11', '140'), ('281', '11', '141'), ('282', '11', '142'), ('283', '11', '143'), ('284', '11', '144'), ('285', '11', '145'), ('290', '12', '102'), ('291', '12', '103'), ('292', '12', '104'), ('293', '12', '105'), ('294', '12', '106'), ('295', '12', '107'), ('296', '12', '108'), ('297', '12', '109'), ('303', '13', '85'), ('304', '13', '86'), ('305', '13', '87'), ('306', '13', '88'), ('307', '13', '89'), ('308', '13', '90'), ('309', '13', '91'), ('312', '13', '94'), ('313', '13', '95'), ('314', '13', '96'), ('315', '13', '97'), ('316', '13', '98'), ('317', '13', '99'), ('318', '13', '100'), ('319', '13', '101'), ('324', '15', '1'), ('325', '15', '2'), ('326', '15', '3'), ('327', '15', '4'), ('383', '15', '65'), ('384', '15', '66'), ('385', '15', '67'), ('386', '15', '68'), ('403', '15', '85'), ('404', '15', '86'), ('405', '15', '87'), ('406', '15', '88'), ('407', '15', '89'), ('408', '15', '90'), ('409', '15', '91'), ('412', '15', '94'), ('413', '15', '95'), ('414', '15', '96'), ('415', '15', '97'), ('416', '15', '98'), ('417', '15', '99'), ('418', '15', '100'), ('419', '15', '101'), ('420', '15', '102'), ('421', '15', '103'), ('422', '15', '104'), ('423', '15', '105'), ('424', '15', '106'), ('425', '15', '107'), ('426', '15', '108'), ('427', '15', '109'), ('428', '15', '110'), ('429', '15', '111'), ('430', '15', '112'), ('431', '15', '113'), ('432', '15', '114'), ('433', '15', '115'), ('434', '15', '116'), ('435', '15', '117'), ('436', '15', '118'), ('437', '15', '119'), ('438', '15', '120'), ('439', '15', '121'), ('440', '15', '122'), ('441', '15', '123'), ('442', '15', '124'), ('443', '15', '125'), ('444', '15', '126'), ('445', '15', '127'), ('446', '15', '128'), ('447', '15', '129'), ('448', '15', '130'), ('449', '15', '131'), ('450', '15', '132'), ('451', '15', '133'), ('452', '15', '134'), ('453', '15', '135'), ('454', '15', '136'), ('455', '15', '137'), ('456', '15', '138'), ('457', '15', '139'), ('458', '15', '140'), ('459', '15', '141'), ('460', '15', '142'), ('461', '15', '143'), ('462', '15', '144'), ('463', '15', '145'), ('472', '15', '158'), ('473', '15', '159'), ('474', '15', '160'), ('475', '15', '161'), ('476', '15', '162'), ('477', '15', '163'), ('478', '15', '164'), ('479', '15', '165'), ('480', '15', '166'), ('481', '15', '167'), ('482', '15', '168'), ('483', '15', '169'), ('484', '15', '170'), ('485', '15', '171'), ('486', '15', '172'), ('487', '15', '173'), ('488', '15', '174'), ('489', '16', '90'), ('490', '16', '91');
 
+
+INSERT INTO SEDE (
+    sede_id, sede_nombre, sede_descripcion, sede_direccion, FK_lugar
+) VALUES
+    (1, 'Sede Principal', 'Sede Central donde se reciben los materiales', 'Av. Principal N° 123', (Select lugar_codigo from lugar where lugar_nombre = 'CATIA LA MAR')),
+    (2, 'Sede Maracay', 'Recibe los materiales de la sede Principal y se realizan las pruebas de calidad', 'Av. Secundaria N° 456', (Select lugar_codigo from lugar where lugar_nombre = 'MARACAY')),
+    (3, 'Sede Valencia', 'Una de las sedes mas grandes', 'Zona Industrial N° 789', (Select lugar_codigo from lugar where lugar_nombre = 'VALENCIA')),
+    (4, 'Sede Guatire', 'Almacén', 'Calle Logística N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'GUATIRE')),
+   
 -- HASTA AQUI ESTA BIEN
 --------------------------------------------------
 --------------------------------------------------
@@ -3744,14 +3911,6 @@ INSERT INTO estatus_pedido (
 
 
 
-INSERT INTO SEDE (
-    sede_id, sede_nombre, sede_descripcion, sede_direccion, FK_lugar
-) VALUES
-    (1, 'Planta Principal', 'Sede central de operaciones', 'Av. Principal N° 123', 1),
-    (2, 'Planta Secundaria', 'Ensamblaje de componentes secundarios', 'Av. Secundaria N° 456', 2),
-    (3, 'Planta de Pruebas', 'Pruebas de calidad y seguridad', 'Zona Industrial N° 789', 3),
-    (4, 'Centro Logístico', 'Almacén principal', 'Calle Logística N° 321', 4),
-    (5, 'Planta de Diseño', 'Diseño de interiores y componentes', 'Av. Creativa N° 654', 5);
 
 -- Inserciones para la tabla Area
 INSERT INTO Area (
