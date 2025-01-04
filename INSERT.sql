@@ -3003,7 +3003,7 @@ INSERT INTO Persona_Juridica (
     pj_fk_lugar_fisica, 
     persona_jur_fecha_inicio_op
 )VALUES
-  ('J-00000001-1', 'Calle 1, Amazonas', 'Empresa A1', 'www.empresaA1.com', 'Calle 1, Amazonas', 1, 1, '2023-01-01'),
+('J-00000001-1', 'Calle 1, Amazonas', 'Empresa A1', 'www.empresaA1.com', 'Calle 1, Amazonas', 1, 1, '2023-01-01'),
 ('J-00000002-1', 'Calle 2, Amazonas', 'Empresa A2', 'www.empresaA2.com', 'Calle 2, Amazonas', 1, 1, '2023-01-02'),
 ('J-00000003-1', 'Calle 3, Amazonas', 'Empresa A3', 'www.empresaA3.com', 'Calle 3, Amazonas', 1, 1, '2023-01-03'),
 ('J-00000004-1', 'Calle 4, Amazonas', 'Empresa A4', 'www.empresaA4.com', 'Calle 4, Amazonas', 1, 1, '2023-01-04'),
@@ -4224,3 +4224,87 @@ INSERT INTO Historico_Estatus_Prueba_Mate (
     (9, '2023-11-09 08:45:00', '2023-11-09 10:30:00', 2, 4),
     (10, '2023-11-10 09:30:00', '2023-11-10 11:15:00', 1, 5);
 
+    
+
+INSERT INTO Caracteristica (caracteristica_id,caracteristica_nombre,caracteristica_descripcion)
+VALUES 
+(1,'Capacidad Total','Numero de pasajeros'),
+(2,'Longitud','Medida de la aeronave'),
+(3,'Envergadura',NULL),
+(4,'Altura','Altura del avion'),
+(5,'Peso Vacío',NULL),
+(6,'Peso Maximo al despegue',NULL),
+(7,'Planta Motriz',NULL),
+(8,'Empuje normal',NULL),
+(9,'Velocidad Maxima Operativa',NULL),
+(10,'Alcance', NULL),
+(11,'Tripulacion Total',NULL),
+(12,'Superficie alar',NULL)
+(13,'Velocidad Crucero',NULL),
+(14,'Techo de Servicio',NULL),
+(15,'Regimen de Ascenso',NULL),
+(16,'Tripulacion Pilotos',NULL),
+(17,'Tripulacion Auxiliares',NULL),
+(18,'Capacidad Clase densa',NULL),
+(19,'Capacidad Clase estandar',NULL),
+(20,'Capacidad Segunda Clase',NULL),
+(21,'Diferencia entre asientos de Clase densa',NULL),
+(22,'Diferencia entre asientos de Clase estandar',NULL),
+(23,'Diferencia entre asientos de Alta densidad',NULL),
+(24,'Ancho de los asientos',NULL),
+(25,'Flecha Alar',NULL),
+(26,'Ancho del fuselaje',NULL),
+(27,'Alto del fuselaje',NULL),
+(29,'Alto de la cabina de pasajeros',NULL),
+(30,'Alto de la cabina',NULL),
+(31,'Peso de Aterrizaje Maximo',NULL),
+(32,'Volumen de Carga',NULL),
+(33,'Carrera de Despegue con peso máximo',NULL),
+(34,'Alcance con carga máxima',NULL),
+(35,'Máxima capacidad de combustible',NULL),
+(36,'Motores',NULL),
+(37,'Empuje Máximo',NULL),
+(38,'Empuje a Velocidad Crucero',NULL),
+(39,'Diámetro de los álabes o las aspas del motor', NULL),
+(40,'Longitud del Motor', NULL)
+(41,'Capacidad de Pasajeros para 2 clases',NULL),
+(42,'Capacidad de Pasajeros para 3 clases',NULL),
+(43,'Autonomía con peso máximo de despegue',NULL),
+(44,'Motorización',NULL),
+(45,'Empuje unitario',NULL)
+;
+
+
+INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
+VALUES
+(1,'AU80', NULL),
+(2,'AU801',NULL),
+(3,'AU802',NULL),
+
+
+INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
+VALUES
+(1,1,1,'Pasajeros',179),
+(2,1,2,'Metros',44.1),
+(3,1,3,'Metros',39.9),
+(4,1,4,'Metros',12.9),
+(5,1,5,'Kg',55.580),
+(6,1,6,'Kg',116.570),
+(7,1,7,'Tuborreactores Pratt & Whitney JT3D 1',4),
+(8,1,8,'KN', 75.6),
+(9,1,9,'Km/h',1000),
+(10,1,10,'Km',6820),
+(11,2,11,'Tripulantes',7),
+(12,2,1,'Pasajeros',189),
+(13,2,2,'Metros',46.7),
+(14,2,3,'Metros',23.9),
+(15,2,4,'Metros',10.4),
+(16,2,12,'Metros Cuadrados',153),
+(17,2,5,'Kg',46700),
+(18,2,6,'Kg',95028),
+(19,2,7,'Tuborreactores Pratt & Whitney JT8D',3),
+(20,2,8,'Kn de empuje en cada uno',77),
+(21,2,13,'Km/h a 1000m',907),
+(22,2,10,'Km',4450),
+(23,2,14,'Metros',13000),
+(24,2,15,'M/s',14.9),
