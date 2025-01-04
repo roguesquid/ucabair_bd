@@ -448,8 +448,8 @@ CREATE TABLE Orden_De_Reposicion (
     orden_fecha DATE NOT NULL,
     orden_subtotal INTEGER,
     orden_total INTEGER,
-    FK_contrato_per INTEGER,
-    FK_tasa_dolar INTEGER,
+    FK_contrato_per INTEGER NOT NULL,
+    FK_tasa_dolar INTEGER NOT NULL,
     CONSTRAINT PK_orden_de_reposicion PRIMARY KEY (orden_id),
     CONSTRAINT FK_contrato_orden_de_reposicion FOREIGN KEY (FK_contrato_per) REFERENCES Contrato_de_personal(contrato_codigo),
     CONSTRAINT FK_tasa_dolar_orden_de_reposicion FOREIGN KEY (FK_tasa_dolar) REFERENCES Historico_Tasa_Dolar(H_tasa_id)
@@ -471,7 +471,6 @@ CREATE TABLE Detalle_Orden_Reposicion (
     detalle_orden_cantidad INTEGER NOT NULL,
     detalle_orden_precio_unitario DECIMAL(10, 2) NOT NULL,
     FK_orden INTEGER NOT NULL,
-    FK_invent_alm INTEGER NOT NULL,
     FK_mp_prov INTEGER NOT NULL,
     CONSTRAINT PK_detalle_orden_reposicion PRIMARY KEY (detalle_orden_cod),
     CONSTRAINT FK_orden_detalle_orden_reposicion FOREIGN KEY (FK_orden) REFERENCES Orden_De_Reposicion(orden_id),
@@ -491,8 +490,10 @@ CREATE TABLE tipo_prueba_avion(
     tipo_pa_nombre VARCHAR(20) NOT NULL,
     tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
     tipo_pa_fk_zona INTEGER NOT NULL,
+    tipo_pa_fk_modelo_avion INTEGER NOT NULL,
     CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
-    CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id)
+    CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id),
+    CONSTRAINT fk_modelo_avion_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id)
 );
 
 CREATE TABLE estatus_prueba_avion(
@@ -603,9 +604,7 @@ CREATE TABLE Modelo_Pieza(
     m_pieza_id SERIAL,
     m_pieza_nombre VARCHAR(50) NOT NULL,
     m_pieza_descripcion VARCHAR(200) NOT NULL,
-    m_pieza_fk_modelo_avion INTEGER NOT NULL,
     CONSTRAINT pk_modelo_pieza PRIMARY KEY(m_pieza_id),
-    CONSTRAINT fk_modelo_avion_modelo_pieza FOREIGN KEY(m_pieza_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id)
 );
 
 CREATE TABLE Componente(
@@ -749,4 +748,48 @@ CREATE TABLE Pedido_Metodo_Pago(
     CONSTRAINT fk_TDD_pedido_metodo_pago FOREIGN KEY(pedido_metodo_pago_fk_TDD) REFERENCES tdd(tdd_metodo_pago_cod),
     CONSTRAINT fk_cheque_pedido_metodo_pago FOREIGN KEY(pedido_metodo_pago_fk_cheque) REFERENCES cheque(cheque_metodo_pago_cod),
     CONSTRAINT fk_efectivo_pedido_metodo_pago FOREIGN KEY(pedido_metodo_pago_fk_efectivo) REFERENCES efectivo(efectivo_metodo_pago_cod)
+);
+
+CREATE TABLE odr_metodo_pago(
+    odr_metodo_pago_id SERIAL,
+    odr_metodo_pago_fk_orden INTEGER NOT NULL,
+    odr_metodo_pago_fk_TDC INTEGER,
+    odr_metodo_pago_fk_TDD INTEGER,
+    odr_metodo_pago_fk_cheque INTEGER,
+    odr_metodo_pago_fk_efectivo INTEGER,
+    odr_metodo_pago_monto DECIMAL(10,2) NOT NULL,
+    odr_metodo_pago_fecha TIMESTAMP NOT NULL,
+    CONSTRAINT pk_odr_metodo_pago PRIMARY KEY(odr_metodo_pago_id),
+    CONSTRAINT fk_orden_odr_metodo_pago FOREIGN KEY(odr_metodo_pago_fk_orden) REFERENCES Orden_De_Reposicion(orden_id),
+    CONSTRAINT fk_TDC_odr_metodo_pago FOREIGN KEY(odr_metodo_pago_fk_TDC) REFERENCES tdc(tdc_metodo_pago_cod),
+    CONSTRAINT fk_TDD_odr_metodo_pago FOREIGN KEY(odr_metodo_pago_fk_TDD) REFERENCES tdd(tdd_metodo_pago_cod),
+    CONSTRAINT fk_cheque_odr_metodo_pago FOREIGN KEY(odr_metodo_pago_fk_cheque) REFERENCES cheque(cheque_metodo_pago_cod),
+    CONSTRAINT fk_efectivo_odr_metodo_pago FOREIGN KEY(odr_metodo_pago_fk_efectivo) REFERENCES efectivo(efectivo_metodo_pago_cod)
+);
+
+CREATE TABLE pieza_equipo (
+    pieza_equipo_id SERIAL,
+    pieza_equipo_fk_pieza INTEGER NOT NULL,
+    pieza_equipo_fk_equipo INTEGER NOT NULL,
+    CONSTRAINT pk_pieza_equipo PRIMARY KEY(pieza_equipo_id),
+    CONSTRAINT fk_pieza_pieza_equipo FOREIGN KEY(pieza_equipo_fk_pieza) REFERENCES Pieza(pieza_id),
+    CONSTRAINT fk_equipo_pieza_equipo FOREIGN KEY(pieza_equipo_fk_equipo) REFERENCES Equipo(codigo_equipo)
+);
+
+CREATE TABLE avion_equipo (
+    avion_equipo_id SERIAL,
+    avion_equipo_fk_avion INTEGER NOT NULL,
+    avion_equipo_fk_equipo INTEGER NOT NULL,
+    CONSTRAINT pk_avion_equipo PRIMARY KEY(avion_equipo_id),
+    CONSTRAINT fk_avion_avion_equipo FOREIGN KEY(avion_equipo_fk_avion) REFERENCES avion(avion_id),
+    CONSTRAINT fk_equipo_avion_equipo FOREIGN KEY(avion_equipo_fk_equipo) REFERENCES Equipo(codigo_equipo)
+);
+
+CREATE TABLE ma_mp(
+    ma_mp_id SERIAL,
+    ma_mp_fk_modelo_avion INTEGER NOT NULL,
+    ma_mp_fk_modelo_pieza INTEGER NOT NULL,
+    CONSTRAINT pk_ma_mp PRIMARY KEY(ma_mp_id),
+    CONSTRAINT fk_modelo_avion_ma_mp FOREIGN KEY(ma_mp_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id),
+    CONSTRAINT fk_modelo_pieza_ma_mp FOREIGN KEY(ma_mp_fk_modelo_pieza) REFERENCES Modelo_Pieza(m_pieza_id)
 );
