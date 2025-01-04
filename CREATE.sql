@@ -389,16 +389,6 @@ CREATE TABLE Mate_P_Proveedor (
   CONSTRAINT FK_proveedor_mate_p_proveedor FOREIGN KEY (FK_prov) REFERENCES Proveedor(cod_proveedor)
 );
 
-CREATE TABLE Inventario_Almacen (
-    cod_inv_almacen SERIAL,
-    inv_alm_cant INTEGER NOT NULL,
-    FK_almacen INTEGER NOT NULL,
-    FK_mat_prim INTEGER NOT NULL,
-    Constraint PK_inventario_almacen primary key (cod_inv_almacen),
-    Constraint FK_inventario_almacen_almacen foreign key (FK_almacen) references Almacen (almacen_id),
-    Constraint FK_inventario_almacen_mat_prim foreign key (FK_mat_prim) references Materia_prima(materia_p_id)
-);
-
 CREATE TABLE Historico_Tasa_Dolar (
   H_tasa_id SERIAL,
   H_tasa_precio DECIMAL(4,2) NOT NULL,
@@ -466,34 +456,11 @@ CREATE TABLE Historico_Estatus_Orden (
     CONSTRAINT FK_estatus_orden_historico FOREIGN KEY (FK_estatus_orden) REFERENCES Estatus_Orden(estatus_ord_id)
 );
 
-CREATE TABLE Detalle_Orden_Reposicion (
-    detalle_orden_cod SERIAL,
-    detalle_orden_cantidad INTEGER NOT NULL,
-    detalle_orden_precio_unitario DECIMAL(10, 2) NOT NULL,
-    FK_orden INTEGER NOT NULL,
-    FK_mp_prov INTEGER NOT NULL,
-    CONSTRAINT PK_detalle_orden_reposicion PRIMARY KEY (detalle_orden_cod),
-    CONSTRAINT FK_orden_detalle_orden_reposicion FOREIGN KEY (FK_orden) REFERENCES Orden_De_Reposicion(orden_id),
-    CONSTRAINT FK_inventario_almacen_detalle_orden_reposicion FOREIGN KEY (FK_invent_alm) REFERENCES Inventario_Almacen(cod_inv_almacen),
-    CONSTRAINT FK_mate_prov_detalle_orden_reposicion FOREIGN KEY (FK_mp_prov) REFERENCES Mate_P_Proveedor(materia_p_prov_id)
-);
-
 CREATE TABLE Caracteristica (
     caracteristica_id SERIAL,
     caracteristica_nombre VARCHAR(50) NOT NULL,
     caracteristica_descripcion VARCHAR(200) NOT NULL,
     CONSTRAINT PK_caracteristica PRIMARY KEY (caracteristica_id)
-);
-
-CREATE TABLE tipo_prueba_avion(
-    tipo_pa_id SERIAL,
-    tipo_pa_nombre VARCHAR(20) NOT NULL,
-    tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
-    tipo_pa_fk_zona INTEGER NOT NULL,
-    tipo_pa_fk_modelo_avion INTEGER NOT NULL,
-    CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
-    CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id),
-    CONSTRAINT fk_modelo_avion_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id)
 );
 
 CREATE TABLE estatus_prueba_avion(
@@ -527,6 +494,17 @@ CREATE TABLE Modelo_Avion (
     modelo_avion_capacidad INTEGER NOT NULL,
     modelo_avion_altura DECIMAL(10,2) NOT NULL,
     CONSTRAINT PK_modelo_avion PRIMARY KEY (modelo_avion_id)
+);
+
+CREATE TABLE tipo_prueba_avion(
+    tipo_pa_id SERIAL,
+    tipo_pa_nombre VARCHAR(20) NOT NULL,
+    tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
+    tipo_pa_fk_zona INTEGER NOT NULL,
+    tipo_pa_fk_modelo_avion INTEGER NOT NULL,
+    CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
+    CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id),
+    CONSTRAINT fk_modelo_avion_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id)
 );
 
 CREATE TABLE avion(
@@ -604,7 +582,7 @@ CREATE TABLE Modelo_Pieza(
     m_pieza_id SERIAL,
     m_pieza_nombre VARCHAR(50) NOT NULL,
     m_pieza_descripcion VARCHAR(200) NOT NULL,
-    CONSTRAINT pk_modelo_pieza PRIMARY KEY(m_pieza_id),
+    CONSTRAINT pk_modelo_pieza PRIMARY KEY(m_pieza_id)
 );
 
 CREATE TABLE Componente(
@@ -642,6 +620,30 @@ CREATE TABLE Pieza(
     CONSTRAINT pk_pieza PRIMARY KEY(pieza_id),
     CONSTRAINT fk_modelo_pieza FOREIGN KEY(pieza_fk_modelo_p) REFERENCES Modelo_Pieza(m_pieza_id)
 );
+
+CREATE TABLE Inventario_Almacen (
+    cod_inv_almacen SERIAL,
+    inv_alm_cant INTEGER NOT NULL,
+    FK_almacen INTEGER NOT NULL,
+    FK_mat_prim INTEGER NOT NULL,
+    FK_pieza INTEGER NOT NULL,
+    Constraint PK_inventario_almacen primary key (cod_inv_almacen),
+    Constraint FK_inventario_almacen_almacen foreign key (FK_almacen) references Almacen (almacen_id),
+    Constraint FK_inventario_almacen_mat_prim foreign key (FK_mat_prim) references Materia_prima(materia_p_id),
+    Constraint FK_inventario_pieza foreign key (FK_pieza) references Pieza(pieza_id)
+);
+
+CREATE TABLE Detalle_Orden_Reposicion (
+    detalle_orden_cod SERIAL,
+    detalle_orden_cantidad INTEGER NOT NULL,
+    detalle_orden_precio_unitario DECIMAL(10, 2) NOT NULL,
+    FK_orden INTEGER NOT NULL,
+    FK_mp_prov INTEGER NOT NULL,
+    CONSTRAINT PK_detalle_orden_reposicion PRIMARY KEY (detalle_orden_cod),
+    CONSTRAINT FK_orden_detalle_orden_reposicion FOREIGN KEY (FK_orden) REFERENCES Orden_De_Reposicion(orden_id),
+    CONSTRAINT FK_mate_prov_detalle_orden_reposicion FOREIGN KEY (FK_mp_prov) REFERENCES Mate_P_Proveedor(materia_p_prov_id)
+);
+
 
 CREATE TABLE Pieza_Avion(
     pieza_avion_id SERIAL,
