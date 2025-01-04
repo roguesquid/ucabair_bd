@@ -3078,8 +3078,7 @@ INSERT INTO Persona_Juridica (
 ('J-00000004-23', 'Calle 1, Yaracuy', 'Empresa y1', 'www.empresaA4.com', 'Calle 4,  Yaracuy', 23, 23, '2023-01-04'),
 ('J-00000001-23', 'Calle 2,  Yaracuy', 'Empresa y2', 'www.empresaA1.com', 'Calle 1,   Yaracuy', 23, 23, '2023-01-01'),
 ('J-00000002-24', 'Calle 3, Zulia', 'Empresa zu3', 'www.empresaA2.com', 'Calle 2, Zulia', 24, 24, '2023-01-02'),
-('J-00000003-24', 'Calle 4, Zulia', 'Empresa zu4', 'www.empresaA3.com', 'Calle 3, Zulia', 24, 24, '2023-01-03'),
-;
+('J-00000003-24', 'Calle 4, Zulia', 'Empresa zu4', 'www.empresaA3.com', 'Calle 3, Zulia', 24, 24, '2023-01-03');
 
 
 --CLIENTE JURIDICO
@@ -3181,7 +3180,7 @@ VALUES
   (77,8),
   (78,8),
   (79,6),
-  (80,2)
+  (80,2),
   (81,4);
 
 INSERT INTO Persona_Natural (
@@ -3260,7 +3259,7 @@ VALUES
 (17, '2010-07-01'),
 (18, '2020-11-15'),
 (19, '2003-12-24'),
-(20, '2012-10-27').
+(20, '2012-10-27'),
 (21, '2018-04-06'),
 (22, '2010-08-30'),
 (23, '2016-01-07'),
@@ -3768,7 +3767,7 @@ VALUES
   ('2020-06-15', '2024-09-15', 37),
   ('2021-07-25', NULL, 38),
   ('2022-08-30', '2024-03-05', 39),
-  ('2024-09-18', NULL, 40),
+  ('2024-09-18', NULL, 40);
 
 INSERT INTO Vacacion (vacacion_fecha_inicio, vacacion_fecha_fin, vacacion_total_dias, FK_contrato)
 VALUES
@@ -4239,7 +4238,7 @@ VALUES
 (9,'Velocidad Maxima Operativa',NULL),
 (10,'Alcance', NULL),
 (11,'Tripulacion Total',NULL),
-(12,'Superficie alar',NULL)
+(12,'Superficie alar',NULL),
 (13,'Velocidad Crucero',NULL),
 (14,'Techo de Servicio',NULL),
 (15,'Regimen de Ascenso',NULL),
@@ -4266,7 +4265,7 @@ VALUES
 (37,'Empuje Máximo',NULL),
 (38,'Empuje a Velocidad Crucero',NULL),
 (39,'Diámetro de los álabes o las aspas del motor', NULL),
-(40,'Longitud del Motor', NULL)
+(40,'Longitud del Motor', NULL),
 (41,'Capacidad de Pasajeros para 2 clases',NULL),
 (42,'Capacidad de Pasajeros para 3 clases',NULL),
 (43,'Autonomía con peso máximo de despegue',NULL),
@@ -4279,7 +4278,7 @@ INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_desc
 VALUES
 (1,'AU80', NULL),
 (2,'AU801',NULL),
-(3,'AU802',NULL),
+(3,'AU802',NULL);
 
 
 INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
@@ -4307,4 +4306,4 @@ VALUES
 (21,2,13,'Km/h a 1000m',907),
 (22,2,10,'Km',4450),
 (23,2,14,'Metros',13000),
-(24,2,15,'M/s',14.9),
+(24,2,15,'M/s',14.9);
