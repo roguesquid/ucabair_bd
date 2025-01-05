@@ -4480,6 +4480,14 @@ VALUES
 (13,'AU-747SILVER',NULL),
 (14,'AU-747SILVERB',NULL);
 
+INSERT INTO avion (
+    avion_fecha_entrega, avion_diseno_especial, avion_matricula, avion_fk_modelo
+) VALUES 
+    (NULL, NULL, 'YV100A', 1),
+    (NULL, NULL, 'YV200B', 2),
+    (NULL, NULL, 'YV300C', 3),
+    (NULL, NULL, 'YV400D', 4);
+
 INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
 VALUES
 (1,1,1,'Pasajeros',179),
