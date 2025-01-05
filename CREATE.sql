@@ -495,7 +495,7 @@ CREATE TABLE Modelo_Avion (
 
 CREATE TABLE tipo_prueba_avion(
     tipo_pa_id SERIAL,
-    tipo_pa_nombre VARCHAR(20) NOT NULL,
+    tipo_pa_nombre VARCHAR(50) NOT NULL,
     tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
     tipo_pa_fk_zona INTEGER NOT NULL,
     tipo_pa_fk_modelo_avion INTEGER NOT NULL,
