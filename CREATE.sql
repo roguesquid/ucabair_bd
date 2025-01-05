@@ -400,7 +400,7 @@ CREATE TABLE Historico_Tasa_Dolar (
 CREATE TABLE Tipo_Prueba_Mate (
   tipo_pm_id SERIAL,
   tipo_pm_nombre VARCHAR(50) NOT NULL,
-  tipo_pm_duracion INTERVAL NOT NULL, --debe ir en horas laborables
+  tipo_pm_duracion TIME NOT NULL, --debe ir en horas laborables
   FK_zona INTEGER NOT NULL,
     CONSTRAINT PK_tipo_prueba_mate PRIMARY KEY (tipo_pm_id),
     CONSTRAINT FK_zona_tipo_prueba_mate FOREIGN KEY (FK_zona) REFERENCES Zona(zona_id)
@@ -496,7 +496,7 @@ CREATE TABLE Modelo_Avion (
 CREATE TABLE tipo_prueba_avion(
     tipo_pa_id SERIAL,
     tipo_pa_nombre VARCHAR(50) NOT NULL,
-    tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
+    tipo_pa_duracion INTERVAL NOT NULL, --VA EN HORAS LABORALES
     tipo_pa_fk_zona INTEGER NOT NULL,
     tipo_pa_fk_modelo_avion INTEGER NOT NULL,
     CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
