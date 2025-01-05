@@ -4308,13 +4308,11 @@ VALUES
 (48,'Empuje unitario PW',NULL),
 (49,'Empuje unitario RR', NULL),
 (50,'Empuje unitario GE',NULL),
-(51,'Empuje unitario ER',NULL)
-;
+(51,'Empuje unitario ER',NULL);
 
 
 INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
 VALUES
-<<<<<<< HEAD
 (1,'AU-80', NULL),
 (2,'AU-801',NULL),
 (3,'AU-802',NULL),
@@ -4329,12 +4327,6 @@ VALUES
 (12,'AU-747GOLD',NULL),
 (13,'AU-747SILVER',NULL),
 (14,'AU-747SILVERB',NULL);
-=======
-(1,'AU80', NULL),
-(2,'AU801',NULL),
-(3,'AU802',NULL);
->>>>>>> f751fa82b0aea5df12034a3d2e7fb546544013e6
-
 
 INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
 VALUES
@@ -4361,7 +4353,6 @@ VALUES
 (21,2,13,'Km/h a 1000m',907),
 (22,2,10,'Km',4450),
 (23,2,14,'Metros',13000),
-<<<<<<< HEAD
 (24,2,15,'M/s',14.9),
 (25,3,16,'Tripulantes',2),
 (26,3,17,'Tripulantes',4),
@@ -4656,27 +4647,3 @@ VALUES
 (326,14,35,'Litros',243120),
 (327,14,44,'GE GEnx 2B67',4),
 (328,14,45,'Kn',296);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-(24,2,15,'M/s',14.9);
->>>>>>> f751fa82b0aea5df12034a3d2e7fb546544013e6
