@@ -4218,6 +4218,39 @@ INSERT INTO Pieza (
     ('Hélice', 11),
     ('En forma de Cruz', 12);
 
+INSERT INTO tipo_prueba_pieza (
+    tipo_pp_nombre, tipo_pp_duracion, FK_zona_tip_pru_pie
+) VALUES
+    ('Fatiga', '320:00:00', 5),
+    ('Corrosión', '160:00:00', 5),
+    ('Impacto', '40:00:00', 5),
+    ('Temperatura', '80:00:00', 5),
+    ('Presión', '40:00:00', 5);
+
+INSERT INTO Prueba_Pieza (
+    prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba
+) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (2, 1),
+    (2, 2),
+    (2, 3),
+    (2, 4),
+    (2, 5),
+    (3, 1),
+    (3, 2),
+    (3, 3),
+    (3, 4),
+    (3, 5),
+    (4, 1),
+    (4, 2),
+    (4, 3),
+    (4, 4),
+    (4, 5);
+
 INSERT INTO Inventario_Almacen (
     cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim, FK_pieza
 ) VALUES
@@ -4487,6 +4520,39 @@ INSERT INTO avion (
     (NULL, NULL, 'YV200B', 2),
     (NULL, NULL, 'YV300C', 3),
     (NULL, NULL, 'YV400D', 4);
+
+INSERT INTO tipo_prueba_avion (
+    tipo_pa_nombre, tipo_pa_duracion, tipo_pa_fk_zona, tipo_pa_fk_modelo_avion
+) VALUES
+    ('Impacto de aves', '24:00:00', 5, 1),
+    ('Resistencia a rayos', '16:00:00', 5, 2),
+    ('Resistencia a temperaturas extremas', '160:00:00', 5, 3),
+    ('Aterrizaje en condiciones adversas', '24:00:00', 5, 4),
+    ('Resistencia Estructural', '16:00:00', 5, 5);
+
+INSERT INTO Prueba_Avion (
+    prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion
+) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (2, 1),
+    (2, 2),
+    (2, 3),
+    (2, 4),
+    (2, 5),
+    (3, 1),
+    (3, 2),
+    (3, 3),
+    (3, 4),
+    (3, 5),
+    (4, 1),
+    (4, 2),
+    (4, 3),
+    (4, 4),
+    (4, 5);
 
 INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
 VALUES
