@@ -459,7 +459,7 @@ CREATE TABLE Historico_Estatus_Orden (
 CREATE TABLE Caracteristica (
     caracteristica_id SERIAL,
     caracteristica_nombre VARCHAR(50) NOT NULL,
-    caracteristica_descripcion VARCHAR(200) NOT NULL,
+    caracteristica_descripcion VARCHAR(200),
     CONSTRAINT PK_caracteristica PRIMARY KEY (caracteristica_id)
 );
 
@@ -488,7 +488,7 @@ CREATE TABLE Tipo_Prueba_Pieza (
 
 CREATE TABLE Modelo_Avion (
     modelo_avion_id INTEGER NOT NULL,
-    modelo_avion_descripcion VARCHAR(200) NOT NULL,
+    modelo_avion_descripcion VARCHAR(200),
     modelo_avion_nombre VARCHAR(50) NOT NULL,
     modelo_avion_longitud DECIMAL(10,2) NOT NULL,
     modelo_avion_capacidad INTEGER NOT NULL,
