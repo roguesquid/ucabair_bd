@@ -3611,11 +3611,10 @@ INSERT INTO SEDE (
     sede_id, sede_nombre, sede_descripcion, sede_direccion, FK_lugar
 ) VALUES
     (1, 'Sede Principal', 'Sede Central donde se reciben los materiales', 'Av. Principal N° 123', (Select lugar_codigo from lugar where lugar_nombre = 'CATIA LA MAR')),
-    (2, 'Sede Maracay', 'Recibe los materiales de la sede Principal y se realizan las pruebas de calidad', 'Av. Secundaria N° 456', (Select lugar_codigo from lugar where lugar_nombre = 'MARACAY')),
-    (3, 'Sede Valencia', 'Una de las sedes mas grandes', 'Zona Industrial N° 789', (Select lugar_codigo from lugar where lugar_nombre = 'VALENCIA')),
+    (2, 'Sede Maracay', 'Recibe los materiales de la sede Principal y se realizan las pruebas de calidad', 'Av. Secundaria N° 456', (Select lugar_codigo from lugar where lugar_nombre = 'Maracay')),
+    (3, 'Sede Valencia', 'Una de las sedes mas grandes', 'Zona Industrial N° 789', (Select lugar_codigo from lugar where lugar_nombre = 'Valencia')),
     (4, 'Sede Guatire', 'Almacén', 'Calle Logística N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'GUATIRE')),
-    (5, 'Sede Colon', 'Hay ciertas piezas se hacen en esta sede', 'Calle Cedeño N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'COLON'));
-    
+    (5, 'Sede Colon', 'Hay ciertas piezas se hacen en esta sede', 'Calle Cedeño N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'Colón'));
 
 -- Inserción en tabla usuario
 INSERT INTO Usuario (
