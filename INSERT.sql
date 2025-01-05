@@ -13,11 +13,11 @@ INSERT INTO Lugar (
 	('Carabobo', 'estado', null),
 	('Cojedes', 'estado', null),
 	('Delta Amacuro', 'estado', null),
-  ('Distrito Capital', 'estado', null),
+        ('Distrito Capital', 'estado', null),
 	('Falcón', 'estado', null),
 	('Guárico', 'estado', null),
 	('Lara', 'estado', null),
-  ('La Guaira', 'estado', null),
+        ('La Guaira', 'estado', null),
 	('Mérida', 'estado', null),
 	('Miranda', 'estado', null),
 	('Monagas', 'estado', null),
@@ -86,7 +86,7 @@ INSERT INTO Lugar (
     ('Alcántara', 'municipio', 4),
     ('Bolívar', 'municipio', 4),
     ('Camatagua', 'municipio', 4),
-    ('Girardot', 'municipio', 4),
+    ('Maracay', 'municipio', 4),
     ('Iragorry', 'municipio', 4),
     ('Lamas', 'municipio', 4),
     ('Libertador', 'municipio', 4),
@@ -3136,52 +3136,52 @@ INSERT INTO proveedor (prov_fk_persona_juri, proveedor_calificacion)
 VALUES
   (1, 8),
   (2, 7),
-  (10, 6),
-  (11, 5),
+  (3, 6),
+  (4, 5),
+  (5, 4),
+  (6, 3),
+  (7, 2),
+  (8, 1),
+  (9, 10),
+  (10, 9),
+  (11, 7),
+  (12, 6),
+  (13, 5),
   (14, 4),
   (15, 3),
-  (18, 2),
-  (19, 1),
-  (22, 10),
-  (23, 9),
-  (26, 7),
-  (27, 6),
-  (30, 5),
-  (31, 4),
-  (34, 3),
-  (35, 2),
-  (38, 1),
-  (39, 10),
-  (42, 9),
-  (43, 4),
-  (46, 3),
-  (47, 2),
-  (50, 1),
-  (51, 10),
-  (54, 10),
-  (55, 9),
-  (58, 7),
-  (59, 6),
-  (62, 5),
-  (63, 4),
-  (64, 3),
-  (65, 2),
-  (66, 1),
-  (67, 10),
-  (68, 9),
-  (69, 4),
-  (70, 3),
-  (71, 2),
-  (72,6),
-  (73,9),
-  (74,2),
-  (75,5),
-  (76,9),
-  (77,8),
-  (78,8),
-  (79,6),
-  (80,2),
-  (81,4);
+  (16, 2),
+  (17, 1),
+  (18, 10),
+  (19, 9),
+  (20, 4),
+  (21, 3),
+  (22, 2),
+  (23, 1),
+  (24, 10),
+  (25, 10),
+  (26, 9),
+  (27, 7),
+  (28, 6),
+  (29, 5),
+  (30, 4),
+  (31, 3),
+  (32, 2),
+  (33, 2),
+  (34, 2),
+  (44, 2),
+  (55, 1),
+  (56, 10),
+  (66, 9),
+  (67, 4),
+  (68, 3),
+  (69, 2),
+  (70,6),
+  (71,9),
+  (72,2),
+  (73,5),
+  (74,9),
+  (75,8),
+  (76,8);
 
 INSERT INTO Persona_Natural (
   persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre,
@@ -3209,7 +3209,7 @@ INSERT INTO Persona_Natural (
   ('V493765392', 'Calle de Negocio, Torre B', '30005364', 'Rafael', 'Eduardo', 'Marcano', 'Mora', '2003-04-28', 19),
   ('V654321098', 'Calle Empresarial, Edif. Residencial', '38571624', 'Luis', 'Alberto', 'González', 'Pérez', '1988-07-05', 20),
   ('V876543211', 'Av. Principal, Edificio Comercial', '26783201', 'Verónica', 'Isabel', 'Martínez', 'Fernández', '1993-12-18', 20),
-  ('V234567890', 'Ruta Empresarial, Edif. Plaza', '7871234', 'David', NULL, 'Gómez', NULL, '1976-09-30', 20),
+  ('V234567890', 'Ruta Empresarial, Edif. Plaza', '7871233', 'David', NULL, 'Gómez', NULL, '1976-09-30', 20),
   ('V109876543', 'Calle de Negocios, Torre A', '12345678', 'Daniela', 'Carolina', 'Rodríguez', 'Mendoza', '1991-03-15', 20),
   ('V765432109', 'Zona Industrial, Edif. Central', '17654321', 'Miguel', 'Ángel', 'Gutiérrez', 'Fernández', '1984-11-22', 21),
   ('V212345678', 'Calle Real de Catia, Edif. La Torre, Piso 10, Apto. 1001', '12345679', 'María', 'José', 'Pérez', 'Rodríguez', '1990-01-20', 21),
@@ -3217,22 +3217,22 @@ INSERT INTO Persona_Natural (
   ('V654321099', 'Calle Urdaneta, Edif. El Capitolio, Piso 30, Apto. 3003', '65432109', 'Ana', 'María', 'López', 'Hernández', '1970-03-30', 21),
   ('V543210987', 'Calle Bolívar, Edif. La Catedral, Piso 40, Apto. 4004', '54321098', 'Carlos', 'Antonio', 'Sánchez', 'García', '1965-05-01', 22),
   ('V432109876', 'Calle Sucre, Edif. El Palacio de Miraflores, Piso 50, Apto. 5005', '43210987', 'Pedro', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 22),
-('V432109894', 'Calle Sur, Edif. El Palacio, Piso 50, Apto. 5015', '43710987', 'Pablo', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 22),
-('V832109894', 'Calle Norte, Edif. El rosal, Piso 40, Apto. 5215', '43790987', 'Ricardo', 'Luis', 'Pages', 'Martínez', '1950-07-15', 22),
-('V223765392', 'Callejon de Negocio, Torre B', '30004464', 'Rafael', 'Eduardo', 'Martinez', 'Mora', '2003-04-28', 23),
-  ('V654321098', 'Calle cedeño, Edif. Residencial', '38589624', 'Luis', 'Alberto', 'Urrutia', 'Pérez', '1988-07-05', 23),
+  ('V432109894', 'Calle Sur, Edif. El Palacio, Piso 50, Apto. 5015', '43710987', 'Pablo', 'Luis', 'Pérez', 'Martínez', '1950-07-15', 22),
+  ('V832109894', 'Calle Norte, Edif. El rosal, Piso 40, Apto. 5215', '43790987', 'Ricardo', 'Luis', 'Pages', 'Martínez', '1950-07-15', 22),
+  ('V223765392', 'Callejon de Negocio, Torre B', '30004464', 'Rafael', 'Eduardo', 'Martinez', 'Mora', '2003-04-28', 23),
+  ('V654321090', 'Calle cedeño, Edif. Residencial', '38589624', 'Luis', 'Alberto', 'Urrutia', 'Pérez', '1988-07-05', 23),
   ('V876543221', 'Av. Principal Los Manzanos, Edificio Comercial', '22783201', 'Verónica', 'Laura', 'Mambiche', 'Fernández', '1993-12-18', 23),
   ('V234567800', 'Ruta Empresarial, Edif. Plaza', '7879234', 'David', NULL, 'Gónzalez', NULL, '1976-09-30', 23),
-('V223735392', 'Callejon de Negocio, Torre D', '33004469', 'Rafael', 'Jose', 'Martinez', 'Monasterio', '2003-04-28', 24),
-  ('V654325098', 'Calle cedeño, Edif. Residencial yaracuy', '38989624', 'Luis', 'Mario', 'Ramos', 'Pérez', '1988-07-05', 24),
+  ('V223735392', 'Callejon de Negocio, Torre D', '33004469', 'Rafael', 'Jose', 'Martinez', 'Monasterio', '2003-04-28', 24),
+  ('V654325090', 'Calle cedeño, Edif. Residencial yaracuy', '38989624', 'Luis', 'Mario', 'Ramos', 'Pérez', '1988-07-05', 24),
   ('V877543221', 'Av. Principal Los Manzanos, Edificio Comercial este', '21783201', 'Verónica', 'Laura', 'Mercedes', 'Ferrero', '1993-12-18', 24),
   ('V284567800', 'Ruta Empresarial, Edif. Plaza', '7871234', 'David', NULL, 'Gorta', NULL, '1976-09-30', 24),
   ('V833209894', 'Calle Norte, Edif. El rosario, Piso 25, Apto. 5215', '43000987', 'Ramiro', 'Luis', 'Perez', 'Martínez', '1950-07-15', 22),
-('V223769992', 'Callejon Santa Elena, Torre D', '30114464', 'Rafael', 'Mario', 'Navarro', 'Mora', '2003-04-28', 23),
+  ('V223769992', 'Callejon Santa Elena, Torre D', '30114464', 'Rafael', 'Mario', 'Navarro', 'Mora', '2003-04-28', 23),
   ('V584321098', 'Calle cedeño, Edif. Residencial Tamanaco', '38566624', 'Luis', 'Alberto', 'Bonito', 'Pérez', '1988-07-05', 23),
   ('V876522221', 'Av. Principal Los Maestros, Edificio Ikebana', '22777201', 'Verónica', 'Maria', 'Nouel', 'Fernández', '1993-12-18', 23),
   ('V234560000', 'Ruta Empresarial, Edif. Plaza Este', '7878834', 'David', 'Jesus', 'Gónzalez', NULL, '1976-09-30', 23),
-('V223744322', 'Callejon Iracoy', '33057469', 'Rafael', 'Del Carmen', 'Carrero', 'Monasterio', '2003-04-28', 24),
+  ('V223744322', 'Callejon Iracoy', '33057469', 'Rafael', 'Del Carmen', 'Carrero', 'Monasterio', '2003-04-28', 24),
   ('V654325055', 'Calle cedeño, Edif. Residencial Las Hermanas', '38999624', 'Luis', 'Simon', 'Ramo', 'Suarez', '1988-07-05', 24),
   ('V877566221', 'Av. Principal Los Delfines, Edificio Comercial Oeste', '21722201', 'Verónica', 'Julieth', 'Moros', 'Ferrero', '1993-12-18', 24),
   ('V284500800', 'Urbanizacion Empresarial, Edif. Vista Alegre', '78711124', 'Maria', NULL, 'Delfin', NULL, '1976-09-30', 24),
@@ -3611,11 +3611,10 @@ INSERT INTO SEDE (
     sede_id, sede_nombre, sede_descripcion, sede_direccion, FK_lugar
 ) VALUES
     (1, 'Sede Principal', 'Sede Central donde se reciben los materiales', 'Av. Principal N° 123', (Select lugar_codigo from lugar where lugar_nombre = 'CATIA LA MAR')),
-    (2, 'Sede Maracay', 'Recibe los materiales de la sede Principal y se realizan las pruebas de calidad', 'Av. Secundaria N° 456', (Select lugar_codigo from lugar where lugar_nombre = 'MARACAY')),
-    (3, 'Sede Valencia', 'Una de las sedes mas grandes', 'Zona Industrial N° 789', (Select lugar_codigo from lugar where lugar_nombre = 'VALENCIA')),
+    (2, 'Sede Maracay', 'Recibe los materiales de la sede Principal y se realizan las pruebas de calidad', 'Av. Secundaria N° 456', (Select lugar_codigo from lugar where lugar_nombre = 'Maracay')),
+    (3, 'Sede Valencia', 'Una de las sedes mas grandes', 'Zona Industrial N° 789', (Select lugar_codigo from lugar where lugar_nombre = 'Valencia')),
     (4, 'Sede Guatire', 'Almacén', 'Calle Logística N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'GUATIRE')),
-    (5, 'Sede Colon', 'Hay ciertas piezas se hacen en esta sede', 'Calle Cedeño N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'COLON'));
-    
+    (5, 'Sede Colon', 'Hay ciertas piezas se hacen en esta sede', 'Calle Cedeño N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'Colón'));
 
 -- Inserción en tabla usuario
 INSERT INTO Usuario (
@@ -4187,19 +4186,63 @@ INSERT INTO Mate_P_Proveedor (
     (9, 350.00, 9, 4),
     (10, 145.00, 10, 5);
 
-INSERT INTO Inventario_Almacen (
-    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim
+INSERT INTO Modelo_Pieza (
+    m_pieza_nombre, m_pieza_descripcion
 ) VALUES
-    (1, 500, 1, 1),
-    (2, 300, 2, 2),
-    (3, 400, 3, 3),
-    (4, 600, 4, 4),
-    (5, 250, 5, 5),
-    (6, 700, 1, 6),
-    (7, 800, 2, 7),
-    (8, 450, 3, 8),
-    (9, 550, 4, 9),
-    (10, 650, 5, 10);
+    ('Alas', 'Otorgan sustentación, soporte estructural, controlabilidad, ayuda en despegue y aterrizaje'),
+    ('Fuselaje', 'Alberga dentro a la cabina de pasajeros'),
+    ('Flaps', 'Parte del ala, comúnmente utilizados en el despegue y el aterrizaje'),
+    ('Alerones', 'Controlan el desplazamiento del avión sobre su eje longitudinal'),
+    ('Spoilers', 'Reducen la sustentación generada por el ala cuando es requerido'),
+    ('Slats', 'Sirven de contrapesos cuando las alas comienzan a generar sustentación'),
+    ('Tren de Aterrizaje', 'Permiten a la aeronave desplazarse por tierra'),
+    ('Instrumentos de Control', 'Permiten al piloto tener conocimiento de los parámetros de vuelo principales'),
+    ('Elementos internos de cabina', 'Componentes diseñados para proporcionar comodidad, seguridad y funcionalidad a los pasajeros y la tripulación'),
+    ('Grupo Motopropulsor', 'Generan tracción necesaria para contrarrestar la resistencia aerodinámica que se genera por la sustentación'),
+    ('Superficie de Sustentación', 'Obtiene una fuerza de reacción cuando se encuentra en movimiento relativo con respecto al aire que la rodea'),
+    ('Estabilizadores', 'Pequeñas alas que garantizan la estabilidad del avión');
+    
+INSERT INTO Pieza (
+    pieza_caracteristica_esp, pieza_fk_modelo_p
+) VALUES
+    ('Trapezoidal', 1),
+    (NULL, 2),
+    (NULL, 3),
+    (NULL, 4),
+    (NULL, 5),
+    (NULL, 6),
+    ('Retráctil', 7),
+    ('Brújula', 8),
+    ('Asiento', 9),
+    ('Sistema de Combustible', 10),
+    ('Hélice', 11),
+    ('En forma de Cruz', 12);
+
+INSERT INTO Inventario_Almacen (
+    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim, FK_pieza
+) VALUES
+    (1, 500, 1, 1, NULL),
+    (2, 300, 2, 2, NULL),
+    (3, 400, 3, 3, NULL),
+    (4, 600, 4, 4, NULL),
+    (5, 250, 5, 5, NULL),
+    (6, 700, 1, 6, NULL),
+    (7, 800, 2, 7, NULL),
+    (8, 450, 3, 8, NULL),
+    (9, 550, 4, 9, NULL),
+    (10, 650, 5, 10, NULL),
+    (11, 20, 2, NULL, 1),
+    (12, 20, 5, NULL, 2),
+    (13, 20, 2, NULL, 3),
+    (14, 20, 2, NULL, 4),
+    (15, 20, 2, NULL, 5),
+    (16, 20, 2, NULL, 6),
+    (17, 20, 5, NULL, 7),
+    (18, 20, 4, NULL, 8),
+    (19, 20, 3, NULL, 9),
+    (20, 20, 1, NULL, 10),
+    (21, 20, 2, NULL, 11),
+    (22, 20, 2, NULL, 12);
 
 INSERT INTO Historico_Tasa_Dolar (
     H_tasa_precio, H_tasa_fecha_inicio, H_tasa_fecha_fin
@@ -4214,6 +4257,114 @@ INSERT INTO Historico_Tasa_Dolar (
     (27, '2023-08-01', '2023-08-31'),
     (28, '2023-09-01', '2023-09-30'),
     (50.12, '2025-01-01', NULL);
+
+INSERT INTO Orden_De_Reposicion (
+    orden_id, orden_fecha, orden_subtotal, orden_total, FK_contrato_per, FK_tasa_dolar
+) VALUES
+    (1, '2021-01-01', NULL, NULL, 1, 1),
+    (2, '2022-02-02', NULL, NULL, 2, 2),
+    (3, '2022-03-03', NULL, NULL, 3, 3),
+    (4, '2022-04-04', NULL, NULL, 4, 4),
+    (5, '2022-05-05', NULL, NULL, 5, 5),
+    (6, '2022-06-06', NULL, NULL, 6, 6),
+    (7, '2022-07-07', NULL, NULL, 7, 7),
+    (8, '2022-08-08', NULL, NULL, 8, 8),
+    (9, '2022-09-09', NULL, NULL, 9, 9),
+    (10, '2022-10-10', NULL, NULL, 10, 10),
+    (11, '2022-11-11', NULL, NULL, 11, 1),
+    (12, '2022-12-12', NULL, NULL, 12, 2),
+    (13, '2023-01-02', NULL, NULL, 13, 3),
+    (14, '2023-02-02', NULL, NULL, 14, 4),
+    (15, '2023-03-03', NULL, NULL, 15, 5),
+    (16, '2023-04-04', NULL, NULL, 16, 6),
+    (17, '2023-05-05', NULL, NULL, 17, 7),
+    (18, '2023-06-06', NULL, NULL, 18, 8),
+    (19, '2023-07-07', NULL, NULL, 19, 9),
+    (20, '2023-08-08', NULL, NULL, 20, 10),
+    (21, '2023-09-09', NULL, NULL, 1, 1),
+    (22, '2023-10-10', NULL, NULL, 2, 2),
+    (23, '2023-11-11', NULL, NULL, 3, 3),
+    (24, '2023-12-12', NULL, NULL, 4, 4),
+    (25, '2023-12-13', NULL, NULL, 5, 5),
+    (26, '2023-12-14', NULL, NULL, 6, 6),
+    (27, '2023-12-15', NULL, NULL, 7, 7),
+    (28, '2023-12-16', NULL, NULL, 8, 8),
+    (29, '2023-12-17', NULL, NULL, 9, 9),
+    (30, '2023-12-18', NULL, NULL, 10, 10),
+    (31, '2023-12-19', NULL, NULL, 11, 1),
+    (32, '2023-12-20', NULL, NULL, 12, 2),
+    (33, '2023-12-21', NULL, NULL, 13, 3),
+    (34, '2023-12-22', NULL, NULL, 14, 4),
+    (35, '2023-12-23', NULL, NULL, 15, 5),
+    (36, '2023-12-24', NULL, NULL, 16, 6),
+    (37, '2023-12-25', NULL, NULL, 17, 7),
+    (38, '2024-01-01', NULL, NULL, 18, 8),
+    (39, '2024-02-02', NULL, NULL, 19, 9),
+    (40, '2024-03-03', NULL, NULL, 20, 10),
+    (41, '2024-04-04', NULL, NULL, 1, 1),
+    (42, '2024-05-05', NULL, NULL, 2, 2),
+    (43, '2024-06-06', NULL, NULL, 3, 3),
+    (44, '2024-07-07', NULL, NULL, 4, 4),
+    (45, '2024-08-08', NULL, NULL, 5, 5),
+    (46, '2024-09-09', NULL, NULL, 6, 6),
+    (47, '2024-10-10', NULL, NULL, 7, 7),
+    (48, '2024-11-11', NULL, NULL, 8, 8),
+    (49, '2024-12-12', NULL, NULL, 9, 9),
+    (50, '2025-01-01', NULL, NULL, 10, 10);
+
+INSERT INTO odr_metodo_pago (
+    odr_metodo_pago_fk_orden, odr_metodo_pago_fk_TDC, odr_metodo_pago_fk_TDD, odr_metodo_pago_fk_cheque, odr_metodo_pago_fk_efectivo, odr_metodo_pago_monto, odr_metodo_pago_fecha
+) VALUES
+    (1, 1, NULL, NULL, NULL, 1111.11, '2022-02-02'),
+    (2, 2, NULL, NULL, NULL, 1111.11, '2022-03-03'),
+    (3, 3, NULL, NULL, NULL, 1111.11, '2022-04-04'),
+    (4, 4, NULL, NULL, NULL, 1111.11, '2022-05-05'),
+    (5, 5, NULL, NULL, NULL, 1111.11, '2022-06-06'),
+    (6, 6, NULL, NULL, NULL, 1111.11, '2022-07-07'),
+    (7, 7, NULL, NULL, NULL, 1111.11, '2022-08-08'),
+    (8, 8, NULL, NULL, NULL, 1111.11, '2022-09-09'),
+    (9, 9, NULL, NULL, NULL, 1111.11, '2022-10-10'),
+    (10, 10, NULL, NULL, NULL, 1111.11, '2022-11-11'),
+    (11, NULL, 11, NULL, NULL, 22222.22, '2022-12-12'),
+    (12, NULL, 12, NULL, NULL, 22222.22, '2023-01-01'),
+    (13, NULL, 13, NULL, NULL, 22222.22, '2023-02-02'),
+    (14, NULL, 14, NULL, NULL, 22222.22, '2023-03-03'),
+    (15, NULL, 15, NULL, NULL, 22222.22, '2023-04-04'),
+    (16, NULL, 16, NULL, NULL, 22222.22, '2023-05-05'),
+    (17, NULL, 17, NULL, NULL, 22222.22, '2023-06-06'),
+    (18, NULL, 18, NULL, NULL, 22222.22, '2023-07-07'),
+    (19, NULL, 19, NULL, NULL, 22222.22, '2023-08-08'),
+    (20, NULL, 20, NULL, NULL, 22222.22, '2023-09-09'),
+    (21, NULL, NULL, 1, NULL, 333333.33, '2023-10-10'),
+    (22, NULL, NULL, 2, NULL, 333333.33, '2023-11-11'),
+    (23, NULL, NULL, 3, NULL, 333333.33, '2023-12-12'),
+    (24, NULL, NULL, 4, NULL, 333333.33, '2023-12-13'),
+    (25, NULL, NULL, 5, NULL, 333333.33, '2023-12-14'),
+    (26, NULL, NULL, 6, NULL, 333333.33, '2023-12-15'),
+    (27, NULL, NULL, 7, NULL, 333333.33, '2023-12-16'),
+    (28, NULL, NULL, 8, NULL, 333333.33, '2023-12-17'),
+    (29, NULL, NULL, 9, NULL, 333333.33, '2023-12-18'),
+    (30, NULL, NULL, 10, NULL, 333333.33, '2023-12-19'),
+    (31, NULL, NULL, NULL, 1, 4444444.44, '2023-12-20'),
+    (32, NULL, NULL, NULL, 2, 4444444.44, '2023-12-21'),
+    (33, NULL, NULL, NULL, 3, 4444444.44, '2023-12-22'),
+    (34, NULL, NULL, NULL, 1, 4444444.44, '2023-12-23'),
+    (35, NULL, NULL, NULL, 1, 4444444.44, '2023-12-24'),
+    (36, NULL, NULL, NULL, 2, 4444444.44, '2023-12-25'),
+    (37, NULL, NULL, NULL, 3, 4444444.44, '2024-01-01'),
+    (38, NULL, NULL, NULL, 1, 4444444.44, '2024-02-02'),
+    (39, NULL, NULL, NULL, 2, 4444444.44, '2024-03-03'),
+    (40, NULL, NULL, NULL, 3, 4444444.44, '2024-04-04'),
+    (41, NULL, NULL, NULL, 1, 4444444.44, '2024-05-05'),
+    (42, NULL, NULL, NULL, 2, 4444444.44, '2024-06-06'),
+    (43, NULL, NULL, NULL, 3, 4444444.44, '2024-07-07'),
+    (44, NULL, NULL, NULL, 1, 4444444.44, '2024-08-08'),
+    (45, NULL, NULL, NULL, 2, 4444444.44, '2024-09-09'),
+    (46, NULL, NULL, NULL, 3, 4444444.44, '2024-10-10'),
+    (47, NULL, NULL, NULL, 1, 4444444.44, '2024-11-11'),
+    (48, NULL, NULL, NULL, 2, 4444444.44, '2024-12-12'),
+    (49, NULL, NULL, NULL, 3, 4444444.44, '2025-01-01'),
+    (50, NULL, NULL, NULL, 1, 4444444.44, '2025-01-04');
 
 INSERT INTO Tipo_Prueba_Mate (
     tipo_pm_id, tipo_pm_nombre, tipo_pm_duracion, FK_zona
@@ -4309,8 +4460,7 @@ VALUES
 (48,'Empuje unitario PW',NULL),
 (49,'Empuje unitario RR', NULL),
 (50,'Empuje unitario GE',NULL),
-(51,'Empuje unitario ER',NULL)
-;
+(51,'Empuje unitario ER',NULL);
 
 
 INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
@@ -4329,7 +4479,6 @@ VALUES
 (12,'AU-747GOLD',NULL),
 (13,'AU-747SILVER',NULL),
 (14,'AU-747SILVERB',NULL);
-
 
 INSERT INTO Modelo_Avion_Caracteristica (modelo_avion_caract_id, modelo_avion_caract_fk_modelo, modelo_avion_caract_fk_caract, modelo_avion_caract_unidad_medida, modelo_avion_caract_valor)
 VALUES
@@ -4650,24 +4799,3 @@ VALUES
 (326,14,35,'Litros',243120),
 (327,14,44,'GE GEnx 2B67',4),
 (328,14,45,'Kn',296);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

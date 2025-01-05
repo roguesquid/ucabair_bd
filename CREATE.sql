@@ -536,8 +536,8 @@ CREATE TABLE Historico_Estatus_Prueba_Avion(
 
 CREATE TABLE Modelo_Avion_Caracteristica(
     modelo_avion_caract_id SERIAL,
-    modelo_avion_caract_valor DECIMAL(10,5),
-    modelo_avion_caract_unidad_medida VARCHAR(50),
+    modelo_avion_caract_valor DECIMAL(15,5),
+    modelo_avion_caract_unidad_medida VARCHAR(70),
     modelo_avion_caract_fk_modelo INTEGER NOT NULL,
     modelo_avion_caract_fk_caract INTEGER NOT NULL,
     CONSTRAINT pk_modelo_avion_caracteristica PRIMARY KEY(modelo_avion_caract_id),
@@ -622,8 +622,8 @@ CREATE TABLE Inventario_Almacen (
     cod_inv_almacen SERIAL,
     inv_alm_cant INTEGER NOT NULL,
     FK_almacen INTEGER NOT NULL,
-    FK_mat_prim INTEGER NOT NULL,
-    FK_pieza INTEGER NOT NULL,
+    FK_mat_prim INTEGER,
+    FK_pieza INTEGER,
     Constraint PK_inventario_almacen primary key (cod_inv_almacen),
     Constraint FK_inventario_almacen_almacen foreign key (FK_almacen) references Almacen (almacen_id),
     Constraint FK_inventario_almacen_mat_prim foreign key (FK_mat_prim) references Materia_prima(materia_p_id),
