@@ -217,3 +217,75 @@ begin
   INNER JOIN Pieza p ON pe.pieza_equipo_fk_pieza = p.pieza_id
   INNER JOIN Modelo_Pieza mp ON p.pieza_fk_modelo_p = mp.m_pieza_id;
 End;
+
+
+--CREAR USUARIOS CLIENTE NATURAL
+CREATE PROCEDURE crear_usuario_cliente_natural(
+  IN persona_nat_rif VARCHAR(20), 
+  IN persona_nat_direccion_fiscal VARCHAR(70), 
+  IN persona_nat_cedula NUMERIC, 
+  IN persona_nat_p_nombre VARCHAR(30), 
+  IN persona_nat_s_nombre VARCHAR(30), 
+  IN persona_nat_p_apellido VARCHAR(30), 
+  IN persona_nat_s_apellido VARCHAR(30), 
+  IN persona_nat_fecha_nac DATE, 
+  IN FK_lugar_fiscal INTEGER,
+  IN telefono_codigo_area VARCHAR(5), 
+  IN telefono_numero VARCHAR(9), 
+  IN correo_nombre VARCHAR(50), 
+  IN usuario_nombre VARCHAR(50), 
+  IN usuario_contrasena VARCHAR(50)
+)
+language plpgsql
+as
+begin
+  INSERT INTO Persona_Natural(persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre, persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal)
+  VALUES(persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre, persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal);
+  
+  INSERT INTO Cliente_Natural(FK_persona_nat, cliente_nat_fecha_inicio_op)
+  VALUES(SELECT currval('persona_natural_persona_nat_codigo_seq'), SELECT(CURRENT_DATE));
+  
+  INSERT INTO Telefono(telefono_codigo_area, telefono_numero, FK_persona_nat)
+  VALUES(telefono_codigo_area, telefono_numero, (SELECT persona_nat_codigo FROM Persona_Natural WHERE persona_nat_cedula = persona_nat_cedula));
+  
+  INSERT INTO Correo(correo_nombre, FK_persona_nat)
+  VALUES(correo_nombre, SELECT currval('persona_natural_persona_nat_codigo_seq'));
+  
+  INSERT INTO usuario(usuario_nombre, usuario_contrasena, usuario_fk_persona_nat, usuario_fk_rol)
+  VALUES(usuario_nombre, usuario_contrasena, SELECT currval('persona_natural_persona_nat_codigo_seq'), 9);
+end;
+
+--CREAR USUARIOS CLIENTE Juridico
+CREATE PROCEDURE crear_usuario_cliente_juridico(
+  IN persona_jur_rif VARCHAR(20), 
+  IN persona_jur_direccion_fiscal VARCHAR(200), 
+  IN persona_jur_razon_social VARCHAR(50), 
+  IN persona_jur_pagina_web VARCHAR(50), 
+  IN persona_jur_direccion_fisica VARCHAR(200), 
+  IN pj_fk_lugar_fiscal INTEGER, 
+  IN pj_fk_lugar_fisica INTEGER, 
+  IN persona_jur_fecha_inicio_op DATE, 
+  IN telefono_codigo_area VARCHAR(5), 
+  IN telefono_numero VARCHAR(9), 
+  IN correo_nombre VARCHAR(50), 
+  IN usuario_nombre VARCHAR(50), 
+  IN usuario_contrasena VARCHAR(50)
+)
+language plpgsql
+as
+begin
+  INSERT INTO Persona_Juridica(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, persona_jur_fecha_inicio_op)
+  VALUES(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, persona_jur_fecha_inicio_op);
+  
+  INSERT INTO cliente_juridico(cj_fk_persona_juri)
+  VALUES(SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  
+  INSERT INTO Telefono(telefono_codigo_area, telefono_numero, FK_persona_jur)
+  VALUES(telefono_codigo_area, telefono_numero, SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  
+  INSERT INTO Correo(correo_nombre, FK_persona_jur)
+  VALUES(correo_nombre, SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  
+  INSERT INTO usuario(usuario_nombre, usuario_contrasena, usuario_fk_persona_jur, usuario_fk_rol)
+  VALUES(usuario_nombre, usuario_contrasena, SELECT currval('persona_juridica_persona_jur_codigo_seq'), 9);
+end;
