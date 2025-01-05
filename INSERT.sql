@@ -4186,19 +4186,63 @@ INSERT INTO Mate_P_Proveedor (
     (9, 350.00, 9, 4),
     (10, 145.00, 10, 5);
 
-INSERT INTO Inventario_Almacen (
-    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim
+INSERT INTO Modelo_Pieza (
+    m_pieza_nombre, m_pieza_descripcion
 ) VALUES
-    (1, 500, 1, 1),
-    (2, 300, 2, 2),
-    (3, 400, 3, 3),
-    (4, 600, 4, 4),
-    (5, 250, 5, 5),
-    (6, 700, 1, 6),
-    (7, 800, 2, 7),
-    (8, 450, 3, 8),
-    (9, 550, 4, 9),
-    (10, 650, 5, 10);
+    ('Alas', 'Otorgan sustentación, soporte estructural, controlabilidad, ayuda en despegue y aterrizaje'),
+    ('Fuselaje', 'Alberga dentro a la cabina de pasajeros'),
+    ('Flaps', 'Parte del ala, comúnmente utilizados en el despegue y el aterrizaje'),
+    ('Alerones', 'Controlan el desplazamiento del avión sobre su eje longitudinal'),
+    ('Spoilers', 'Reducen la sustentación generada por el ala cuando es requerido'),
+    ('Slats', 'Sirven de contrapesos cuando las alas comienzan a generar sustentación'),
+    ('Tren de Aterrizaje', 'Permiten a la aeronave desplazarse por tierra'),
+    ('Instrumentos de Control', 'Permiten al piloto tener conocimiento de los parámetros de vuelo principales'),
+    ('Elementos internos de cabina', 'Componentes diseñados para proporcionar comodidad, seguridad y funcionalidad a los pasajeros y la tripulación'),
+    ('Grupo Motopropulsor', 'Generan tracción necesaria para contrarrestar la resistencia aerodinámica que se genera por la sustentación'),
+    ('Superficie de Sustentación', 'Obtiene una fuerza de reacción cuando se encuentra en movimiento relativo con respecto al aire que la rodea'),
+    ('Estabilizadores', 'Pequeñas alas que garantizan la estabilidad del avión');
+    
+INSERT INTO Pieza (
+    pieza_caracteristica_esp, pieza_fk_modelo_p
+) VALUES
+    ('Trapezoidal', 1),
+    (NULL, 2),
+    (NULL, 3),
+    (NULL, 4),
+    (NULL, 5),
+    (NULL, 6),
+    ('Retráctil', 7),
+    ('Brújula', 8),
+    ('Asiento', 9),
+    ('Sistema de Combustible', 10),
+    ('Hélice', 11),
+    ('En forma de Cruz', 12);
+
+INSERT INTO Inventario_Almacen (
+    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim, FK_pieza
+) VALUES
+    (1, 500, 1, 1, NULL),
+    (2, 300, 2, 2, NULL),
+    (3, 400, 3, 3, NULL),
+    (4, 600, 4, 4, NULL),
+    (5, 250, 5, 5, NULL),
+    (6, 700, 1, 6, NULL),
+    (7, 800, 2, 7, NULL),
+    (8, 450, 3, 8, NULL),
+    (9, 550, 4, 9, NULL),
+    (10, 650, 5, 10, NULL),
+    (11, 20, 2, NULL, 1),
+    (12, 20, 5, NULL, 2),
+    (13, 20, 2, NULL, 3),
+    (14, 20, 2, NULL, 4),
+    (15, 20, 2, NULL, 5),
+    (16, 20, 2, NULL, 6),
+    (17, 20, 5, NULL, 7),
+    (18, 20, 4, NULL, 8),
+    (19, 20, 3, NULL, 9),
+    (20, 20, 1, NULL, 10),
+    (21, 20, 2, NULL, 11),
+    (22, 20, 2, NULL, 12);
 
 INSERT INTO Historico_Tasa_Dolar (
     H_tasa_precio, H_tasa_fecha_inicio, H_tasa_fecha_fin
