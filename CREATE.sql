@@ -480,7 +480,7 @@ CREATE TABLE Estatus_Prueba_Pieza (
 CREATE TABLE Tipo_Prueba_Pieza (
     tipo_pp_id SERIAL,
     tipo_pp_nombre VARCHAR(50) NOT NULL,
-    tipo_pp_duracion TIME NOT NULL, --debe ir en horas laborables
+    tipo_pp_duracion INTERVAL NOT NULL, --debe ir en horas laborables
     FK_zona_tip_pru_pie INTEGER,
     CONSTRAINT PK_tipo_prueba_pieza PRIMARY KEY (tipo_pp_id),
     CONSTRAINT FK_zona_tipo_prueba_pieza FOREIGN KEY (FK_zona_tip_pru_pie) REFERENCES Zona(zona_id)
