@@ -540,7 +540,7 @@ CREATE TABLE Historico_Estatus_Prueba_Avion(
 CREATE TABLE Modelo_Avion_Caracteristica(
     modelo_avion_caract_id SERIAL,
     modelo_avion_caract_valor DECIMAL(10,5),
-    modelo_avion_caract_unidad_medida VARCHAR(20),
+    modelo_avion_caract_unidad_medida VARCHAR(50),
     modelo_avion_caract_fk_modelo INTEGER NOT NULL,
     modelo_avion_caract_fk_caract INTEGER NOT NULL,
     CONSTRAINT pk_modelo_avion_caracteristica PRIMARY KEY(modelo_avion_caract_id),
