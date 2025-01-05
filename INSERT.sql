@@ -3235,7 +3235,8 @@ INSERT INTO Persona_Natural (
 ('V223744322', 'Callejon Iracoy', '33057469', 'Rafael', 'Del Carmen', 'Carrero', 'Monasterio', '2003-04-28', 24),
   ('V654325055', 'Calle cedeño, Edif. Residencial Las Hermanas', '38999624', 'Luis', 'Simon', 'Ramo', 'Suarez', '1988-07-05', 24),
   ('V877566221', 'Av. Principal Los Delfines, Edificio Comercial Oeste', '21722201', 'Verónica', 'Julieth', 'Moros', 'Ferrero', '1993-12-18', 24),
-  ('V284500800', 'Urbanizacion Empresarial, Edif. Vista Alegre', '78711124', 'Maria', NULL, 'Delfin', NULL, '1976-09-30', 24);
+  ('V284500800', 'Urbanizacion Empresarial, Edif. Vista Alegre', '78711124', 'Maria', NULL, 'Delfin', NULL, '1976-09-30', 24),
+  ('V118329080', 'Urbanizacion Giraluna, Calle 19 sur', '11832908', 'Zahorí', 'Gregorina', 'Mago', 'Rodriguez', '1974-10-09', 24);
 
 INSERT INTO Cliente_Natural 
 (FK_persona_nat, cliente_nat_fecha_inicio_op)
@@ -3616,19 +3617,51 @@ INSERT INTO SEDE (
     (5, 'Sede Colon', 'Hay ciertas piezas se hacen en esta sede', 'Calle Cedeño N° 321', (Select lugar_codigo from lugar where lugar_nombre = 'COLON'));
     
 
-
-INSERT INTO Usuario (usuario_nombre, usuario_contrasena, usuario_fk_persona_nat, usuario_fk_persona_jur, usuario_fk_rol)
-VALUES
-  ('abccomp', '123456', NULL, 1, 8),
-  ('xyzcorpo', '123456', NULL, 2, 8),
-  ('lmartin', '123456', NULL, 11, 10),
-  ('msuarez', '123456', 10, NULL, 2),
-  ('zroa', '123456', 21, NULL, 9),
-  ('pepito32', '123456', 26, NULL, 9),
-  ('joseperez', '123456', 27, NULL, 9),
-  ('mariag', '123456', 28, NULL, 9),
-  ('carlosm', '123456', 29, NULL, 9),
-  ('anarod', '123456', 30, NULL, 9);
+-- Inserción en tabla usuario
+INSERT INTO Usuario (
+    usuario_nombre, usuario_contrasena, usuario_fk_persona_nat, usuario_fk_persona_jur, usuario_fk_rol
+) VALUES
+    ('mgonzales', 123456, 10, NULL, 2),
+    ('cjperez', 123456, 11, NULL, 3), 
+    ('immartinez', 123456, 12, NULL, 5),
+    ('fjgomez', 123456, 13, NULL, 2),
+    ('cfernandez', 123456, 14, NULL, 3),
+    ('etorres', 123456, 15, NULL, 6),
+    ('lrmartin', 123456, 16, NULL, 7),
+    ('mfsuarez', 123456, 17, NULL, 1),
+    ('zvroa', 123456, 18, NULL, 3),
+    ('leandrade', 123456, 19, NULL, 8),
+    ('remarcano', 123456, 20, NULL, 8),
+    ('lagonzales', 123456, 21, NULL, 4),
+    ('vimartinez', 123456, 22, NULL, 9),
+    ('dgomez', 123456, 23, NULL, 10),
+    ('dcrodriguez', 123456, 24, NULL, 6),
+    ('magutierrez', 123456, 25, NULL, 11),
+    ('mjperez', 123456, 26, NULL, 4),
+    ('jpgonzales', 123456, 27, NULL, 4),
+    ('amlopez', 123456, 28, NULL, 2),
+    ('casanchez', 123456, 29, NULL, 1),
+    ('plperez', 123456, 30, NULL, 1),
+    ('plperezz', 123456, 31, NULL, 1),
+    ('rlpages', 123456, 32, NULL, 12),
+    ('remartinez', 123456, 33, NULL, 4),
+    ('laurrutia', 123456, 34, NULL, 4),
+    ('vlmambiche', 123456, 35, NULL, 13),
+    ('dgonzalez', 123456, 36, NULL, 3),
+    ('rjmartinez', 123456, 37, NULL, 14),
+    ('lmramos', 123456, 11, 38, 2),
+    ('vlmercedes', 123456, 39, NULL, 15),
+    ('dgorta', 123456, 40, NULL, 8),
+    ('rlperez', 123456, 41, NULL, 10),
+    ('rmnavarro', 123456, 42, NULL, 10),
+    ('labonito', 123456, 43, NULL, 9),
+    ('vmnouel', 123456, 44, NULL, 9),
+    ('djgonzalez', 123456, 45, NULL, 7),
+    ('rdccarrero', 123456, 46, NULL, 7),
+    ('lsramo', 123456, 47, NULL, 6),
+    ('vjmoros', 123456, 48, NULL, 5),
+    ('mdelfin', 123456, 49, NULL, 4),
+    ('zgmago', 123456, 50, NULL, 16);
 
 INSERT INTO Banco (banco_nombre)
 VALUES
