@@ -438,7 +438,7 @@ CREATE TABLE Orden_De_Reposicion (
     orden_fecha DATE NOT NULL,
     orden_subtotal INTEGER,
     orden_total INTEGER,
-    FK_contrato_per INTEGER NOT NULL,
+    FK_contrato_per INTEGER,
     FK_tasa_dolar INTEGER NOT NULL,
     CONSTRAINT PK_orden_de_reposicion PRIMARY KEY (orden_id),
     CONSTRAINT FK_contrato_orden_de_reposicion FOREIGN KEY (FK_contrato_per) REFERENCES Contrato_de_personal(contrato_codigo),
