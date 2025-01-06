@@ -1,20 +1,21 @@
 -- Listado de proveedores con los productos / servicios que ofrecen
 CREATE PROCEDURE proveedores_productos()
-language plpgsql
-as
-begin
-  SELECT persona_jur_razon_social, materia_p_nombre, 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  SELECT persona_jur_razon_social, materia_p_nombre 
   FROM Persona_Juridica
   INNER JOIN proveedor ON proveedor.prov_fk_persona_juri = Persona_Juridica.persona_jur_codigo
   INNER JOIN Mate_P_Proveedor ON proveedor.cod_proveedor = Mate_P_Proveedor.FK_prov 
   INNER JOIN Materia_Prima ON Materia_prima.materia_p_id = Mate_P_Proveedor.FK_materia_prima
-end;
+end
+$$;
 
 -- Lista de los ingresos al inventario por solicitudes a los proveedores.
 CREATE PROCEDURE  ingresos_inventario_por_solicitudes_a_proveedores()
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   SELECT detalle_orden_cod as id, materia_p_nombre as producto,detalle_orden_cantidad as cantidad, fecha_hora_inicio_estatus as fecha, sede_nombre as sede, persona_jur_razon_social as proveedor
   FROM Orden_De_Reposicion odr
   INNER JOIN Historico_Estatus_Orden heo ON odr.orden_id = heo.FK_orden_rep
@@ -30,13 +31,14 @@ begin
   INNER JOIN Area a ON z.FK_area = a.area_id
   INNER JOIN Sede s ON a.FK_sede = s.sede_id
   WHERE eo.estatus_ord_nombre = 'Completada';
-end;
+end
+$$;
 
 -- Lista de pagos realizados a los proveedores por período de tiempo.
 CREATE PROCEDURE pagos_proveedores_por_periodo(IN fecha_inicio DATE, IN fecha_fin DATE)
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   SELECT odr_metodo_pago_id as id, persona_jur_razon_social as nombre,odr_metodo_pago_fecha as fecha, odr_metodo_pago_monto as monto
   FROM odr_metodo_pago omp
   INNER JOIN Orden_De_Reposicion odr ON omp.odr_metodo_pago_fk_orden = odr.orden_id
@@ -45,93 +47,41 @@ begin
   INNER JOIN Proveedor p ON mpp.FK_prov = p.cod_proveedor
   INNER JOIN Persona_Juridica pj ON p.prov_fk_persona_juri = pj.persona_jur_codigo
   WHERE odr_metodo_pago_fecha BETWEEN fecha_inicio AND fecha_fin;
-end;
+end
+$$;
 
 -- Lista de modelos de avión con las piezas (formato que está en el enunciado)
 CREATE PROCEDURE modelos_avion_piezas()
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   SELECT mp.m_pieza_nombre, mp.m_pieza_descripcion, ma.modelo_avion_nombre
   FROM Modelo_Pieza mp
   INNER JOIN Componente ON mp.m_pieza_id = Componente.componente_fk_pieza_principal
   INNER JOIN Modelo_Pieza mpDos ON Componente.componente_fk_pieza_componente = mpDos.m_pieza_id
   INNER JOIN ma_mp ON mp.m_pieza_id = ma_mp.ma_mp_fk_modelo_pieza
   INNER JOIN Modelo_Avion ma ON ma_mp.ma_mp_fk_modelo_avion = ma.modelo_avion_id
-end;
+end
+$$;
 
-
-
-
-
-
-CREATE TABLE Modelo_Avion (
-    modelo_avion_id INTEGER NOT NULL,
-    modelo_avion_descripcion VARCHAR(200) NOT NULL,
-    modelo_avion_nombre VARCHAR(50) NOT NULL,
-    modelo_avion_longitud DECIMAL(10,2) NOT NULL,
-    modelo_avion_capacidad INTEGER NOT NULL,
-    modelo_avion_altura DECIMAL(10,2) NOT NULL,
-    CONSTRAINT PK_modelo_avion PRIMARY KEY (modelo_avion_id)
-);
-
-CREATE TABLE tipo_prueba_avion(
-    tipo_pa_id SERIAL,
-    tipo_pa_nombre VARCHAR(20) NOT NULL,
-    tipo_pa_duracion TIME NOT NULL, --VA EN HORAS LABORALES
-    tipo_pa_fk_zona INTEGER NOT NULL,
-    tipo_pa_fk_modelo_avion INTEGER NOT NULL,
-    CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
-    CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id),
-    CONSTRAINT fk_modelo_avion_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id)
-);
-
-CREATE TABLE Zona (
-    zona_id SERIAL,
-    zona_nombre VARCHAR(50) NOT NULL,
-    zona_descripcion VARCHAR(200) NOT NULL,
-    FK_area INTEGER,
-    Constraint PK_zona primary key (zona_id),
-    Constraint FK_zona_area foreign key (FK_area) references Area(area_id)
-);
-
-CREATE TABLE Equipo (
-    codigo_equipo SERIAL,
-    fecha_hora_inicio TIMESTAMP NOT NULL,
-    fecha_hora_fin TIMESTAMP,
-    FK_cont_per INTEGER NOT NULL,
-    FK_zona INTEGER,
-    Constraint PK_equipo primary key (codigo_equipo),
-    Constraint FK_equipo_cont_per foreign key (FK_cont_per) references Contrato_de_personal(contrato_codigo),
-    Constraint FK_equipo_zona foreign key (FK_zona) references Zona(zona_id)
-);
 --  Lista de modelos de avión con los tipos de prueba que se deben realizar para su construcción junto a los cargos involucración indicando la duración de cada una
 
 CREATE PROCEDURE modelos_avion_pruebas_cargos()
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   SELECT modelo_avion_nombre, tipo_pa_nombre, tipo_pa_duracion, zona_nombre
   FROM Modelo_Avion
   INNER JOIN tipo_prueba_avion ON modelo_avion_id = tipo_pa_fk_modelo_avion
   INNER JOIN Zona ON tipo_pa_fk_zona = zona_id;
-end;
-
-
-
-
-
-
-
-
-
-
+end
+$$;
 
 -- Lista de empleados con su horario.
 CREATE PROCEDURE empleados_horario()
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   CREATE VIEW horarios_por_empleado AS
     SELECT
       pn.persona_nat_p_nombre || ' ' || pn.persona_nat_p_apellido AS nombre_completo,
@@ -156,13 +106,14 @@ begin
       nombre_completo;
 
   DROP VIEW horarios_por_empleado;
-end;
+end
+$$;
 
 --Lista de empleados con proyectos asignados. (pruebas y ensamble)
 CREATE PROCEDURE empleados_proyectos_asignados()
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   SELECT
     pn.persona_nat_p_nombre || ' ' || pn.persona_nat_p_apellido AS nombre_completo,
     tpp.tipo_pp_nombre AS proyecto,
@@ -216,7 +167,8 @@ begin
   INNER JOIN Pieza_Equipo pe ON eq.codigo_equipo = pe.pieza_equipo_fk_equipo
   INNER JOIN Pieza p ON pe.pieza_equipo_fk_pieza = p.pieza_id
   INNER JOIN Modelo_Pieza mp ON p.pieza_fk_modelo_p = mp.m_pieza_id;
-End;
+end
+$$;
 
 
 --CREAR USUARIOS CLIENTE NATURAL
