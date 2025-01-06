@@ -697,7 +697,7 @@ CREATE TABLE Pedido(
     pedido_total DECIMAL(10,2),
     pedido_fk_cliente_jur INTEGER,
     pedido_fk_cliente_nat INTEGER,
-    pedido_fk_sede INTEGER NOT NULL,
+    pedido_fk_sede INTEGER,
     pedido_fk_historico_tasa_dolar INTEGER NOT NULL,
     CONSTRAINT pk_pedido PRIMARY KEY(pedido_id),
     CONSTRAINT fk_cliente_jur_pedido FOREIGN KEY(pedido_fk_cliente_jur) REFERENCES cliente_juridico(cod_cliente_juri),
@@ -792,3 +792,15 @@ CREATE TABLE ma_mp(
     CONSTRAINT fk_modelo_avion_ma_mp FOREIGN KEY(ma_mp_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id),
     CONSTRAINT fk_modelo_pieza_ma_mp FOREIGN KEY(ma_mp_fk_modelo_pieza) REFERENCES Modelo_Pieza(m_pieza_id)
 );
+
+CREATE TABLE Pieza_caracteristica (
+    pieza_caracteristica_id SERIAL,
+    fk_modelo_pieza INTEGER NOT NULL,
+    fk_caracteristica INTEGER NOT NULL,
+    Constraint pk_pieza_caracteristica PRIMARY KEY (pieza_caracteristica_id),
+    Constraint fk_pieza_caracteristica_pieza FOREIGN KEY (fk_modelo_pieza) REFERENCES Modelo_Pieza(m_pieza_id),
+    Constraint fk_pieza_caracteristica_caracteristica FOREIGN KEY (fk_caracteristica) REFERENCES Caracteristica(caracteristica_id)
+);
+
+
+

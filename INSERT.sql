@@ -3521,7 +3521,7 @@ VALUES
   ('0424','6543210', 28),
   ('0424','5432109', 29);
 
-INSERT INTO "privilegio" ("privilegio_codigo", "privilegio_descripcion", "privilegio_tipo") 
+INSERT INTO privilegio (privilegio_codigo, privilegio_descripcion, privilegio_tipo) 
 VALUES ('1', 'Consultar datos de cualquier producto', 'Producto'), ('2', 'Crear nuevos productos', 'Producto'), ('3', 'Actualizar datos de cualquier producto', 'Producto'), ('4', 'Eliminar cualquier producto', 'Producto'), ('65', 'Consultar datos de cualquier material', 'Material'), ('66', 'Crear nuevos materiales', 'Material'), ('67', 'Actualizar datos de cualquier material', 'Material'), ('68', 'Eliminar cualquier material', 'Material'), ('85', 'Consultar datos de cualquier histórico de precio de venta', 'HistoricoPrecioVenta'), ('86', 'Consultar datos de cualquier histórico de precio de compra', 'HistoricoPrecioCompra'), ('87', 'Consultar datos de cualquier histórico de tasa de dólar', 'HistoricoTasaDolar'), ('88', 'Consultar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('89', 'Actualizar datos de cualquier inventario de tienda', 'Inventario Tienda'), ('90', 'Consultar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('91', 'Actualizar datos de cualquier inventario de almacén', 'Inventario Almacen'), ('94', 'Consultar datos de cualquier factura', 'Factura'), ('95', 'Crear nuevas facturas', 'Factura'), ('96', 'Actualizar datos de cualquier factura', 'Factura'), ('97', 'Eliminar cualquier factura', 'Factura'), ('98', 'Consultar datos de cualquier pedido', 'Pedido'), ('99', 'Crear nuevos pedidos', 'Pedido'), ('100', 'Actualizar datos de cualquier pedido', 'Pedido'), ('101', 'Eliminar cualquier pedido', 'Pedido'), ('102', 'Consultar datos de cualquier orden de reposición', 'Orden Reposicion'), ('103', 'Crear nuevas órdenes de reposición', 'Orden Reposicion'), ('104', 'Actualizar datos de cualquier orden de reposición', 'Orden Reposicion'), ('105', 'Eliminar cualquier orden de reposición', 'Orden Reposicion'), ('106', 'Consultar datos de cualquier estatus de orden', 'Estatus Orden'), ('107', 'Crear nuevos estatus de orden', 'Estatus Orden'), ('108', 'Actualizar datos de cualquier estatus de orden', 'Estatus Orden'), ('109', 'Eliminar datos de cualquier estatus de orden', 'Estatus Orden'), ('110', 'Consultar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('111', 'Crear nuevos estatus de pedido', 'Estatus Pedido'), ('112', 'Actualizar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('113', 'Eliminar datos de cualquier estatus de pedido', 'Estatus Pedido'), ('114', 'Consultar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('115', 'Crear nuevos clientes jurídicos', 'Cliente Juridico'), ('116', 'Actualizar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('117', 'Eliminar datos de cualquier clientes jurídico', 'Cliente Juridico'), ('118', 'Consultar datos de cualquier clientes natural', 'Cliente Natural'), ('119', 'Crear nuevos clientes natural', 'Cliente Natural'), ('120', 'Actualizar datos de cualquier clientes natural', 'Cliente Natural'), ('121', 'Eliminar datos de cualquier clientes natural', 'Cliente Natural'), ('122', 'Consultar datos de cualquier proveedor', 'Proveedor'), ('123', 'Crear nuevos proveedores', 'Proveedor'), ('124', 'Actualizar datos de cualquier proveedor', 'Proveedor'), ('125', 'Eliminar datos de cualquier proveedor', 'Proveedor'), ('126', 'Consultar datos de cualquier empleado', 'Empleado'), ('127', 'Crear nuevos empleados', 'Empleado'), ('128', 'Actualizar datos de cualquier empleado', 'Empleado'), ('129', 'Eliminar datos de cualquier empleado', 'Empleado'), ('130', 'Consultar datos de cualquier departamento', 'Departamento'), ('131', 'Crear nuevos departamentos', 'Departamento'), ('132', 'Actualizar datos de cualquier departamento', 'Departamento'), ('133', 'Eliminar datos de cualquier departamento', 'Departamento'), ('134', 'Consultar datos de cualquier horario', 'Horario'), ('135', 'Crear nuevos horarios', 'Horario'), ('136', 'Actualizar datos de cualquier horario', 'Horario'), ('137', 'Eliminar datos de cualquier horario', 'Horario'), ('138', 'Consultar datos de cualquier cargo', 'Cargo'), ('139', 'Crear nuevos cargos', 'Cargo'), ('140', 'Actualizar datos de cualquier cargo', 'Cargo'), ('141', 'Eliminar datos de cualquier cargo', 'Cargo'), ('142', 'Consultar datos de cualquier beneficio', 'Beneficio'), ('143', 'Crear nuevos beneficios', 'Beneficio'), ('144', 'Actualizar datos de cualquier beneficio', 'Beneficio'), ('145', 'Eliminar datos de cualquier beneficio', 'Beneficio'), ('146', 'Consultar datos de cualquier banco', 'Banco'), ('147', 'Crear nuevos bancos', 'Banco'), ('148', 'Actualizar datos de cualquier banco', 'Banco'), ('149', 'Eliminar datos de cualquier banco', 'Banco'), ('158', 'Consultar datos de cualquier rol', 'Rol'), ('159', 'Crear nuevos roles', 'Rol'), ('160', 'Actualizar datos de cualquier rol', 'Rol'), ('161', 'Eliminar datos de cualquier rol', 'Rol'), ('162', 'Consultar datos de cualquier usuario', 'Usuario'), ('163', 'Crear nuevos usuarios', 'Usuario'), ('164', 'Actualizar datos de cualquier usuario', 'Usuario'), ('165', 'Eliminar datos de cualquier usuario', 'Usuario'), ('166', 'Consultar acciones de usuario', 'Usuario'), ('167', 'Consultar datos de cualquier permiso', 'Permiso'), ('168', 'Crear nuevos permisos', 'Permiso'), ('169', 'Actualizar datos de cualquier permiso', 'Permiso'), ('170', 'Eliminar datos de cualquier permiso', 'Permiso'), ('171', 'Consultar datos de cualquier metodo de pago', 'Metodos de Pago'), ('172', 'Crear nuevos metodos de pago', 'Metodos de Pago'), ('173', 'Actualizar datos de cualquier metodo de pago', 'Metodos de Pago'), ('174', 'Eliminar datos de cualquier metodo de pago', 'Metodos de Pago'), ('175', 'Crear Modelo de Avion', 'Modelo de Avion'), ('176', 'Consultar Modelo de Avion', 'Modelo de Avion'), ('177', 'Actualizar Modelo de Avion', 'Modelo de Avion'), ('178', 'Eliminar Modelo de Avion', 'Modelo de Avion'), ('179', 'Crear Avion', 'Avion'), ('180', 'Consultar Avion', 'Avion'), ('181', 'Actualizar Avion', 'Avion'), ('182', 'Eliminar Avion', 'Avion'), ('183', 'Crear Pieza', 'Pieza'), ('184', 'Consultar Pieza', 'Pieza'), ('185', 'Actualizar Pieza', 'Pieza'), ('186', 'Eliminar Pieza', 'Pieza'), ('187', 'Crear Prueba', 'Prueba'), ('188', 'Consultar Prueba', 'Prueba'), ('189', 'Actualizar Prueba', 'Prueba'), ('190', 'Eliminar Prueba', 'Prueba'), ('191', 'Crear Tipo Prueba', 'Tipo Prueba'), ('192', 'Consultar Tipo Prueba', 'Tipo Prueba'), ('193', 'Actualizar Tipo Prueba', 'Tipo Prueba'), ('194', 'Eliminar Tipo Prueba', 'Tipo Prueba'), ('195', 'Crear Area', 'Area'), ('196', 'Consultar Area', 'Area'), ('197', 'Actualizar Area', 'Area'), ('198', 'Eliminar Area', 'Area'), ('199', 'Crear Zona', 'Zona'), ('200', 'Consultar Zona', 'Zona'), ('201', 'Actualizar Zona', 'Zona'), ('202', 'Eliminar Zona', 'Zona'), ('203', 'Crear Sede', 'Sede'), ('204', 'Consultar Sede', 'Sede'), ('205', 'Actualizar Sede', 'Sede'), ('206', 'Eliminar Sede', 'Sede'), ('207', 'Crear Equipo', 'Equipo'), ('208', 'Consultar Equipo', 'Equipo'), ('209', 'Actualizar Equipo', 'Equipo'), ('210', 'Eliminar Equipo', 'Equipo');
 
 INSERT INTO Rol (rol_nombre)
@@ -3543,7 +3543,7 @@ VALUES
   ('Empleado administración'),
   ('Empleado almacén');
 
-INSERT INTO "rol_privilegio" ("id_rol_privilegio", "rp_fk_rol", "rp_fk_privilegio") 
+INSERT INTO rol_privilegio (id_rol_privilegio, rp_fk_rol, rp_fk_privilegio) 
 VALUES 
 ('1', '1', '114'), 
 ('2', '1', '115'), ('3', '1', '116'), 
@@ -4113,7 +4113,11 @@ INSERT INTO estatus_pedido (
     (2, 'Procesado', 'Pedido procesado y empaquetado'),
     (3, 'En Envío', 'Pedido en tránsito al cliente'),
     (4, 'Entregado', 'Pedido recibido por el cliente'),
-    (5, 'Cancelado', 'Pedido cancelado por el cliente');
+    (5, 'Cancelado', 'Pedido cancelado por el cliente'),
+    (6, 'Procesado', 'Pedido procesado y empaquetado'),
+    (7, 'En Envío', 'Pedido en tránsito al cliente'),
+    (8, 'Entregado', 'Pedido recibido por el cliente'),
+    (9, 'Cancelado', 'Pedido cancelado por el cliente');
 
 
 
@@ -4345,6 +4349,22 @@ INSERT INTO Orden_De_Reposicion (
     (49, '2024-12-12', NULL, NULL, 9, 9),
     (50, '2025-01-01', NULL, NULL, 10, 10);
 
+    INSERT INTO historico_estatus_orden (
+    hist_est_ord_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_orden_rep, fk_estatus_orden
+) VALUES
+    (1, '2021-01-01 08:00:00', '2021-01-01 12:00:00', 1, 1),
+    (2, '2022-02-02 08:00:00', '2022-02-02 12:00:00', 2, 2),
+    (3, '2022-03-03 08:00:00', '2022-03-03 12:00:00', 3, 3),
+    (4, '2022-04-04 08:00:00', '2022-04-04 12:00:00', 4, 4),
+    (5, '2022-05-05 08:00:00', '2022-05-05 12:00:00', 5, 1),
+    (6, '2022-06-06 08:00:00', '2022-06-06 12:00:00', 6, 2),
+    (7, '2022-07-07 08:00:00', '2022-07-07 12:00:00', 7, 3),
+    (8, '2022-08-08 08:00:00', '2022-08-08 12:00:00', 8, 4),
+    (9, '2022-09-09 08:00:00', '2022-09-09 12:00:00', 9, 1),
+    (10, '2022-10-10 08:00:00', '2022-10-10 12:00:00', 10, 2);
+
+  
+
 INSERT INTO odr_metodo_pago (
     odr_metodo_pago_fk_orden, odr_metodo_pago_fk_TDC, odr_metodo_pago_fk_TDD, odr_metodo_pago_fk_cheque, odr_metodo_pago_fk_efectivo, odr_metodo_pago_monto, odr_metodo_pago_fecha
 ) VALUES
@@ -4493,7 +4513,18 @@ VALUES
 (48,'Empuje unitario PW',NULL),
 (49,'Empuje unitario RR', NULL),
 (50,'Empuje unitario GE',NULL),
-(51,'Empuje unitario ER',NULL);
+(51,'Empuje unitario ER',NULL),
+(52,'Forma Aerodinámica', 'Diseñada para minimizar la resistencia del aire'),
+(53,'Material Ligero', 'Construida con materiales ligeros para reducir el peso total'),
+(54,'Alta Resistencia', 'Capaz de soportar grandes cargas y tensiones'),
+(55,'Flexibilidad', 'Capaz de doblarse ligeramente sin romperse'),
+(56,'Resistencia a la Corrosión', 'Protegida contra el desgaste por oxidación'),
+(57,'Fácil Mantenimiento', 'Diseñada para ser fácilmente reparable y mantenible'),
+(58,'Durabilidad', 'Fabricada para tener una larga vida útil'),
+(59,'Compatibilidad', 'Interoperable con otras piezas y sistemas del avión'),
+(60,'Precisión', 'Fabricada con tolerancias estrictas para un ajuste perfecto'),
+(61,'Eficiencia Energética', 'Optimizada para el consumo mínimo de energía');
+
 
 
 INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
@@ -4519,7 +4550,8 @@ INSERT INTO avion (
     (NULL, NULL, 'YV100A', 1),
     (NULL, NULL, 'YV200B', 2),
     (NULL, NULL, 'YV300C', 3),
-    (NULL, NULL, 'YV400D', 4);
+    (NULL, NULL, 'YV400D', 4),
+    (NULL, NULL, 'YV500E', 5);
 
 INSERT INTO tipo_prueba_avion (
     tipo_pa_nombre, tipo_pa_duracion, tipo_pa_fk_zona, tipo_pa_fk_modelo_avion
@@ -4873,3 +4905,332 @@ VALUES
 (326,14,35,'Litros',243120),
 (327,14,44,'GE GEnx 2B67',4),
 (328,14,45,'Kn',296);
+
+INSERT INTO Detalle_orden_reposicion (
+    detalle_orden_cod, detalle_orden_cantidad, detalle_orden_precio_unitario, fk_orden, fk_mp_prov
+) VALUES
+    (1, 10, 15.00, 1, 1),
+    (2, 20, 25.00, 2, 2),
+    (3, 30, 30.00, 3, 3),
+    (4, 40, 12.00, 4, 4),
+    (5, 50, 40.00, 5, 5),
+    (6, 60, 18.00, 6, 1),
+    (7, 70, 22.00, 7, 2),
+    (8, 80, 27.50, 8, 3),
+    (9, 90, 35.00, 9, 4),
+    (10, 100, 14.50, 10, 5);
+
+
+    INSERT INTO pieza_avion (
+    pieza_avion_id, pieza_avion_fk_pieza, pieza_avion_fk_avion
+) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 4, 4),
+    (5, 5, 1),
+    (6, 6, 2),
+    (7, 7, 3),
+    (8, 8, 4),
+    (9, 9, 1),
+    (10, 10, 2);
+
+
+
+    -- Inserciones para la tabla estatus_prueba_mate
+INSERT INTO estatus_prueba_pieza (
+    estatus_pp_id, estatus_pp_nombre, estatus_pp_descripcion
+) VALUES
+    (1, 'En Progreso', 'Prueba en ejecución'),
+    (2, 'Completa', 'Prueba finalizada exitosamente'),
+    (3, 'Fallida', 'Prueba no cumplió los estándares'),
+    (4, 'En Progreso', 'Prueba en ejecución'),
+    (5, 'Completa', 'Prueba finalizada exitosamente'),
+    (6, 'Fallida', 'Prueba no cumplió los estándares');
+
+    INSERT INTO historico_estatus_prueba_pieza (
+    hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza
+) VALUES
+    (1, '2025-01-01 08:00:00', '2025-01-01 12:00:00', 1, 1),
+    (2, '2025-01-02 08:00:00', '2025-01-02 12:00:00', 2, 2),
+    (3, '2025-01-03 08:00:00', '2025-01-03 12:00:00', 3, 3),
+    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 4),
+    (5, '2025-01-05 08:00:00', '2025-01-05 12:00:00', 5, 1),
+    (6, '2025-01-06 08:00:00', '2025-01-06 12:00:00', 6, 2),
+    (7, '2025-01-07 08:00:00', '2025-01-07 12:00:00', 7, 3),
+    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 4),
+    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 5),
+    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 6);
+
+INSERT INTO estatus_prueba_avion (
+    estatus_pa_id, estatus_pa_nombre, estatus_pa_descripcion
+) VALUES
+    (1, 'En Progreso', 'Prueba en ejecución'),
+    (2, 'Completa', 'Prueba finalizada exitosamente'),
+    (3, 'Fallida', 'Prueba no cumplió los estándares'),
+    (4, 'En Progreso', 'Prueba en ejecución'),
+    (5, 'Completa', 'Prueba finalizada exitosamente'),
+    (6, 'Fallida', 'Prueba no cumplió los estándares');
+
+INSERT INTO historico_estatus_prueba_avion (
+    hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion
+) VALUES
+    (1, '2025-01-01 08:00:00', '2025-01-01 12:00:00', 1, 1),
+    (2, '2025-01-02 08:00:00', '2025-01-02 12:00:00', 2, 2),
+    (3, '2025-01-03 08:00:00', '2025-01-03 12:00:00', 3, 3),
+    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 4),
+    (5, '2025-01-05 08:00:00', '2025-01-05 12:00:00', 5, 1),
+    (6, '2025-01-06 08:00:00', '2025-01-06 12:00:00', 6, 2),
+    (7, '2025-01-07 08:00:00', '2025-01-07 12:00:00', 7, 3),
+    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 4),
+    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 5),
+    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 6);
+
+    INSERT INTO mat_prima_pieza (
+    mat_p_pieza_id, mat_p_pieza_cantidad, fk_pieza, fk_mat_prima
+) VALUES
+    (1, 100, 1, 1),
+    (2, 200, 2, 2),
+    (3, 300, 3, 3),
+    (4, 150, 4, 4),
+    (5, 250, 5, 5),
+    (6, 350, 6, 6),
+    (7, 400, 7, 7),
+    (8, 450, 8, 8),
+    (9, 500, 9, 9),
+    (10, 550, 10, 10);
+
+    INSERT INTO ma_mp (
+    ma_mp_id, ma_mp_fk_modelo_avion, ma_mp_fk_modelo_pieza
+) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 4, 4),
+    (5, 5, 5),
+    (6, 6, 6),
+    (7, 7, 7),
+    (8, 8, 8),
+    (9, 9, 9),
+    (10, 10, 10);
+
+    INSERT INTO COMPONENTE (
+    componente_id, componente_fk_pieza_principal, componente_fk_pieza_componente
+) VALUES
+    (1, 1, 2),
+    (2, 2, 3),
+    (3, 3, 4),
+    (4, 4, 5),
+    (5, 5, 6),
+    (6, 6, 7),
+    (7, 7, 8),
+    (8, 8, 9),
+    (9, 9, 10),
+    (10, 10, 11);
+
+    INSERT INTO pieza_caracteristica (
+    pieza_caracteristica_id, fk_modelo_pieza, fk_caracteristica
+) VALUES
+    (1, 1, 52),
+    (2, 2, 53),
+    (3, 3, 54),
+    (4, 4, 55),
+    (5, 5, 56),
+    (6, 6, 57),
+    (7, 7, 58),
+    (8, 8, 59),
+    (9, 9, 60),
+    (10, 10, 61);
+
+    INSERT INTO HISTORICO_PRECIO_VENTA (
+    precio_venta_id, precio_venta_valor, precio_venta_fecha_inicio, precio_venta_fecha_fin, fk_precio_venta_h_tasa_dolar, fk_precio_venta_avion
+) VALUES
+    (1, 30000, '2023-01-01', '2023-01-31', 1, 1),
+    (2, 25000, '2023-02-01', '2023-02-28', 2, 2),
+    (3, 28000, '2023-03-01', '2023-03-31', 3, 3),
+    (4, 31000, '2023-04-01', '2023-04-30', 4, 4),
+    (5, 32000, '2023-05-01', '2023-05-31', 5, 5),
+    (6, 33000, '2023-06-01', '2023-06-30', 6, 1),
+    (7, 34000, '2023-07-01', '2023-07-31', 7, 2),
+    (8, 35000, '2023-08-01', '2023-08-31', 8, 3),
+    (9, 36000, '2023-09-01', '2023-09-30', 9, 4),
+    (10, 40000, '2025-01-01', NULL, 10, 5);
+
+    INSERT INTO pieza_equipo (
+    pieza_equipo_id, pieza_equipo_fk_pieza, pieza_equipo_fk_equipo
+) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 4, 4),
+    (5, 5, 5),
+    (6, 6, 1),
+    (7, 7, 2),
+    (8, 8, 3),
+    (9, 9, 4),
+    (10, 10, 5);
+
+    INSERT INTO avion_equipo (
+    avion_equipo_id, avion_equipo_fk_avion, avion_equipo_fk_equipo
+) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 4, 4),
+    (5, 5, 5),
+    (6, 1, 5),
+    (7, 2, 4),
+    (8, 3, 1),
+    (9, 4, 3),
+    (10, 5, 1);
+
+INSERT INTO beneficiario_empleado (
+    cod_bene_emp, fk_empleado, fk_persona_nat
+) VALUES
+    (1, 10, 1),
+    (2, 11, 2),
+    (3, 12, 3),
+    (4, 13, 4),
+    (5, 14, 5),
+    (6, 15, 6),
+    (7, 16, 7),
+    (8, 17, 8),
+    (9, 18, 9),
+    (10, 19, 10),
+    (11, 20, 11),
+    (12, 21, 12),
+    (13, 22, 13),
+    (14, 23, 14),
+    (15, 24, 15);
+
+    INSERT INTO empleado_prueba_material (
+    empleado_prueba_material_id, fk_empleado, fk_prueba_material
+) VALUES
+    (1, 10, 1),
+    (2, 11, 2),
+    (3, 12, 3),
+    (4, 13, 4),
+    (5, 14, 5),
+    (6, 15, 1),
+    (7, 16, 2),
+    (8, 17, 3),
+    (9, 18, 4),
+    (10, 19, 5),
+    (11, 20, 1),
+    (12, 21, 2),
+    (13, 22, 3),
+    (14, 23, 4),
+    (15, 24, 5);
+
+    INSERT INTO empleado_prueba_pieza (
+    empleado_prueba_pieza_id, empleado_prueba_pieza_fk_empleado, empleado_prueba_pieza_fk_prueba_pieza
+) VALUES
+    (1, 10, 1),
+    (2, 11, 2),
+    (3, 12, 3),
+    (4, 13, 4),
+    (5, 14, 5),
+    (6, 15, 1),
+    (7, 16, 2),
+    (8, 17, 3),
+    (9, 18, 4),
+    (10, 19, 5),
+    (11, 20, 1),
+    (12, 21, 2),
+    (13, 22, 3),
+    (14, 23, 4),
+    (15, 24, 5);
+
+    INSERT INTO pieza_zona (
+    pieza_zona_id, pieza_zona_fk_pieza, pieza_zona_fk_zona
+) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 4, 4),
+    (5, 5, 5),
+    (6, 6, 1),
+    (7, 7, 2),
+    (8, 8, 3),
+    (9, 9, 4),
+    (10, 10, 5);
+
+
+INSERT INTO empleado_prueba_avion (
+    empleado_prueba_avion_id, fk_empleado, fk_prueba_avion
+) VALUES
+    (1, 10, 1),
+    (2, 11, 2),
+    (3, 12, 3),
+    (4, 13, 4),
+    (5, 14, 5),
+    (6, 15, 6),
+    (7, 16, 7),
+    (8, 17, 8),
+    (9, 18, 9),
+    (10, 19, 10),
+    (11, 20, 11),
+    (12, 21, 12),
+    (13, 22, 13),
+    (14, 23, 14),
+    (15, 24, 15);
+
+    
+    
+    INSERT INTO pedido (
+    pedido_id, pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_sede, pedido_fk_historico_tasa_dolar
+) VALUES
+    (1, '2023-01-10', 3000, 3200, NULL, 1, NULL, 1),
+    (2, '2023-02-15', 2500, 2700, 1, NULL, NULL, 2),
+    (3, '2023-03-20', 2800, 3000, NULL, 2, NULL, 3),
+    (4, '2023-04-25', 3100, 3300, 2, NULL, NULL, 4),
+    (5, '2023-05-30', 3200, 3400, NULL, 3, NULL, 5),
+    (6, '2023-06-10', 3300, 3500, NULL, NULL, 1, 6),
+    (7, '2023-07-15', 3400, 3600, NULL, NULL, 2, 7),
+    (8, '2023-08-20', 3500, 3700, 4, NULL, NULL, 8),
+    (9, '2023-09-25', 3600, 3800, NULL, 5, NULL, 9),
+    (10, '2023-10-30', 3700, 3900, 5, NULL, NULL, 10),
+    (11, '2023-11-10', 3800, 4000, NULL, 6, NULL, 1),
+    (12, '2023-12-15', 3900, 4100, NULL, NULL, 2, 2),
+    (13, '2024-01-20', 4000, 4200, NULL, 7, NULL, 3),
+    (14, '2024-02-25', 4100, 4300, 7, NULL, NULL, 4),
+    (15, '2024-03-30', 4200, 4400, NULL, 8, NULL, 5);
+
+    INSERT INTO historico_estatus_pedido (
+    historico_estatus_pedido_id, historico_estatus_pedido_fecha_hora_inicio, historico_estatus_pedido_fecha_hora_fin, historico_estatus_pedido_fk_pedido, historico_estatus_pedido_fk_estatus_pedido
+) VALUES
+    (1, '2023-01-10 08:00:00', '2023-01-10 12:00:00', 1, 1),
+    (2, '2023-02-15 08:00:00', '2023-02-15 12:00:00', 2, 2),
+    (3, '2023-03-20 08:00:00', '2023-03-20 12:00:00', 3, 3),
+    (4, '2023-04-25 08:00:00', '2023-04-25 12:00:00', 4, 4),
+    (5, '2023-05-30 08:00:00', '2023-05-30 12:00:00', 5, 5),
+    (6, '2023-06-10 08:00:00', '2023-06-10 12:00:00', 6, 6),
+    (7, '2023-07-15 08:00:00', '2023-07-15 12:00:00', 7, 7),
+    (8, '2023-08-20 08:00:00', '2023-08-20 12:00:00', 8, 8),
+    (9, '2023-09-25 08:00:00', '2023-09-25 12:00:00', 9, 9),
+    (10, '2023-10-30 08:00:00', '2023-10-30 12:00:00', 10, 1);
+
+
+INSERT INTO detalle_pedido (
+    detalle_pedido_id, detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion, detalle_pedido_fk_modelo_pieza
+) VALUES
+    (1, 5, 600, 1, NULL, 1),
+    (2, 10, 500, 2, 1, NULL),
+    (3, 15, 550, 3, NULL, 2),
+    (4, 20, 650, 4, 2, NULL),
+    (5, 25, 700, 5, NULL, 3),
+    (6, 30, 800, 6, 3, NULL),
+    (7, 35, 750, 7, NULL, 4),
+    (8, 40, 850, 8, 4, NULL),
+    (9, 45, 900, 9, NULL, 5),
+    (10, 50, 950, 10, 5, NULL);
+
+
+
+
+
+
+
+
+
+
