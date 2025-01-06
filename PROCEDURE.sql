@@ -3,11 +3,11 @@ CREATE PROCEDURE proveedores_productos()
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  SELECT persona_jur_razon_social, materia_p_nombre 
+  SELECT persona_jur_razon_social, materia_p_nombre
   FROM Persona_Juridica
   INNER JOIN proveedor ON proveedor.prov_fk_persona_juri = Persona_Juridica.persona_jur_codigo
-  INNER JOIN Mate_P_Proveedor ON proveedor.cod_proveedor = Mate_P_Proveedor.FK_prov 
-  INNER JOIN Materia_Prima ON Materia_prima.materia_p_id = Mate_P_Proveedor.FK_materia_prima
+  INNER JOIN Mate_P_Proveedor ON proveedor.cod_proveedor = Mate_P_Proveedor.FK_prov
+  INNER JOIN Materia_Prima ON Materia_prima.materia_p_id = Mate_P_Proveedor.FK_materia_prima;
 end
 $$;
 
@@ -60,7 +60,7 @@ BEGIN
   INNER JOIN Componente ON mp.m_pieza_id = Componente.componente_fk_pieza_principal
   INNER JOIN Modelo_Pieza mpDos ON Componente.componente_fk_pieza_componente = mpDos.m_pieza_id
   INNER JOIN ma_mp ON mp.m_pieza_id = ma_mp.ma_mp_fk_modelo_pieza
-  INNER JOIN Modelo_Avion ma ON ma_mp.ma_mp_fk_modelo_avion = ma.modelo_avion_id
+  INNER JOIN Modelo_Avion ma ON ma_mp.ma_mp_fk_modelo_avion = ma.modelo_avion_id;
 end
 $$;
 
@@ -92,7 +92,7 @@ BEGIN
     INNER JOIN Contrato_De_Personal cdp ON cdp.FK_empleado = e.cod_empleado
     INNER JOIN Contrato_Horario ch ON ch.FK_codigo_contrato = cdp.contrato_codigo
     INNER JOIN Horario h ON h.horario_codigo = ch.FK_codigo_horario;
-    
+
   SELECT
       nombre_completo,
       MAX(CASE WHEN horario_dia = 'Lunes' THEN horario END) AS Lunes,
@@ -217,8 +217,8 @@ drop procedure if exists crear_usuario_cliente_juridico;
 CREATE PROCEDURE crear_usuario_cliente_juridico(
   IN persona_jur_rif VARCHAR(20), --ok
   IN persona_jur_direccion_fiscal VARCHAR(200), --ok
-  IN persona_jur_razon_social VARCHAR(50), 
-  IN persona_jur_pagina_web VARCHAR(50), 
+  IN persona_jur_razon_social VARCHAR(50),
+  IN persona_jur_pagina_web VARCHAR(50),
   IN persona_jur_direccion_fisica VARCHAR(200), --ok
   IN pj_fk_lugar_fiscal INTEGER, --ok
   IN pj_fk_lugar_fisica INTEGER, --ok
@@ -233,16 +233,16 @@ AS $$
 BEGIN
   INSERT INTO Persona_Juridica(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, persona_jur_fecha_inicio_op)
   VALUES(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, CURRENT_DATE);
-  
+
   INSERT INTO cliente_juridico(cj_fk_persona_juri)
   VALUES(currval('persona_juridica_persona_jur_codigo_seq'));
-  
+
   INSERT INTO Telefono(telefono_codigo_area, telefono_numero, FK_persona_jur)
   VALUES(telefono_codigo_area, telefono_numero, currval('persona_juridica_persona_jur_codigo_seq'));
-  
+
   INSERT INTO Correo(correo_nombre, FK_persona_jur)
   VALUES(correo_nombre, currval('persona_juridica_persona_jur_codigo_seq'));
-  
+
   INSERT INTO usuario(usuario_nombre, usuario_contrasena, usuario_fk_persona_jur, usuario_fk_rol)
   VALUES(usuario_nombre, usuario_contrasena, currval('persona_juridica_persona_jur_codigo_seq'), 9);
 end
