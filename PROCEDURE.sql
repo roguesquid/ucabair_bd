@@ -247,22 +247,3 @@ BEGIN
   VALUES(usuario_nombre, usuario_contrasena, currval('persona_juridica_persona_jur_codigo_seq'), 9);
 end
 $$;
-
---Crea las pruebas que se le deben hacer al avion
-CREATE OR REPLACE FUNCTION insertar_pruebas_avion() RETURNS TRIGGER AS $$
-DECLARE 
-   record RECORD;
-BEGIN
-   FOR record IN SELECT tipo_pa_fk_modelo_avion FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo 
-   LOOP
-      INSERT INTO prueba_avion (prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion) 
-      VALUES (NEW.avion_id, record.tipo_pa_fk_modelo_avion);
-   END LOOP;
-   RETURN NEW;
-END; 
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_pruebas_avion
-AFTER INSERT ON avion
-FOR EACH ROW
-EXECUTE FUNCTION insertar_pruebas_avion();
