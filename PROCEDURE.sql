@@ -220,72 +220,78 @@ End;
 
 
 --CREAR USUARIOS CLIENTE NATURAL
-CREATE PROCEDURE crear_usuario_cliente_natural(
-  IN persona_nat_rif VARCHAR(20), 
-  IN persona_nat_direccion_fiscal VARCHAR(70), 
-  IN persona_nat_cedula NUMERIC, 
-  IN persona_nat_p_nombre VARCHAR(30), 
-  IN persona_nat_s_nombre VARCHAR(30), 
-  IN persona_nat_p_apellido VARCHAR(30), 
-  IN persona_nat_s_apellido VARCHAR(30), 
-  IN persona_nat_fecha_nac DATE, 
+drop procedure if exists crear_usuario_cliente_natural;
+
+CREATE OR REPLACE PROCEDURE crear_usuario_cliente_natural(
+  IN persona_nat_rif VARCHAR(20),
+  IN persona_nat_direccion_fiscal VARCHAR(70),
+  IN persona_nat_ced NUMERIC, --ok
+  IN persona_nat_p_nombre VARCHAR(30), --ok
+  IN persona_nat_s_nombre VARCHAR(30), --ok
+  IN persona_nat_p_apellido VARCHAR(30), --ok
+  IN persona_nat_s_apellido VARCHAR(30), --ok
+  IN persona_nat_fecha_nac DATE,
   IN FK_lugar_fiscal INTEGER,
-  IN telefono_codigo_area VARCHAR(5), 
-  IN telefono_numero VARCHAR(9), 
-  IN correo_nombre VARCHAR(50), 
-  IN usuario_nombre VARCHAR(50), 
+  IN telefono_codigo_area VARCHAR(5),
+  IN telefono_numero VARCHAR(9),
+  IN correo_nombre VARCHAR(50), --ok
+  IN usuario_nombre VARCHAR(50),
   IN usuario_contrasena VARCHAR(50)
 )
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   INSERT INTO Persona_Natural(persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre, persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal)
-  VALUES(persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_cedula, persona_nat_p_nombre, persona_nat_s_nombre, persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal);
-  
+  VALUES(persona_nat_rif, persona_nat_direccion_fiscal, persona_nat_ced, persona_nat_p_nombre, persona_nat_s_nombre, persona_nat_p_apellido, persona_nat_s_apellido, persona_nat_fecha_nac, FK_lugar_fiscal);
+
   INSERT INTO Cliente_Natural(FK_persona_nat, cliente_nat_fecha_inicio_op)
-  VALUES(SELECT currval('persona_natural_persona_nat_codigo_seq'), SELECT(CURRENT_DATE));
-  
+  VALUES(currval('persona_natural_persona_nat_codigo_seq'), CURRENT_DATE);
+
   INSERT INTO Telefono(telefono_codigo_area, telefono_numero, FK_persona_nat)
-  VALUES(telefono_codigo_area, telefono_numero, (SELECT persona_nat_codigo FROM Persona_Natural WHERE persona_nat_cedula = persona_nat_cedula));
-  
+  VALUES(telefono_codigo_area, telefono_numero, (SELECT persona_nat_codigo FROM Persona_Natural WHERE persona_nat_ced = persona_nat_cedula));
+
   INSERT INTO Correo(correo_nombre, FK_persona_nat)
-  VALUES(correo_nombre, SELECT currval('persona_natural_persona_nat_codigo_seq'));
-  
+  VALUES(correo_nombre, currval('persona_natural_persona_nat_codigo_seq'));
+
   INSERT INTO usuario(usuario_nombre, usuario_contrasena, usuario_fk_persona_nat, usuario_fk_rol)
-  VALUES(usuario_nombre, usuario_contrasena, SELECT currval('persona_natural_persona_nat_codigo_seq'), 9);
-end;
+  VALUES(usuario_nombre, usuario_contrasena, currval('persona_natural_persona_nat_codigo_seq'), 9);
+
+END
+$$;
 
 --CREAR USUARIOS CLIENTE Juridico
+drop procedure if exists crear_usuario_cliente_juridico;
+
 CREATE PROCEDURE crear_usuario_cliente_juridico(
-  IN persona_jur_rif VARCHAR(20), 
-  IN persona_jur_direccion_fiscal VARCHAR(200), 
+  IN persona_jur_rif VARCHAR(20), --ok
+  IN persona_jur_direccion_fiscal VARCHAR(200), --ok
   IN persona_jur_razon_social VARCHAR(50), 
   IN persona_jur_pagina_web VARCHAR(50), 
-  IN persona_jur_direccion_fisica VARCHAR(200), 
-  IN pj_fk_lugar_fiscal INTEGER, 
-  IN pj_fk_lugar_fisica INTEGER, 
-  IN persona_jur_fecha_inicio_op DATE, 
-  IN telefono_codigo_area VARCHAR(5), 
-  IN telefono_numero VARCHAR(9), 
-  IN correo_nombre VARCHAR(50), 
-  IN usuario_nombre VARCHAR(50), 
-  IN usuario_contrasena VARCHAR(50)
+  IN persona_jur_direccion_fisica VARCHAR(200), --ok
+  IN pj_fk_lugar_fiscal INTEGER, --ok
+  IN pj_fk_lugar_fisica INTEGER, --ok
+  IN telefono_codigo_area VARCHAR(5), --ok
+  IN telefono_numero VARCHAR(9), --ok
+  IN correo_nombre VARCHAR(50), --ok
+  IN usuario_nombre VARCHAR(50), --ok
+  IN usuario_contrasena VARCHAR(50) --ok
 )
-language plpgsql
-as
-begin
+LANGUAGE plpgsql
+AS $$
+BEGIN
   INSERT INTO Persona_Juridica(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, persona_jur_fecha_inicio_op)
-  VALUES(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, persona_jur_fecha_inicio_op);
+  VALUES(persona_jur_rif, persona_jur_direccion_fiscal, persona_jur_razon_social, persona_jur_pagina_web, persona_jur_direccion_fisica, pj_fk_lugar_fiscal, pj_fk_lugar_fisica, CURRENT_DATE);
   
   INSERT INTO cliente_juridico(cj_fk_persona_juri)
-  VALUES(SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  VALUES(currval('persona_juridica_persona_jur_codigo_seq'));
   
   INSERT INTO Telefono(telefono_codigo_area, telefono_numero, FK_persona_jur)
-  VALUES(telefono_codigo_area, telefono_numero, SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  VALUES(telefono_codigo_area, telefono_numero, currval('persona_juridica_persona_jur_codigo_seq'));
   
   INSERT INTO Correo(correo_nombre, FK_persona_jur)
-  VALUES(correo_nombre, SELECT currval('persona_juridica_persona_jur_codigo_seq'));
+  VALUES(correo_nombre, currval('persona_juridica_persona_jur_codigo_seq'));
   
   INSERT INTO usuario(usuario_nombre, usuario_contrasena, usuario_fk_persona_jur, usuario_fk_rol)
-  VALUES(usuario_nombre, usuario_contrasena, SELECT currval('persona_juridica_persona_jur_codigo_seq'), 9);
-end;
+  VALUES(usuario_nombre, usuario_contrasena, currval('persona_juridica_persona_jur_codigo_seq'), 9);
+end
+$$;
