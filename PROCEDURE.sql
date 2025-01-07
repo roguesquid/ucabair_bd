@@ -296,11 +296,13 @@ BEGIN
    FOR record IN SELECT * FROM ma_mp X WHERE X.ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
    LOOP
       INSERT INTO Pedido (pedido_id, pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_sede, pedido_fk_historico_tasa_dolar)
-      VALUES ((SELECT MAX(P.pedido_id)+1 FROM Pedido P), '2025-07-01', NULL, NULL, NULL, NULL, (
+      VALUES ((SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P), '2025-07-01', NULL, NULL, NULL, NULL, (
       SELECT A.fk_sede 
       FROM Pieza P, Area A, Zona Z, Pieza_Zona PZ
       WHERE P.pieza_fk_modelo_p = record.ma_mp_fk_modelo_pieza AND PZ.pieza_zona_fk_pieza = P.pieza_id AND PZ.pieza_zona_fk_zona = Z.zona_id AND Z.fk_area = A.area_id 
-      ), (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));     
+      ), (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));   
+      INSERT INTO Detalle_Pedido (detalle_pedido_id, detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion, detalle_pedido_fk_modelo_pieza)
+      VALUES ((SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D), 110, 110, (SELECT MAX(P.pedido_id) FROM Pedido P), NULL, record.ma_mp_fk_modelo_pieza);
    END LOOP;
    RETURN NEW;    
 END; 
@@ -332,4 +334,33 @@ BEGIN
     WHERE modelo_avion_id = p_id;
 
 END;
+
+
 $$ LANGUAGE plpgsql;
+-- Crear orden de reposicion de materia prima luego de un pedido cuando no hay en el inventario
+CREATE OR REPLACE FUNCTION comprar_material() RETURNS TRIGGER AS $$
+DECLARE 
+   record RECORD;
+BEGIN
+   FOR record IN SELECT I.*
+   FROM Inventario_Almacen I, Almacen A
+   WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede 
+   LOOP
+      RAISE NOTICE 'Verificando inventario: %', record.inv_alm_cant;
+      IF record IS NULL THEN 
+         EXIT;
+      ELSIF record.inv_alm_cant = 0 AND record.fk_pieza IS NULL THEN
+         INSERT INTO Orden_De_Reposicion (orden_id, orden_fecha, orden_subtotal, orden_total, fk_contrato_per, fk_tasa_dolar)
+         VALUES ((SELECT COALESCE(MAX(O.orden_id)+1, 1) FROM Orden_De_Reposicion O), NEW.pedido_fecha, NULL, NULL, NULL, (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));
+         INSERT INTO Detalle_Orden_Reposicion (detalle_orden_cod, detalle_orden_cantidad, detalle_orden_precio_unitario, fk_orden, fk_mp_prov) 
+         VALUES ((SELECT COALESCE(MAX(detalle_orden_cod)+1, 1) FROM Detalle_Orden_Reposicion D), 100, 100, (SELECT MAX(O.orden_id) FROM Orden_De_Reposicion O), (SELECT MP.materia_p_prov_id FROM MATE_P_PROVEEDOR MP WHERE MP.fk_materia_prima = record.fk_mat_prim));   
+      END IF;
+   END LOOP;
+   RETURN NEW;    
+END; 
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_comprar_material
+AFTER INSERT ON Pedido
+FOR EACH ROW
+EXECUTE FUNCTION comprar_material();
