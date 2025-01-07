@@ -1,5 +1,5 @@
 -- Listado de proveedores con los productos / servicios que ofrecen
-CREATE PROCEDURE proveedores_productos()
+CREATE OR REPLACE PROCEDURE proveedores_productos()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -12,7 +12,7 @@ end
 $$;
 
 -- Lista de los ingresos al inventario por solicitudes a los proveedores.
-CREATE PROCEDURE  ingresos_inventario_por_solicitudes_a_proveedores()
+CREATE OR REPLACE PROCEDURE  ingresos_inventario_por_solicitudes_a_proveedores()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -35,7 +35,7 @@ end
 $$;
 
 -- Lista de pagos realizados a los proveedores por período de tiempo.
-CREATE PROCEDURE pagos_proveedores_por_periodo(IN fecha_inicio DATE, IN fecha_fin DATE)
+CREATE OR REPLACE PROCEDURE pagos_proveedores_por_periodo(IN fecha_inicio DATE, IN fecha_fin DATE)
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -51,7 +51,7 @@ end
 $$;
 
 -- Lista de modelos de avión con las piezas (formato que está en el enunciado)
-CREATE PROCEDURE modelos_avion_piezas()
+CREATE OR REPLACE PROCEDURE modelos_avion_piezas()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -66,7 +66,7 @@ $$;
 
 --  Lista de modelos de avión con los tipos de prueba que se deben realizar para su construcción junto a los cargos involucración indicando la duración de cada una
 
-CREATE PROCEDURE modelos_avion_pruebas_cargos()
+CREATE OR REPLACE PROCEDURE modelos_avion_pruebas_cargos()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -78,7 +78,7 @@ end
 $$;
 
 -- Lista de empleados con su horario.
-CREATE PROCEDURE empleados_horario()
+CREATE OR REPLACE PROCEDURE empleados_horario()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -110,7 +110,7 @@ end
 $$;
 
 --Lista de empleados con proyectos asignados. (pruebas y ensamble)
-CREATE PROCEDURE empleados_proyectos_asignados()
+CREATE OR REPLACE PROCEDURE empleados_proyectos_asignados()
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -289,3 +289,32 @@ CREATE TRIGGER trigger_solicitar_piezas_avion
 AFTER INSERT ON avion
 FOR EACH ROW
 EXECUTE FUNCTION solicitar_piezas_avion();
+
+
+-- CRUD AVION
+-- READ
+CREATE OR REPLACE FUNCTION obtener_aviones()
+RETURNS TABLE(id integer, nombre character varying, descripcion character varying)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY SELECT modelo_avion_id as id, modelo_avion_nombre as nombre, modelo_avion_descripcion as descripcion
+  FROM modelo_avion;
+END
+$$;
+
+-- DELETE
+CREATE OR REPLACE FUNCTION eliminar_modelo_avion(p_id INT)
+RETURNS VOID AS $$
+BEGIN
+    DELETE FROM modelo_avion_caracteristica
+    WHERE modelo_avion_caract_fk_modelo = p_id;
+
+    DELETE FROM ma_mp
+    WHERE ma_mp_fk_modelo_avion = p_id;
+
+    DELETE FROM modelo_avion
+    WHERE modelo_avion_id = p_id;
+
+END;
+$$ LANGUAGE plpgsql;
