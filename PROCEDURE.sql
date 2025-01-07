@@ -275,11 +275,13 @@ BEGIN
    FOR record IN SELECT * FROM ma_mp X WHERE X.ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
    LOOP
       INSERT INTO Pedido (pedido_id, pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_sede, pedido_fk_historico_tasa_dolar)
-      VALUES ((SELECT MAX(P.pedido_id)+1 FROM Pedido P), '2025-07-01', NULL, NULL, NULL, NULL, (
+      VALUES ((SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P), '2025-07-01', NULL, NULL, NULL, NULL, (
       SELECT A.fk_sede 
       FROM Pieza P, Area A, Zona Z, Pieza_Zona PZ
       WHERE P.pieza_fk_modelo_p = record.ma_mp_fk_modelo_pieza AND PZ.pieza_zona_fk_pieza = P.pieza_id AND PZ.pieza_zona_fk_zona = Z.zona_id AND Z.fk_area = A.area_id 
-      ), (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));     
+      ), (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));   
+      INSERT INTO Detalle_Pedido (detalle_pedido_id, detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion, detalle_pedido_fk_modelo_pieza)
+      VALUES ((SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D), 110, 110, (SELECT MAX(P.pedido_id) FROM Pedido P), NULL, record.ma_mp_fk_modelo_pieza);
    END LOOP;
    RETURN NEW;    
 END; 
