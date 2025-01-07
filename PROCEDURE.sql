@@ -291,27 +291,29 @@ FOR EACH ROW
 EXECUTE FUNCTION solicitar_piezas_avion();
 
 -- Crear orden de reposicion de materia prima luego de un pedido cuando no hay en el inventario
-CREATE OR REPLACE FUNCTION comprar_piezas() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION comprar_material() RETURNS TRIGGER AS $$
 DECLARE 
    record RECORD;
 BEGIN
    FOR record IN SELECT I.*
    FROM Inventario_Almacen I, Almacen A
-   WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede
+   WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede 
    LOOP
       RAISE NOTICE 'Verificando inventario: %', record.inv_alm_cant;
       IF record IS NULL THEN 
          EXIT;
-      ELSIF record.inv_alm_cant = 0 THEN
+      ELSIF record.inv_alm_cant = 0 AND record.fk_pieza IS NULL THEN
          INSERT INTO Orden_De_Reposicion (orden_id, orden_fecha, orden_subtotal, orden_total, fk_contrato_per, fk_tasa_dolar)
          VALUES ((SELECT COALESCE(MAX(O.orden_id)+1, 1) FROM Orden_De_Reposicion O), NEW.pedido_fecha, NULL, NULL, NULL, (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));
+         INSERT INTO Detalle_Orden_Reposicion (detalle_orden_cod, detalle_orden_cantidad, detalle_orden_precio_unitario, fk_orden, fk_mp_prov) 
+         VALUES ((SELECT COALESCE(MAX(detalle_orden_cod)+1, 1) FROM Detalle_Orden_Reposicion D), 100, 100, (SELECT MAX(O.orden_id) FROM Orden_De_Reposicion O), (SELECT MP.materia_p_prov_id FROM MATE_P_PROVEEDOR MP WHERE MP.fk_materia_prima = record.fk_mat_prim));   
       END IF;
    END LOOP;
    RETURN NEW;    
 END; 
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_comprar_piezas
+CREATE TRIGGER trigger_comprar_material
 AFTER INSERT ON Pedido
 FOR EACH ROW
-EXECUTE FUNCTION comprar_piezas();
+EXECUTE FUNCTION comprar_material();
