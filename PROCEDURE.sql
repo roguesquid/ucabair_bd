@@ -289,3 +289,29 @@ CREATE TRIGGER trigger_solicitar_piezas_avion
 AFTER INSERT ON avion
 FOR EACH ROW
 EXECUTE FUNCTION solicitar_piezas_avion();
+
+-- Crear orden de reposicion de materia prima luego de un pedido cuando no hay en el inventario
+CREATE OR REPLACE FUNCTION comprar_piezas() RETURNS TRIGGER AS $$
+DECLARE 
+   record RECORD;
+BEGIN
+   FOR record IN SELECT I.*
+   FROM Inventario_Almacen I, Almacen A
+   WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede
+   LOOP
+      RAISE NOTICE 'Verificando inventario: %', record.inv_alm_cant;
+      IF record IS NULL THEN 
+         EXIT;
+      ELSIF record.inv_alm_cant = 0 THEN
+         INSERT INTO Orden_De_Reposicion (orden_id, orden_fecha, orden_subtotal, orden_total, fk_contrato_per, fk_tasa_dolar)
+         VALUES ((SELECT COALESCE(MAX(O.orden_id)+1, 1) FROM Orden_De_Reposicion O), NEW.pedido_fecha, NULL, NULL, NULL, (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));
+      END IF;
+   END LOOP;
+   RETURN NEW;    
+END; 
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_comprar_piezas
+AFTER INSERT ON Pedido
+FOR EACH ROW
+EXECUTE FUNCTION comprar_piezas();
