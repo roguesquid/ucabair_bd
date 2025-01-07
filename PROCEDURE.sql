@@ -1,9 +1,11 @@
 -- Listado de proveedores con los productos / servicios que ofrecen
-CREATE OR REPLACE PROCEDURE proveedores_productos()
+CREATE OR REPLACE FUNCTION proveedores_productos()
+RETURNS TABLE(persona_jur_razon_social VARCHAR(50), materia_p_nombre VARCHAR(50))
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  SELECT persona_jur_razon_social, materia_p_nombre
+  RETURN QUERY
+  SELECT Persona_Juridica.persona_jur_razon_social, Materia_Prima.materia_p_nombre
   FROM Persona_Juridica
   INNER JOIN proveedor ON proveedor.prov_fk_persona_juri = Persona_Juridica.persona_jur_codigo
   INNER JOIN Mate_P_Proveedor ON proveedor.cod_proveedor = Mate_P_Proveedor.FK_prov
@@ -12,11 +14,18 @@ end
 $$;
 
 -- Lista de los ingresos al inventario por solicitudes a los proveedores.
-CREATE OR REPLACE PROCEDURE  ingresos_inventario_por_solicitudes_a_proveedores()
+CREATE OR REPLACE FUNCTION  ingresos_inventario_por_solicitudes_a_proveedores()
+RETURNS TABLE(id INTEGER, producto VARCHAR(50), cantidad INTEGER, fecha TIMESTAMP, sede VARCHAR(50), proveedor VARCHAR(50))
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  SELECT detalle_orden_cod as id, materia_p_nombre as producto,detalle_orden_cantidad as cantidad, fecha_hora_inicio_estatus as fecha, sede_nombre as sede, persona_jur_razon_social as proveedor
+  RETURN QUERY
+  SELECT  detalle_orden_cod as id, 
+          materia_p_nombre as producto,
+          detalle_orden_cantidad as cantidad, 
+          fecha_hora_inicio_estatus as fecha, 
+          sede_nombre as sede, 
+          persona_jur_razon_social as proveedor
   FROM Orden_De_Reposicion odr
   INNER JOIN Historico_Estatus_Orden heo ON odr.orden_id = heo.FK_orden_rep
   INNER JOIN Estatus_Orden eo ON heo.FK_estatus_orden = eo.estatus_ord_id
@@ -35,10 +44,12 @@ end
 $$;
 
 -- Lista de pagos realizados a los proveedores por período de tiempo.
-CREATE OR REPLACE PROCEDURE pagos_proveedores_por_periodo(IN fecha_inicio DATE, IN fecha_fin DATE)
+CREATE OR REPLACE FUNCTION pagos_proveedores_por_periodo_proc(IN fecha_inicio DATE, IN fecha_fin DATE)
+RETURNS TABLE(id INTEGER, nombre VARCHAR(50), fecha TIMESTAMP, monto DECIMAL(10, 2))
 LANGUAGE plpgsql
 AS $$
 BEGIN
+  RETURN QUERY
   SELECT odr_metodo_pago_id as id, persona_jur_razon_social as nombre,odr_metodo_pago_fecha as fecha, odr_metodo_pago_monto as monto
   FROM odr_metodo_pago omp
   INNER JOIN Orden_De_Reposicion odr ON omp.odr_metodo_pago_fk_orden = odr.orden_id
@@ -51,10 +62,12 @@ end
 $$;
 
 -- Lista de modelos de avión con las piezas (formato que está en el enunciado)
-CREATE OR REPLACE PROCEDURE modelos_avion_piezas()
+CREATE OR REPLACE FUNCTION modelos_avion_piezas()
+RETURNS TABLE(m_pieza_nombre VARCHAR(50), m_pieza_descripcion VARCHAR(200), modelo_avion_nombre VARCHAR(50))
 LANGUAGE plpgsql
 AS $$
 BEGIN
+  RETURN QUERY
   SELECT mp.m_pieza_nombre, mp.m_pieza_descripcion, ma.modelo_avion_nombre
   FROM Modelo_Pieza mp
   INNER JOIN Componente ON mp.m_pieza_id = Componente.componente_fk_pieza_principal
@@ -65,12 +78,13 @@ end
 $$;
 
 --  Lista de modelos de avión con los tipos de prueba que se deben realizar para su construcción junto a los cargos involucración indicando la duración de cada una
-
-CREATE OR REPLACE PROCEDURE modelos_avion_pruebas_cargos()
+CREATE OR REPLACE FUNCTION modelos_avion_pruebas_cargos()
+RETURNS TABLE(modelo_avion_nombre VARCHAR(50), tipo_pa_nombre VARCHAR(50), tipo_pa_duracion INTERVAL, zona_nombre VARCHAR(50))
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  SELECT modelo_avion_nombre, tipo_pa_nombre, tipo_pa_duracion, zona_nombre
+  RETURN QUERY
+  SELECT Modelo_Avion.modelo_avion_nombre, tipo_prueba_avion.tipo_pa_nombre, tipo_prueba_avion.tipo_pa_duracion, Zona.zona_nombre
   FROM Modelo_Avion
   INNER JOIN tipo_prueba_avion ON modelo_avion_id = tipo_pa_fk_modelo_avion
   INNER JOIN Zona ON tipo_pa_fk_zona = zona_id;
@@ -78,7 +92,8 @@ end
 $$;
 
 -- Lista de empleados con su horario.
-CREATE OR REPLACE PROCEDURE empleados_horario()
+CREATE OR REPLACE FUNCTION empleados_horario()
+RETURNS TABLE(nombre TEXT, lunes TEXT, martes TEXT, miercoles TEXT, jueves TEXT, viernes TEXT)
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -93,6 +108,7 @@ BEGIN
     INNER JOIN Contrato_Horario ch ON ch.FK_codigo_contrato = cdp.contrato_codigo
     INNER JOIN Horario h ON h.horario_codigo = ch.FK_codigo_horario;
 
+  RETURN QUERY
   SELECT
       nombre_completo,
       MAX(CASE WHEN horario_dia = 'Lunes' THEN horario END) AS Lunes,
@@ -110,10 +126,12 @@ end
 $$;
 
 --Lista de empleados con proyectos asignados. (pruebas y ensamble)
-CREATE OR REPLACE PROCEDURE empleados_proyectos_asignados()
+CREATE OR REPLACE FUNCTION empleados_proyectos_asignados()
+RETURNS TABLE(nombre_completo TEXT, proyecto VARCHAR(80), tipo_proyecto TEXT)
 LANGUAGE plpgsql
 AS $$
 BEGIN
+  RETURN QUERY
   SELECT
     pn.persona_nat_p_nombre || ' ' || pn.persona_nat_p_apellido AS nombre_completo,
     tpp.tipo_pp_nombre AS proyecto,
@@ -169,6 +187,9 @@ BEGIN
   INNER JOIN Modelo_Pieza mp ON p.pieza_fk_modelo_p = mp.m_pieza_id;
 end
 $$;
+
+
+
 
 
 --CREAR USUARIOS CLIENTE NATURAL
@@ -307,12 +328,6 @@ $$;
 CREATE OR REPLACE FUNCTION eliminar_modelo_avion(p_id INT)
 RETURNS VOID AS $$
 BEGIN
-    DELETE FROM modelo_avion_caracteristica
-    WHERE modelo_avion_caract_fk_modelo = p_id;
-
-    DELETE FROM ma_mp
-    WHERE ma_mp_fk_modelo_avion = p_id;
-
     DELETE FROM modelo_avion
     WHERE modelo_avion_id = p_id;
 
