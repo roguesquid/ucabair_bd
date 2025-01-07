@@ -3107,7 +3107,9 @@ VALUES
   ('rutaca@gmail.com', 12),
   ('conviasa@gmail.com', 13),
   ('avior@gmail.com', 14),
-  ('laser@gmail.com', 15);
+  ('laser@gmail.com', 15),
+  ('maafer@gmail.com',16),
+  ('prueba@gmail.com',17);
 
 
 -- TELEFONO
@@ -3780,7 +3782,7 @@ VALUES
   ('2022-08-30', '2024-03-05', 18),
   ('2024-09-18', NULL, 19),
   ('2015-10-18', NULL, 20),
-   ('2015-10-02', NULL, 21),
+  ('2015-10-02', NULL, 21),
   ('2015-01-15', '2018-07-20', 22),
   ('2016-02-10', '2019-05-25', 23),
   ('2017-03-05', NULL, 24),
@@ -3811,7 +3813,8 @@ VALUES
   ('2024-02-12', '2024-02-18', 7, 6),
   ('2024-02-19', '2024-02-25', 7, 7),
   ('2024-02-26', '2024-03-04', 7, 8),
-  ('2024-03-05', '2024-03-11', 7, 9);
+  ('2024-03-05', '2024-03-11', 7, 9),
+  ('2024-03-05', '2024-03-11', 7, 10);
 
 INSERT INTO Beneficio (beneficio_nombre, beneficio_descripcion, beneficio_tipo)
 VALUES
@@ -3822,7 +3825,9 @@ VALUES
   ('Bono por puntualidad', 'Beneficio dado para los trabajadores que tienen buena puntualidad', 'anual'),
   ('Bono por vacaciones', 'Beneficio dado para los trabajadores que tienen vacaciones', 'anual'),
   ('Bono por navidad', 'Beneficio dado para los trabajadores en navidad', 'anual'),
-  ('Seguro social', 'Cobertura de seguro médico', 'anual');
+  ('Seguro social', 'Cobertura de seguro médico', 'anual'),
+  ('Bono por producción', 'Beneficio dado para los trabajadores que superan metas de producción', 'mensual'), 
+  ('Bono de transporte', 'Beneficio para cubrir los gastos de transporte de los trabajadores', 'mensual');
 
 INSERT INTO Contrato_P_Beneficio(
 	cont_p_beneficio_monto, FK_contrato, FK_beneficio)
@@ -4113,11 +4118,7 @@ INSERT INTO estatus_pedido (
     (2, 'Procesado', 'Pedido procesado y empaquetado'),
     (3, 'En Envío', 'Pedido en tránsito al cliente'),
     (4, 'Entregado', 'Pedido recibido por el cliente'),
-    (5, 'Cancelado', 'Pedido cancelado por el cliente'),
-    (6, 'Procesado', 'Pedido procesado y empaquetado'),
-    (7, 'En Envío', 'Pedido en tránsito al cliente'),
-    (8, 'Entregado', 'Pedido recibido por el cliente'),
-    (9, 'Cancelado', 'Pedido cancelado por el cliente');
+    (5, 'Cancelado', 'Pedido cancelado por el cliente');
 
 
 
@@ -4130,7 +4131,12 @@ INSERT INTO Area (
     (2, 'Calidad', 'Inspección y control de calidad', 1),
     (3, 'Diseño', 'Diseño de prototipos y personalización', 5),
     (4, 'Logística', 'Gestión de entrada y salida de materiales', 4),
-    (5, 'Pruebas', 'Zona de evaluación de rendimiento', 3);
+    (5, 'Pruebas', 'Zona de evaluación de rendimiento', 3),
+    (6, 'Investigación y Desarrollo', 'Investigación de nuevas tecnologías y métodos', 2), 
+    (7, 'Recursos Humanos', 'Gestión del personal y contrataciones', 3), 
+    (8, 'Finanzas', 'Gestión de presupuesto y financiamiento', 4), 
+    (9, 'Servicio al Cliente', 'Soporte y atención al cliente', 5), 
+    (10, 'Mantenimiento', 'Mantenimiento de equipos e instalaciones', 1);
 
 -- Inserciones para la tabla Zona
 INSERT INTO Zona (
@@ -4140,7 +4146,12 @@ INSERT INTO Zona (
     (2, 'Zona de Electrónica', 'Instalación de sistemas electrónicos', 1),
     (3, 'Zona de Pintura', 'Pintura y acabado exterior', 2),
     (4, 'Zona de Almacenamiento', 'Depósito de materiales y repuestos', 4),
-    (5, 'Zona de Simulación', 'Pruebas en simuladores', 5);
+    (5, 'Zona de Simulación', 'Pruebas en simuladores', 5),
+    (6, 'Zona de Desarrollo de Prototipos', 'Creación y pruebas de nuevos prototipos', 3), 
+    (7, 'Zona de Control de Calidad', 'Inspección detallada de componentes y productos', 2), 
+    (8, 'Zona de Embalaje y Despacho', 'Preparación y envío de productos finales', 4), 
+    (9, 'Zona de Ensamblaje Final', 'Ensayo y validación del producto ensamblado', 1), 
+    (10, 'Zona de Capacitación', 'Entrenamiento y formación del personal', 7);
 
 -- Inserciones para la tabla Equipo
 INSERT INTO Equipo (
@@ -4150,7 +4161,12 @@ INSERT INTO Equipo (
     (2, '2023-01-02 08:00:00', '2023-01-02 18:00:00', 2, 2),
     (3, '2023-01-03 08:00:00', '2023-01-03 18:00:00', 3, 3),
     (4, '2023-01-04 08:00:00', '2023-01-04 18:00:00', 4, 4),
-    (5, '2023-01-05 08:00:00', '2023-01-05 18:00:00', 5, 5);
+    (5, '2023-01-05 08:00:00', '2023-01-05 18:00:00', 5, 5),
+    (6, '2023-01-01 08:00:00', '2023-01-01 18:00:00', 6, 6),
+    (7, '2023-01-02 08:00:00', '2023-01-02 18:00:00', 7, 7),
+    (8, '2023-01-03 08:00:00', '2023-01-03 18:00:00', 8, 8),
+    (9, '2023-01-04 08:00:00', '2023-01-04 18:00:00', 9, 9),
+    (10, '2023-01-05 08:00:00', '2023-01-05 18:00:00', 10, 10);
 
 -- Inserciones para la tabla Almacen
 INSERT INTO Almacen (
@@ -4161,6 +4177,7 @@ INSERT INTO Almacen (
     (3, 4000, 'Zona Industrial N° 789', 3),
     (4, 2000, 'Calle Logística N° 321', 4),
     (5, 3500, 'Av. Creativa N° 654', 5);
+  
 
 INSERT INTO Materia_Prima (
     materia_p_id, materia_p_nombre, materia_p_descripcion
@@ -4229,7 +4246,12 @@ INSERT INTO tipo_prueba_pieza (
     ('Corrosión', '160:00:00', 5),
     ('Impacto', '40:00:00', 5),
     ('Temperatura', '80:00:00', 5),
-    ('Presión', '40:00:00', 5);
+    ('Presión', '40:00:00', 5),
+    ('Vibración', '50:00:00', 5), 
+    ('Dureza', '30:00:00', 5), 
+    ('Torsión', '70:00:00', 5), 
+    ('Compresión', '60:00:00', 5), 
+    ('Radiación', '100:00:00', 5);
 
 INSERT INTO Prueba_Pieza (
     prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba
@@ -4426,7 +4448,11 @@ INSERT INTO Tipo_Prueba_Mate (
     (2, 'Flexibilidad', '01:30:00', 2),
     (3, 'Resistencia a Impactos', '03:00:00', 3),
     (4, 'Conductividad', '01:00:00', 4),
-    (5, 'Aislante', '02:30:00', 5);
+    (5, 'Aislante', '02:30:00', 5),
+    (6, 'Resistencia a la Corrosión', '02:00:00', 6), 
+    (7, 'Dureza', '01:45:00', 7), (8, 'Elasticidad', '01:20:00', 8), 
+    (9, 'Estabilidad Dimensional', '02:15:00', 9), 
+    (10, 'Inflamabilidad', '01:50:00', 10);
 
 INSERT INTO Prueba_Material (
     FK_tipo_pm, FK_materia_p_pm
@@ -4435,7 +4461,12 @@ INSERT INTO Prueba_Material (
     (2, 2),
     (3, 3),
     (4, 4),
-    (5, 5);
+    (5, 5),
+    (6, 6), 
+    (7, 7), 
+    (8, 8), 
+    (9, 9), 
+    (10, 10);
 
 -- Inserciones para la tabla estatus_prueba_mate
 INSERT INTO estatus_prueba_mate (
@@ -4551,7 +4582,12 @@ INSERT INTO avion (
     (NULL, NULL, 'YV200B', 2),
     (NULL, NULL, 'YV300C', 3),
     (NULL, NULL, 'YV400D', 4),
-    (NULL, NULL, 'YV500E', 5);
+    (NULL, NULL, 'YV500E', 5),
+    (NULL, NULL, 'YV100F', 6),
+    (NULL, NULL, 'YV200G', 7),
+    (NULL, NULL, 'YV300H', 8),
+    (NULL, NULL, 'YV400I', 9),
+    (NULL, NULL, 'YV500J', 10);
 
 INSERT INTO tipo_prueba_avion (
     tipo_pa_nombre, tipo_pa_duracion, tipo_pa_fk_zona, tipo_pa_fk_modelo_avion
@@ -5008,10 +5044,7 @@ INSERT INTO estatus_prueba_pieza (
 ) VALUES
     (1, 'En Progreso', 'Prueba en ejecución'),
     (2, 'Completa', 'Prueba finalizada exitosamente'),
-    (3, 'Fallida', 'Prueba no cumplió los estándares'),
-    (4, 'En Progreso', 'Prueba en ejecución'),
-    (5, 'Completa', 'Prueba finalizada exitosamente'),
-    (6, 'Fallida', 'Prueba no cumplió los estándares');
+    (3, 'Fallida', 'Prueba no cumplió los estándares');
 
     INSERT INTO historico_estatus_prueba_pieza (
     hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza
@@ -5019,23 +5052,20 @@ INSERT INTO estatus_prueba_pieza (
     (1, '2025-01-01 08:00:00', '2025-01-01 12:00:00', 1, 1),
     (2, '2025-01-02 08:00:00', '2025-01-02 12:00:00', 2, 2),
     (3, '2025-01-03 08:00:00', '2025-01-03 12:00:00', 3, 3),
-    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 4),
+    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 3),
     (5, '2025-01-05 08:00:00', '2025-01-05 12:00:00', 5, 1),
     (6, '2025-01-06 08:00:00', '2025-01-06 12:00:00', 6, 2),
     (7, '2025-01-07 08:00:00', '2025-01-07 12:00:00', 7, 3),
-    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 4),
-    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 5),
-    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 6);
+    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 2),
+    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 2),
+    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 1);
 
 INSERT INTO estatus_prueba_avion (
     estatus_pa_id, estatus_pa_nombre, estatus_pa_descripcion
 ) VALUES
     (1, 'En Progreso', 'Prueba en ejecución'),
     (2, 'Completa', 'Prueba finalizada exitosamente'),
-    (3, 'Fallida', 'Prueba no cumplió los estándares'),
-    (4, 'En Progreso', 'Prueba en ejecución'),
-    (5, 'Completa', 'Prueba finalizada exitosamente'),
-    (6, 'Fallida', 'Prueba no cumplió los estándares');
+    (3, 'Fallida', 'Prueba no cumplió los estándares');
 
 INSERT INTO historico_estatus_prueba_avion (
     hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion
@@ -5043,13 +5073,13 @@ INSERT INTO historico_estatus_prueba_avion (
     (1, '2025-01-01 08:00:00', '2025-01-01 12:00:00', 1, 1),
     (2, '2025-01-02 08:00:00', '2025-01-02 12:00:00', 2, 2),
     (3, '2025-01-03 08:00:00', '2025-01-03 12:00:00', 3, 3),
-    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 4),
+    (4, '2025-01-04 08:00:00', '2025-01-04 12:00:00', 4, 2),
     (5, '2025-01-05 08:00:00', '2025-01-05 12:00:00', 5, 1),
     (6, '2025-01-06 08:00:00', '2025-01-06 12:00:00', 6, 2),
     (7, '2025-01-07 08:00:00', '2025-01-07 12:00:00', 7, 3),
-    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 4),
-    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 5),
-    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 6);
+    (8, '2025-01-08 08:00:00', '2025-01-08 12:00:00', 8, 1),
+    (9, '2025-01-09 08:00:00', '2025-01-09 12:00:00', 9, 1),
+    (10, '2025-01-10 08:00:00', '2025-01-10 12:00:00', 10, 1);
 
     INSERT INTO mat_prima_pieza (
     mat_p_pieza_id, mat_p_pieza_cantidad, fk_pieza, fk_mat_prima
@@ -5397,12 +5427,12 @@ INSERT INTO empleado_prueba_avion (
     (1, '2023-01-10 08:00:00', '2023-01-10 12:00:00', 1, 1),
     (2, '2023-02-15 08:00:00', '2023-02-15 12:00:00', 2, 2),
     (3, '2023-03-20 08:00:00', '2023-03-20 12:00:00', 3, 3),
-    (4, '2023-04-25 08:00:00', '2023-04-25 12:00:00', 4, 4),
-    (5, '2023-05-30 08:00:00', '2023-05-30 12:00:00', 5, 5),
-    (6, '2023-06-10 08:00:00', '2023-06-10 12:00:00', 6, 6),
-    (7, '2023-07-15 08:00:00', '2023-07-15 12:00:00', 7, 7),
-    (8, '2023-08-20 08:00:00', '2023-08-20 12:00:00', 8, 8),
-    (9, '2023-09-25 08:00:00', '2023-09-25 12:00:00', 9, 9),
+    (4, '2023-04-25 08:00:00', '2023-04-25 12:00:00', 4, 2),
+    (5, '2023-05-30 08:00:00', '2023-05-30 12:00:00', 5, 2),
+    (6, '2023-06-10 08:00:00', '2023-06-10 12:00:00', 6, 3),
+    (7, '2023-07-15 08:00:00', '2023-07-15 12:00:00', 7, 3),
+    (8, '2023-08-20 08:00:00', '2023-08-20 12:00:00', 8, 1),
+    (9, '2023-09-25 08:00:00', '2023-09-25 12:00:00', 9, 1),
     (10, '2023-10-30 08:00:00', '2023-10-30 12:00:00', 10, 1);
 
 
