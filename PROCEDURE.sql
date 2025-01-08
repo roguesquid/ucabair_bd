@@ -269,24 +269,28 @@ BEGIN
 end
 $$;
 
--- --Crea las pruebas que se le deben hacer al avion
+--Crea las pruebas que se le deben hacer al avion
 -- CREATE OR REPLACE FUNCTION insertar_pruebas_avion() RETURNS TRIGGER AS $$
--- DECLARE
+-- DECLARE 
 --    record RECORD;
 -- BEGIN
---    FOR record IN SELECT * FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo
+--    FOR record IN SELECT * FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo 
 --    LOOP
---       INSERT INTO Prueba_Avion (prueba_avion_id, prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion)
---       VALUES ((SELECT MAX(P.prueba_avion_id)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_id);
+--       INSERT INTO Prueba_Avion (prueba_avion_id, prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion) 
+--       VALUES ((SELECT COALESCE(MAX(P.prueba_avion_id),1)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_id);
+--       INSERT INTO Estatus_Prueba_Avion (estatus_pa_id, estatus_pa_nombre, estatus_pa_descripcion)
+--       VALUES ((SELECT COALESCE(MAX(E.estatus_pa_id),1)+1 FROM Estatus_Prueba_Avion E), 'En Progreso', 'Prueba en Ejecución');
+-- 	  INSERT INTO Historico_Estatus_Prueba_Avion (hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion)
+-- 	  VALUES ((SELECT COALESCE(MAX(H.hist_est_pru_avion_cod),1)+1 FROM Historico_Estatus_Prueba_Avion H), CURRENT_DATE, NULL, (SELECT MAX(P.prueba_avion_id) FROM Prueba_Avion P), (SELECT MAX(E.estatus_pa_id) FROM Estatus_Prueba_Avion E));
 --    END LOOP;
 --    RETURN NEW;
--- END;
+-- END; 
 -- $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_avion
--- AFTER INSERT ON avion
--- FOR EACH ROW
--- EXECUTE FUNCTION insertar_pruebas_avion();
+CREATE TRIGGER trigger_insertar_pruebas_avion
+AFTER INSERT ON avion
+FOR EACH ROW
+EXECUTE FUNCTION insertar_pruebas_avion();
 
 -- -- Solicitar las piezas a las sedes correspondientes, luego de pedir el avion
 -- CREATE OR REPLACE FUNCTION solicitar_piezas_avion() RETURNS TRIGGER AS $$
