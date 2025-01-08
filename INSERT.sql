@@ -4442,17 +4442,17 @@ INSERT INTO odr_metodo_pago (
     (50, NULL, NULL, NULL, 1, 4444444.44, '2025-01-04');
 
 INSERT INTO Tipo_Prueba_Mate (
-    tipo_pm_id, tipo_pm_nombre, tipo_pm_duracion, FK_zona
+    tipo_pm_nombre, tipo_pm_duracion, FK_zona
 ) VALUES
-    (1, 'Resistencia Térmica', '02:00:00', 1),
-    (2, 'Flexibilidad', '01:30:00', 2),
-    (3, 'Resistencia a Impactos', '03:00:00', 3),
-    (4, 'Conductividad', '01:00:00', 4),
-    (5, 'Aislante', '02:30:00', 5),
-    (6, 'Resistencia a la Corrosión', '02:00:00', 6), 
-    (7, 'Dureza', '01:45:00', 7), (8, 'Elasticidad', '01:20:00', 8), 
-    (9, 'Estabilidad Dimensional', '02:15:00', 9), 
-    (10, 'Inflamabilidad', '01:50:00', 10);
+    ('Resistencia Térmica', '02:00:00', 1),
+    ('Flexibilidad', '01:30:00', 2),
+    ('Resistencia a Impactos', '03:00:00', 3),
+    ('Conductividad', '01:00:00', 4),
+    ('Aislante', '02:30:00', 5),
+    ('Resistencia a la Corrosión', '02:00:00', 6), 
+    ('Dureza', '01:45:00', 7), ('Elasticidad', '01:20:00', 8), 
+    ('Estabilidad Dimensional', '02:15:00', 9), 
+    ( 'Inflamabilidad', '01:50:00', 10);
 
 INSERT INTO Prueba_Material (
     FK_tipo_pm, FK_materia_p_pm
@@ -4558,22 +4558,22 @@ VALUES
 
 
 
-INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
+INSERT INTO Modelo_Avion (modelo_avion_nombre, modelo_avion_descripcion)
 VALUES
-(1,'AU-80', NULL),
-(2,'AU-801',NULL),
-(3,'AU-802',NULL),
-(4,'AU-802A',NULL),
-(5,'AU-802B',NULL),
-(6,'AU-802C',NULL),
-(7,'AU-802D',NULL),
-(8,'AU-802E',NULL),
-(9,'AU-802F',NULL),
-(10,'AU-747PLUS',NULL),
-(11,'AU-747PLATINIUM',NULL),
-(12,'AU-747GOLD',NULL),
-(13,'AU-747SILVER',NULL),
-(14,'AU-747SILVERB',NULL);
+('AU-80', NULL),
+('AU-801',NULL),
+('AU-802',NULL),
+('AU-802A',NULL),
+('AU-802B',NULL),
+('AU-802C',NULL),
+('AU-802D',NULL),
+('AU-802E',NULL),
+('AU-802F',NULL),
+('AU-747PLUS',NULL),
+('AU-747PLATINIUM',NULL),
+('AU-747GOLD',NULL),
+('AU-747SILVER',NULL),
+('AU-747SILVERB',NULL);
 
 INSERT INTO avion (
     avion_fecha_entrega, avion_diseno_especial, avion_matricula, avion_fk_modelo
