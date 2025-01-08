@@ -274,10 +274,10 @@ CREATE OR REPLACE FUNCTION insertar_pruebas_avion() RETURNS TRIGGER AS $$
 DECLARE 
    record RECORD;
 BEGIN
-   FOR record IN SELECT tipo_pa_fk_modelo_avion FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo 
+   FOR record IN SELECT * FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo 
    LOOP
       INSERT INTO Prueba_Avion (prueba_avion_id, prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion) 
-      VALUES ((SELECT MAX(P.prueba_avion_id)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_fk_modelo_avion);
+      VALUES ((SELECT MAX(P.prueba_avion_id)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_id);
    END LOOP;
    RETURN NEW;
 END; 
@@ -296,7 +296,7 @@ BEGIN
    FOR record IN SELECT * FROM ma_mp X WHERE X.ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
    LOOP
       INSERT INTO Pedido (pedido_id, pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_sede, pedido_fk_historico_tasa_dolar)
-      VALUES ((SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P), '2025-07-01', NULL, NULL, NULL, NULL, (
+      VALUES ((SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P), CURRENT_DATE, NULL, NULL, NULL, NULL, (
       SELECT A.fk_sede 
       FROM Pieza P, Area A, Zona Z, Pieza_Zona PZ
       WHERE P.pieza_fk_modelo_p = record.ma_mp_fk_modelo_pieza AND PZ.pieza_zona_fk_pieza = P.pieza_id AND PZ.pieza_zona_fk_zona = Z.zona_id AND Z.fk_area = A.area_id 
@@ -364,3 +364,27 @@ CREATE TRIGGER trigger_comprar_material
 AFTER INSERT ON Pedido
 FOR EACH ROW
 EXECUTE FUNCTION comprar_material();
+
+--Insertar las pruebas que se le deben hacer a las piezas
+CREATE OR REPLACE FUNCTION insertar_pruebas_piezas() RETURNS TRIGGER AS $$
+DECLARE 
+   record RECORD;
+BEGIN
+   FOR record IN SELECT * FROM Tipo_Prueba_Pieza 
+   LOOP
+      INSERT INTO Prueba_Pieza (prueba_pieza_id, prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba) 
+      VALUES ((SELECT COALESCE(MAX(P.prueba_pieza_id),1)+1 FROM Prueba_Pieza P), NEW.pieza_id, record.tipo_pp_id);
+	    INSERT INTO Estatus_Prueba_Pieza (estatus_pp_id, estatus_pp_nombre, estatus_pp_descripcion)
+	    VALUES ((SELECT COALESCE(MAX(E.estatus_pp_id),1)+1 FROM Estatus_Prueba_Pieza E), 'En Progreso', 'Prueba en ejecución');
+	    INSERT INTO Historico_Estatus_Prueba_Pieza (hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza)
+	    VALUES ((SELECT COALESCE(MAX(H.hist_est_pru_piez_id),1)+1 FROM Historico_Estatus_Prueba_Pieza H), CURRENT_DATE, NULL, (SELECT MAX(P.prueba_pieza_id) FROM Prueba_Pieza P), (SELECT MAX(E.estatus_pp_id) FROM Estatus_Prueba_Pieza E));
+   END LOOP;
+   RETURN NEW;
+END; 
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_pruebas_piezas
+AFTER INSERT ON Pieza
+FOR EACH ROW
+EXECUTE FUNCTION insertar_pruebas_piezas();
+
