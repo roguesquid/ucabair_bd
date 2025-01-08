@@ -235,7 +235,7 @@ $$;
 --CREAR USUARIOS CLIENTE Juridico
 drop procedure if exists crear_usuario_cliente_juridico;
 
-CREATE PROCEDURE crear_usuario_cliente_juridico(
+CREATE OR REPLACE PROCEDURE crear_usuario_cliente_juridico(
   IN persona_jur_rif VARCHAR(20), --ok
   IN persona_jur_direccion_fiscal VARCHAR(200), --ok
   IN persona_jur_razon_social VARCHAR(50),
@@ -283,7 +283,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_insertar_pruebas_avion
+CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_avion
 AFTER INSERT ON avion
 FOR EACH ROW
 EXECUTE FUNCTION insertar_pruebas_avion();
@@ -308,7 +308,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_solicitar_piezas_avion
+CREATE OR REPLACE TRIGGER trigger_solicitar_piezas_avion
 AFTER INSERT ON avion
 FOR EACH ROW
 EXECUTE FUNCTION solicitar_piezas_avion();
@@ -360,7 +360,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_comprar_material
+CREATE OR REPLACE TRIGGER trigger_comprar_material
 AFTER INSERT ON Pedido
 FOR EACH ROW
 EXECUTE FUNCTION comprar_material();
