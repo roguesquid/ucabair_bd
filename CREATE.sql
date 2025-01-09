@@ -400,7 +400,7 @@ CREATE TABLE Historico_Tasa_Dolar (
 CREATE TABLE Tipo_Prueba_Mate (
   tipo_pm_id SERIAL,
   tipo_pm_nombre VARCHAR(50) NOT NULL,
-  tipo_pm_duracion INTERVAL NOT NULL, --debe ir en horas laborables
+  tipo_pm_duracion TIME NOT NULL, --debe ir en horas laborables
   FK_zona INTEGER NOT NULL,
     CONSTRAINT PK_tipo_prueba_mate PRIMARY KEY (tipo_pm_id),
     CONSTRAINT FK_zona_tipo_prueba_mate FOREIGN KEY (FK_zona) REFERENCES Zona(zona_id) ON DELETE CASCADE
@@ -487,7 +487,7 @@ CREATE TABLE Tipo_Prueba_Pieza (
 );
 
 CREATE TABLE Modelo_Avion (
-    modelo_avion_id SERIAL,
+    modelo_avion_id INTEGER NOT NULL,
     modelo_avion_descripcion VARCHAR(200),
     modelo_avion_nombre VARCHAR(50) NOT NULL,
     CONSTRAINT PK_modelo_avion PRIMARY KEY (modelo_avion_id)
@@ -498,7 +498,7 @@ CREATE TABLE tipo_prueba_avion(
     tipo_pa_nombre VARCHAR(50) NOT NULL,
     tipo_pa_duracion INTERVAL NOT NULL, --VA EN HORAS LABORALES
     tipo_pa_fk_zona INTEGER NOT NULL,
-    tipo_pa_fk_modelo_avion INTEGER,
+    tipo_pa_fk_modelo_avion INTEGER NOT NULL,
     CONSTRAINT pk_tipo_prueba_avion PRIMARY KEY(tipo_pa_id),
     CONSTRAINT fk_zona_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_zona) REFERENCES Zona(zona_id) ON DELETE CASCADE,
     CONSTRAINT fk_modelo_avion_tipo_prueba_avion FOREIGN KEY(tipo_pa_fk_modelo_avion) REFERENCES Modelo_Avion (modelo_avion_id) ON DELETE CASCADE
@@ -624,6 +624,7 @@ CREATE TABLE Inventario_Almacen (
     FK_almacen INTEGER NOT NULL,
     FK_mat_prim INTEGER,
     FK_pieza INTEGER,
+    fecha_entrada DATE NOT NULL,
     Constraint PK_inventario_almacen primary key (cod_inv_almacen),
     Constraint FK_inventario_almacen_almacen foreign key (FK_almacen) references Almacen (almacen_id) ON DELETE CASCADE,
     Constraint FK_inventario_almacen_mat_prim foreign key (FK_mat_prim) references Materia_prima(materia_p_id) ON DELETE CASCADE,

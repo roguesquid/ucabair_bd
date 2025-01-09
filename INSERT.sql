@@ -4278,30 +4278,30 @@ INSERT INTO Prueba_Pieza (
     (4, 5);
 
 INSERT INTO Inventario_Almacen (
-    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim, FK_pieza
+    cod_inv_almacen, inv_alm_cant, FK_almacen, FK_mat_prim, FK_pieza, fecha_entrada
 ) VALUES
-    (1, 500, 1, 1, NULL),
-    (2, 300, 2, 2, NULL),
-    (3, 400, 3, 3, NULL),
-    (4, 600, 4, 4, NULL),
-    (5, 250, 5, 5, NULL),
-    (6, 700, 1, 6, NULL),
-    (7, 800, 2, 7, NULL),
-    (8, 450, 3, 8, NULL),
-    (9, 550, 4, 9, NULL),
-    (10, 650, 5, 10, NULL),
-    (11, 20, 2, NULL, 1),
-    (12, 20, 5, NULL, 2),
-    (13, 20, 2, NULL, 3),
-    (14, 20, 2, NULL, 4),
-    (15, 20, 2, NULL, 5),
-    (16, 20, 2, NULL, 6),
-    (17, 20, 5, NULL, 7),
-    (18, 20, 4, NULL, 8),
-    (19, 20, 3, NULL, 9),
-    (20, 20, 1, NULL, 10),
-    (21, 20, 2, NULL, 11),
-    (22, 20, 2, NULL, 12);
+    (1, 500, 1, 1, NULL,'01/01/2023'),
+    (2, 300, 2, 2, NULL,'02/02/2024'),
+    (3, 400, 3, 3, NULL,'03/03/2024'),
+    (4, 600, 4, 4, NULL,'05/12/2024'),
+    (5, 250, 5, 5, NULL,'18/09/2024'),
+    (6, 700, 1, 6, NULL,'19/09/2023'),
+    (7, 800, 2, 7, NULL,'20/07/2024'),
+    (8, 450, 3, 8, NULL,'07/07/2024'),
+    (9, 550, 4, 9, NULL,'08/12/2023'),
+    (10, 650, 5, 10, NULL,'10/01/2025'),
+    (11, 20, 2, NULL, 1,'01/01/2025'),
+    (12, 20, 5, NULL, 2,'08/01/2025'),
+    (13, 20, 2, NULL, 3,'10/02/2024'),
+    (14, 20, 2, NULL, 4,'26/02/2024'),
+    (15, 20, 2, NULL, 5,'19/11/2023'),
+    (16, 20, 2, NULL, 6,'15/01/2024'),
+    (17, 20, 5, NULL, 7,'10/09/2024'),
+    (18, 20, 4, NULL, 8,'20/11/2024'),
+    (19, 20, 3, NULL, 9,'09/07/2024'),
+    (20, 20, 1, NULL, 10,'11/11/2023'),
+    (21, 20, 2, NULL, 11,'12/12/2024'),
+    (22, 20, 2, NULL, 12,'18/05/2024');
 
 INSERT INTO Historico_Tasa_Dolar (
     H_tasa_precio, H_tasa_fecha_inicio, H_tasa_fecha_fin
@@ -4442,17 +4442,17 @@ INSERT INTO odr_metodo_pago (
     (50, NULL, NULL, NULL, 1, 4444444.44, '2025-01-04');
 
 INSERT INTO Tipo_Prueba_Mate (
-    tipo_pm_nombre, tipo_pm_duracion, FK_zona
+    tipo_pm_id, tipo_pm_nombre, tipo_pm_duracion, FK_zona
 ) VALUES
-    ('Resistencia Térmica', '02:00:00', 1),
-    ('Flexibilidad', '01:30:00', 2),
-    ('Resistencia a Impactos', '03:00:00', 3),
-    ('Conductividad', '01:00:00', 4),
-    ('Aislante', '02:30:00', 5),
-    ('Resistencia a la Corrosión', '02:00:00', 6), 
-    ('Dureza', '01:45:00', 7), ('Elasticidad', '01:20:00', 8), 
-    ('Estabilidad Dimensional', '02:15:00', 9), 
-    ( 'Inflamabilidad', '01:50:00', 10);
+    (1, 'Resistencia Térmica', '02:00:00', 1),
+    (2, 'Flexibilidad', '01:30:00', 2),
+    (3, 'Resistencia a Impactos', '03:00:00', 3),
+    (4, 'Conductividad', '01:00:00', 4),
+    (5, 'Aislante', '02:30:00', 5),
+    (6, 'Resistencia a la Corrosión', '02:00:00', 6), 
+    (7, 'Dureza', '01:45:00', 7), (8, 'Elasticidad', '01:20:00', 8), 
+    (9, 'Estabilidad Dimensional', '02:15:00', 9), 
+    (10, 'Inflamabilidad', '01:50:00', 10);
 
 INSERT INTO Prueba_Material (
     FK_tipo_pm, FK_materia_p_pm
@@ -4558,22 +4558,22 @@ VALUES
 
 
 
-INSERT INTO Modelo_Avion (modelo_avion_nombre, modelo_avion_descripcion)
+INSERT INTO Modelo_Avion (modelo_avion_id,modelo_avion_nombre, modelo_avion_descripcion)
 VALUES
-('AU-80', NULL),
-('AU-801',NULL),
-('AU-802',NULL),
-('AU-802A',NULL),
-('AU-802B',NULL),
-('AU-802C',NULL),
-('AU-802D',NULL),
-('AU-802E',NULL),
-('AU-802F',NULL),
-('AU-747PLUS',NULL),
-('AU-747PLATINIUM',NULL),
-('AU-747GOLD',NULL),
-('AU-747SILVER',NULL),
-('AU-747SILVERB',NULL);
+(1,'AU-80', NULL),
+(2,'AU-801',NULL),
+(3,'AU-802',NULL),
+(4,'AU-802A',NULL),
+(5,'AU-802B',NULL),
+(6,'AU-802C',NULL),
+(7,'AU-802D',NULL),
+(8,'AU-802E',NULL),
+(9,'AU-802F',NULL),
+(10,'AU-747PLUS',NULL),
+(11,'AU-747PLATINIUM',NULL),
+(12,'AU-747GOLD',NULL),
+(13,'AU-747SILVER',NULL),
+(14,'AU-747SILVERB',NULL);
 
 INSERT INTO avion (
     avion_fecha_entrega, avion_diseno_especial, avion_matricula, avion_fk_modelo
@@ -5457,5 +5457,37 @@ INSERT INTO detalle_pedido (
 
 
 
+
+
+
+
+
+    INSERT into modelo_pieza VALUES 
+(13,'Ala recta','Forma básica, perpendicular al fuselaje. Común en aviones pequeños y de baja velocidad'),
+(14,'Ala en flecha hacia atrás','están inclinadas hacia atrás. Usadas en aviones subsónicos y supersónicos, como aviones comerciales y militares.'),
+(15,'Ala en flecha hacia delante','Inclinadas hacia adelante, mejoran la maniobrabilidad pero son menos estables. Usadas en diseños experimentales'),
+(16,'Ala de geometría variable','Alas que pueden cambiar su ángulo (en flecha) durante el vuelo. Usadas en aviones como el F-14 Tomcat'),
+(17,'Ala eliptica','Alas que pueden cambiar su ángulo (en flecha) durante el vuelo. Usadas en aviones como el F-14 Tomcat.'),
+(18,'Ala en flecha invertida','Similar a la ala en flecha hacia atrás, pero con la inclinación hacia adelante. Usada en aviones experimentales como el Grumman X-29.');
+
+INSERT INTO pieza VALUES
+(13,'Tipo de Ala',13),
+(14,'Tipo de Ala',14),
+(15,'Tipo de Ala',15),
+(16,'Tipo de Ala',16),
+(17,'Tipo de Ala',17),
+(18,'Tipo de Ala',18);
+
+INSERT INTO pieza_avion VALUES
+(11,13,1),
+(12,13,2),
+(13,15,3),
+(14,16,4),
+(15,15,5),
+(16,15,6),
+(17,15,7),
+(18,17,8),
+(19,16,9),
+(20,16,10);
 
 
