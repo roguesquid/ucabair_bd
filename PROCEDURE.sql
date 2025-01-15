@@ -513,22 +513,22 @@ END
 $$;
 
 -- UPDATE
-CREATE OR REPLACE FUNCTION actualizar_tipo_prueba(p_id INT, p_nombre VARCHAR(50), p_duracion INTERVAL, p_tipo TEXT, fk_zona INTEGER)
+CREATE OR REPLACE FUNCTION actualizar_tipo_prueba(p_id INT, p_nombre VARCHAR(50), p_duracion INTERVAL, p_tipo TEXT, fk_zonsa INTEGER)
 RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
     IF p_tipo = 'pieza' THEN
         UPDATE tipo_prueba_pieza
-        SET tipo_pp_nombre = p_nombre, tipo_pp_duracion = p_duracion, FK_zona_tip_pru_pie = fk_zona
+        SET tipo_pp_nombre = p_nombre, tipo_pp_duracion = p_duracion, FK_zona_tip_pru_pie = fk_zonsa
         WHERE tipo_pp_id = p_id;
     ELSIF p_tipo = 'material' THEN
         UPDATE tipo_prueba_mate
-        SET tipo_pm_nombre = p_nombre, tipo_pm_duracion = p_duracion, FK_zona = fk_zona
+        SET tipo_pm_nombre = p_nombre, tipo_pm_duracion = p_duracion, FK_zona = fk_zonsa
         WHERE tipo_pm_id = p_id;
     ELSE
         UPDATE tipo_prueba_avion
-        SET tipo_pa_nombre = p_nombre, tipo_pa_duracion = p_duracion, tipo_pa_fk_zona = fk_zona
+        SET tipo_pa_nombre = p_nombre, tipo_pa_duracion = p_duracion, tipo_pa_fk_zona = fk_zonsa
         WHERE tipo_pa_id = p_id;
     END IF;
 END
