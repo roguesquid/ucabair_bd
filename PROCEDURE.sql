@@ -270,22 +270,31 @@ end
 $$;
 
 ---Crea las pruebas que se le deben hacer al avion (REVISADO)
-CREATE OR REPLACE FUNCTION insertar_pruebas_avion() RETURNS TRIGGER AS $$
-DECLARE
+CREATE OR REPLACE FUNCTION insertar_pruebas_avion()
+RETURNS TRIGGER AS $$
+DECLARE 
     record RECORD;
- BEGIN
-    FOR record IN SELECT * FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo
+BEGIN
+    FOR record IN 
+        SELECT * FROM Tipo_Prueba_Avion WHERE tipo_pa_fk_modelo_avion = NEW.avion_fk_modelo 
     LOOP
-       INSERT INTO Prueba_Avion (prueba_avion_id, prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion)
-       VALUES ((SELECT COALESCE(MAX(P.prueba_avion_id),1)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_id);
-       INSERT INTO Estatus_Prueba_Avion (estatus_pa_id, estatus_pa_nombre, estatus_pa_descripcion)
-       VALUES ((SELECT COALESCE(MAX(E.estatus_pa_id),1)+1 FROM Estatus_Prueba_Avion E), 'En Progreso', 'Prueba en Ejecución');
- 	  INSERT INTO Historico_Estatus_Prueba_Avion (hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion)
- 	  VALUES ((SELECT COALESCE(MAX(H.hist_est_pru_avion_cod),1)+1 FROM Historico_Estatus_Prueba_Avion H), CURRENT_DATE, NULL, (SELECT MAX(P.prueba_avion_id) FROM Prueba_Avion P), (SELECT MAX(E.estatus_pa_id) FROM Estatus_Prueba_Avion E));
+        INSERT INTO Prueba_Avion (prueba_avion_id, prueba_avion_fk_avion, prueba_avion_fk_tipo_p_avion)
+        VALUES ((SELECT COALESCE(MAX(P.prueba_avion_id),1)+1 FROM Prueba_Avion P), NEW.avion_id, record.tipo_pa_id);
+
+        INSERT INTO Historico_Estatus_Prueba_Avion (
+            hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion
+        ) VALUES (
+            (SELECT COALESCE(MAX(H.hist_est_pru_avion_cod),1)+1 FROM Historico_Estatus_Prueba_Avion H),
+            CURRENT_DATE, 
+            NULL, 
+            (SELECT MAX(P.prueba_avion_id) FROM Prueba_Avion P), 
+            4 -- Valor por defecto para fk_estatus_prueb_avion para iniciar la prueba
+        );
     END LOOP;
     RETURN NEW;
- END;
- $$ LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
+
 
  CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_avion
 AFTER INSERT ON avion
@@ -338,11 +347,11 @@ BEGIN
             detalle_pedido_fk_modelo_pieza
         )
         VALUES (
-            (SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D),
-            110,
-            110,
-            (SELECT MAX(P.pedido_id) FROM Pedido P),
-            NULL,
+            (SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D), 
+            10, 
+            10, 
+            (SELECT MAX(P.pedido_id) FROM Pedido P), 
+            NULL, 
             record.ma_mp_fk_modelo_pieza
         );
 
@@ -741,27 +750,70 @@ $$;
 
  -- $$ LANGUAGE plpgsql;
 --  Crear orden de reposicion de materia prima luego de un pedido cuando no hay en el inventario, e insertar en hist estatus (ARREGLADO)
- CREATE OR REPLACE FUNCTION comprar_material() RETURNS TRIGGER AS $$
- DECLARE
+CREATE OR REPLACE FUNCTION comprar_material() 
+RETURNS TRIGGER AS $$
+DECLARE
     record RECORD;
- BEGIN
-    FOR record IN SELECT I.*
-    FROM Inventario_Almacen I, Almacen A
-    WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede
+BEGIN
+    FOR record IN 
+        SELECT I.*
+        FROM Inventario_Almacen I, Almacen A
+        WHERE I.fk_almacen = A.almacen_id AND A.fk_sede = NEW.pedido_fk_sede
     LOOP
-       RAISE NOTICE 'Verificando inventario: %', record.inv_alm_cant;
-       IF record IS NULL THEN
-          EXIT;
-       ELSIF record.inv_alm_cant = 0 AND record.fk_pieza IS NULL THEN
-          INSERT INTO Orden_De_Reposicion (orden_id, orden_fecha, orden_subtotal, orden_total, fk_contrato_per, fk_tasa_dolar)
-          VALUES ((SELECT COALESCE(MAX(O.orden_id)+1, 1) FROM Orden_De_Reposicion O), NEW.pedido_fecha, NULL, NULL, NULL, (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT));
-          INSERT INTO Detalle_Orden_Reposicion (detalle_orden_cod, detalle_orden_cantidad, detalle_orden_precio_unitario, fk_orden, fk_mp_prov)
-          VALUES ((SELECT COALESCE(MAX(detalle_orden_cod)+1, 1) FROM Detalle_Orden_Reposicion D), 100, 100, (SELECT MAX(O.orden_id) FROM Orden_De_Reposicion O), (SELECT MP.materia_p_prov_id FROM MATE_P_PROVEEDOR MP WHERE MP.fk_materia_prima = record.fk_mat_prim));
-       END IF;
+        RAISE NOTICE 'Verificando inventario: %', record.inv_alm_cant;
+        IF record IS NULL THEN
+            EXIT;
+        ELSIF record.inv_alm_cant < 20 THEN
+            INSERT INTO Orden_De_Reposicion (
+                orden_id, 
+                orden_fecha, 
+                orden_subtotal, 
+                orden_total, 
+                fk_contrato_per, 
+                fk_tasa_dolar
+            )
+            VALUES (
+                (SELECT COALESCE(MAX(O.orden_id)+1, 1) FROM Orden_De_Reposicion O), 
+                NEW.pedido_fecha, 
+                NULL, 
+                NULL, 
+                NULL, 
+                (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT)
+            );
+
+            INSERT INTO Detalle_Orden_Reposicion (
+                detalle_orden_cod, 
+                detalle_orden_cantidad, 
+                detalle_orden_precio_unitario, 
+                fk_orden, 
+                fk_mp_prov
+            )
+            VALUES (
+                (SELECT COALESCE(MAX(detalle_orden_cod)+1, 1) FROM Detalle_Orden_Reposicion D), 
+                100, 
+                100, 
+                (SELECT MAX(O.orden_id) FROM Orden_De_Reposicion O), 
+                (SELECT MP.fk_prov FROM MATE_P_PROVEEDOR MP WHERE MP.fk_materia_prima = record.fk_mat_prim)
+            );
+
+            INSERT INTO Historico_Estatus_Orden (
+                hist_est_ord_cod,
+                fecha_hora_inicio_estatus,
+                FK_orden_rep,
+                FK_estatus_orden
+            )
+            VALUES (
+                (SELECT COALESCE(MAX(H.hist_est_ord_cod)+1, 1) FROM Historico_Estatus_Orden H),
+                CURRENT_TIMESTAMP,
+                (SELECT MAX(O.orden_id) FROM Orden_De_Reposicion O),
+                1
+            );
+        END IF;
     END LOOP;
     RETURN NEW;
- END;
- $$ LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE TRIGGER trigger_comprar_material
  AFTER INSERT ON Pedido
@@ -769,25 +821,36 @@ CREATE OR REPLACE TRIGGER trigger_comprar_material
  EXECUTE FUNCTION comprar_material();
 
 
-
-
--- Insertar las pruebas que se le deben hacer a las piezas (ARREGLADO)
-CREATE OR REPLACE FUNCTION insertar_pruebas_piezas() RETURNS TRIGGER AS $$
- DECLARE
+-- Insertar las pruebas que se le deben hacer a las piezas luego de la insersion de un avion (ARREGLADO)
+CREATE OR REPLACE FUNCTION insertar_pruebas_piezas()
+RETURNS TRIGGER AS $$
+DECLARE
     record RECORD;
- BEGIN
-    FOR record IN SELECT * FROM Tipo_Prueba_Pieza
+    pieza RECORD;
+BEGIN
+    FOR pieza IN 
+        SELECT pieza_avion_fk_pieza FROM Pieza_Avion WHERE pieza_avion_fk_avion = NEW.avion_id
     LOOP
-       INSERT INTO Prueba_Pieza (prueba_pieza_id, prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba)
-       VALUES ((SELECT COALESCE(MAX(P.prueba_pieza_id),1)+1 FROM Prueba_Pieza P), NEW.pieza_id, record.tipo_pp_id);
- 	    INSERT INTO Estatus_Prueba_Pieza (estatus_pp_id, estatus_pp_nombre, estatus_pp_descripcion)
- 	    VALUES ((SELECT COALESCE(MAX(E.estatus_pp_id),1)+1 FROM Estatus_Prueba_Pieza E), 'En Progreso', 'Prueba en ejecución');
- 	    INSERT INTO Historico_Estatus_Prueba_Pieza (hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza)
- 	    VALUES ((SELECT COALESCE(MAX(H.hist_est_pru_piez_id),1)+1 FROM Historico_Estatus_Prueba_Pieza H), CURRENT_DATE, NULL, (SELECT MAX(P.prueba_pieza_id) FROM Prueba_Pieza P), (SELECT MAX(E.estatus_pp_id) FROM Estatus_Prueba_Pieza E));
+        FOR record IN 
+            SELECT * FROM Tipo_Prueba_Pieza
+        LOOP
+            INSERT INTO Prueba_Pieza (prueba_pieza_id, prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba)
+            VALUES ((SELECT COALESCE(MAX(P.prueba_pieza_id),1)+1 FROM Prueba_Pieza P), pieza.pieza_avion_fk_pieza, record.tipo_pp_id);
+
+            INSERT INTO Historico_Estatus_Prueba_Pieza (
+                hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza
+            ) VALUES (
+                (SELECT COALESCE(MAX(H.hist_est_pru_piez_id),1)+1 FROM Historico_Estatus_Prueba_Pieza H),
+                CURRENT_DATE,
+                NULL,
+                (SELECT MAX(P.prueba_pieza_id) FROM Prueba_Pieza P),
+                4 -- Valor por defecto para hist_est_pru_piez_fk_estatus_prueba_pieza para decir que no se han iniciado
+            );
+        END LOOP;
     END LOOP;
     RETURN NEW;
- END;
- $$ LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
 
  CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_piezas
  AFTER INSERT ON Pieza
@@ -804,3 +867,70 @@ CREATE OR REPLACE FUNCTION devolver_privilegios_por_id_usuario(id_usuario INT) R
     INNER JOIN usuario u ON u.usuario_fk_rol = rp.rp_fk_rol
     WHERE u.usuario_codigo = id_usuario;
 $$ LANGUAGE SQL;
+
+ CREATE OR REPLACE FUNCTION fabricacion_estatus_pieza()
+RETURNS TABLE(nombre_pieza VARCHAR(40), descripcion_pieza VARCHAR(40), nombre_sede VARCHAR(40), nombre_area VARCHAR(40),descripcion_area VARCHAR(40))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+select m_pieza_nombre as nombre_pieza, m_pieza_descripcion as descripcion_pieza, sede_nombre as nombre_sede, area_nombre as nombre_area, area_descripcion as descripcion_area
+from modelo_pieza, pieza_zona 
+inner join pieza on pieza_zona_fk_pieza = pieza_id 
+inner join zona on pieza_zona_fk_zona = zona_id
+inner join area on fk_area = area_id inner join sede on fk_sede = sede_id
+Where pieza_id = m_pieza_id;
+END
+$$;
+
+
+
+CREATE OR REPLACE FUNCTION ala_mas_utilizada()
+RETURNS TABLE (
+    pieza_id INTEGER,
+    pieza_nombre VARCHAR(30),
+    pieza_descripcion VARCHAR(40),
+    total INTEGER
+)
+LANGUAGE sql
+AS $$
+    SELECT mp.m_pieza_id as pieza_id, 
+           mp.m_pieza_nombre as pieza_nombre, 
+           mp.m_pieza_descripcion as pieza_descripcion, 
+           count(*) as total
+    FROM modelo_pieza mp
+    INNER JOIN pieza p ON p.pieza_fk_modelo_p = mp.m_pieza_id
+    INNER JOIN pieza_avion pa ON p.pieza_id = pa.pieza_avion_fk_pieza
+    WHERE mp.m_pieza_nombre LIKE 'Ala%'
+    GROUP BY mp.m_pieza_id, mp.m_pieza_nombre, mp.m_pieza_descripcion
+    ORDER BY total DESC
+    LIMIT 1;
+$$;
+
+
+
+CREATE OR REPLACE FUNCTION obtener_inventario_fecha()
+RETURNS TABLE(codigo INTEGER, stock INTEGER, direccion_almacen VARCHAR(40), nombre_sede VARCHAR(40),nombre_materiap VARCHAR(40), nompre_pieza VARCHAR(30), fecha_entrada_almacen DATE)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+SELECT 
+    ia.cod_inv_almacen as codigo, 
+    ia.inv_alm_cant as stock, 
+	a.almacen_direccion as direccion_almacen, 
+    s.sede_nombre as nombre_sede, 
+    mp.materia_p_nombre as nombre_materiap, 
+    mop.m_pieza_nombre as nombre_pieza, 
+    ia.fecha_entrada as fecha_entrada_almacen
+FROM 
+    inventario_almacen ia
+    INNER JOIN almacen a ON ia.fk_almacen = a.almacen_id
+    INNER JOIN sede s ON a.fk_sede = s.sede_id
+    LEFT JOIN materia_prima mp ON ia.fk_mat_prim = mp.materia_p_id
+    LEFT JOIN pieza p ON ia.fk_pieza = p.pieza_id
+    LEFT JOIN modelo_pieza mop ON mop.m_pieza_id = p.pieza_fk_modelo_p
+ORDER BY 
+    ia.fecha_entrada DESC;
+END
+$$;

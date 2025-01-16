@@ -4474,7 +4474,8 @@ INSERT INTO estatus_prueba_mate (
 ) VALUES
     (1, 'En Progreso', 'Prueba en ejecución'),
     (2, 'Completa', 'Prueba finalizada exitosamente'),
-    (3, 'Fallida', 'Prueba no cumplió los estándares');
+    (3, 'Fallida', 'Prueba no cumplió los estándares'),
+    (4, 'En cola','No se ha iniciado la ejecucion de la prueba');
 
 -- Inserciones para la tabla Historico_Estatus_Prueba_Mate
 INSERT INTO Historico_Estatus_Prueba_Mate (
@@ -5044,7 +5045,8 @@ INSERT INTO estatus_prueba_pieza (
 ) VALUES
     (1, 'En Progreso', 'Prueba en ejecución'),
     (2, 'Completa', 'Prueba finalizada exitosamente'),
-    (3, 'Fallida', 'Prueba no cumplió los estándares');
+    (3, 'Fallida', 'Prueba no cumplió los estándares'),
+(4, 'Por iniciar', 'Aun no se ha iniciado la ejecucion de la prueba');
 
     INSERT INTO historico_estatus_prueba_pieza (
     hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza
@@ -5065,7 +5067,8 @@ INSERT INTO estatus_prueba_avion (
 ) VALUES
     (1, 'En Progreso', 'Prueba en ejecución'),
     (2, 'Completa', 'Prueba finalizada exitosamente'),
-    (3, 'Fallida', 'Prueba no cumplió los estándares');
+    (3, 'Fallida', 'Prueba no cumplió los estándares'),
+(4, 'Por iniciar', 'Aun no se ha iniciado la ejecucion de la prueba');
 
 INSERT INTO historico_estatus_prueba_avion (
     hist_est_pru_avion_cod, fecha_hora_inicio_estatus, fecha_hora_fin_estatus, fk_prueba_avion, fk_estatus_prueb_avion
@@ -5100,25 +5103,25 @@ INSERT INTO historico_estatus_prueba_avion (
 ) VALUES
     (1, 1, 1),
     (2, 1, 2),
-    (3, 1, 3),
-    (4, 1, 4),
-    (5, 1, 5),
-    (6, 1, 6),
-    (7, 1, 7),
-    (8, 1, 8),
-    (9, 1, 9),
-    (10, 1, 10),
-    (11,2,1),
+    (3, 1, 5),
+    (4, 1, 7),
+    (5, 1, 10),
+    (6, 1, 12),
+    (7, 1, 9),
+    (8, 1, 3),
+    (9, 1, 4),
+    (10, 1, 6),
+    (11,2,3),
     (12,2,2),
-    (13,2,3),
-    (14,2,4),
-    (15,2,5),
-    (16,2,6),
-    (17,2,7),
-    (18,2,8),
-    (19,2,9),
-    (20,2,10),
-    (21,3,1),
+    (13,2,5),
+    (14,2,6),
+    (15,2,9),
+    (16,2,10),
+    (17,2,11),
+    (18,2,1),
+    (19,2,4),
+    (20,2,12),
+    (21,3,11),
     (22,3,2),
     (23,3,3),
     (24,3,4),
@@ -5127,29 +5130,29 @@ INSERT INTO historico_estatus_prueba_avion (
     (27,3,7),
     (28,3,8),
     (29,3,9),
-    (30,3,10),
-    (31,4,1),
+    (30,3,12),
+    (31,4,3),
     (32,4,2),
-    (33,4,3),
+    (33,4,1),
     (34,4,4),
-    (35,4,5),
+    (35,4,8),
     (36,4,6),
     (37,4,7),
-    (38,4,8),
-    (39,4,9),
+    (38,4,5),
+    (39,4,12),
     (40,4,10),
-    (41,5,1),
-    (42,5,2),
+    (41,5,7),
+    (42,5,5),
     (43,5,3),
     (44,5,4),
-    (45,5,5),
+    (45,5,2),
     (46,5,6),
-    (47,5,7),
+    (47,5,1),
     (48,5,8),
     (49,5,9),
     (50,5,10),
-    (51,6,1),
-    (52,6,2),
+    (51,6,12),
+    (52,6,11),
     (53,6,3),
     (54,6,4),
     (55,6,5),
