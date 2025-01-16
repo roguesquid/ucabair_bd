@@ -374,11 +374,11 @@ $$ LANGUAGE plpgsql;
 -- CRUD AVION
 -- READ
 CREATE OR REPLACE FUNCTION obtener_aviones()
-RETURNS TABLE(id integer, nombre character varying, descripcion character varying)
+RETURNS TABLE(id integer, nombre character varying, descripcion character varying, precio numeric)
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  RETURN QUERY SELECT modelo_avion_id as id, modelo_avion_nombre as nombre, modelo_avion_descripcion as descripcion
+  RETURN QUERY SELECT modelo_avion_id as id, modelo_avion_nombre as nombre, modelo_avion_descripcion as descripcion, modelo_avion_precio as precio
   FROM modelo_avion;
 END
 $$;
@@ -795,3 +795,12 @@ CREATE OR REPLACE FUNCTION insertar_pruebas_piezas() RETURNS TRIGGER AS $$
  FOR EACH ROW
  EXECUTE FUNCTION insertar_pruebas_piezas();
 
+CREATE FUNCTION devolver_privilegios_por_id_usuario(id_usuario INT) RETURNS TABLE (
+    nombre_permiso VARCHAR(50)
+) AS $$
+    SELECT p.privilegio_descripcion
+    FROM privilegio p
+    INNER JOIN rol_privilegio rp ON p.privilegio_codigo = rp.rp_fk_privilegio
+    INNER JOIN usuario u ON u.usuario_fk_rol = rp.rp_fk_rol
+    WHERE u.usuario_codigo = id_usuario;
+$$ LANGUAGE SQL;
