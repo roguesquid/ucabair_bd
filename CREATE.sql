@@ -400,7 +400,7 @@ CREATE TABLE Historico_Tasa_Dolar (
 CREATE TABLE Tipo_Prueba_Mate (
   tipo_pm_id SERIAL,
   tipo_pm_nombre VARCHAR(50) NOT NULL,
-  tipo_pm_duracion TIME NOT NULL, --debe ir en horas laborables
+  tipo_pm_duracion INTERVAL NOT NULL, --debe ir en horas laborables
   FK_zona INTEGER NOT NULL,
     CONSTRAINT PK_tipo_prueba_mate PRIMARY KEY (tipo_pm_id),
     CONSTRAINT FK_zona_tipo_prueba_mate FOREIGN KEY (FK_zona) REFERENCES Zona(zona_id) ON DELETE CASCADE
