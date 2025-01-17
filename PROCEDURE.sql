@@ -1059,15 +1059,109 @@ BEGIN
 END
 $$;
 
+-- REPORTE 4 (LISTO)
 CREATE OR REPLACE FUNCTION calcular_nomina()
 RETURNS TABLE(Cedula NUMERIC, Nombre VARCHAR(100), Sueldo DECIMAL(10,2), HorasTrabajadas INTEGER, HorasExtra INTEGER, TotalCompensacion DECIMAL(10,2))
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
+    SELECT
         pn.persona_nat_cedula as Cedula,
         pn.persona_nat_p_nombre || ' ' || pn.persona_nat_s_nombre || ' ' || pn.persona_nat_p_apellido || ' ' || pn.persona_nat_s_apellido as Nombre,
-        
+        cc.cont_carg_sueldo_mensual as Sueldo,
+        EXTRACT(HOUR FROM (a.asistencia_fecha_hora_salida - a.asistencia_fecha_hora_entrada)) as HorasTrabajadas,
+        CASE
+            WHEN EXTRACT(HOUR FROM (a.asistencia_fecha_hora_salida - a.asistencia_fecha_hora_entrada)) > cc.cont_carg_horas_sem THEN EXTRACT(HOUR FROM (a.asistencia_fecha_hora_salida - a.asistencia_fecha_hora_entrada)) - cc.cont_carg_horas_sem
+            ELSE 0
+        END as HorasExtra,
+        (cc.cont_carg_sueldo_mensual / cc.cont_carg_horas_sem) * EXTRACT(HOUR FROM (a.asistencia_fecha_hora_salida - a.asistencia_fecha_hora_entrada)) as TotalCompensacion
+    FROM
+        asistencia a
+        INNER JOIN contrato_cargo cc ON a.FK_contrato = cc.FK_contrato
+        INNER JOIN empleado e ON cc.FK_contrato = e.cod_empleado
+        INNER JOIN persona_natural pn ON e.FK_persona_nat = pn.persona_nat_codigo;
+END
+$$;
+
+
+-- REPORTE 7 (LISTO)
+CREATE OR REPLACE FUNCTION equipo_mas_eficiente_con_base_a_menos_retrasos()
+RETURNS TABLE ( id_equipo INTEGER, retraso_en_horas DECIMAL(10,2))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        e.codigo_equipo as id_equipo,
+        COALESCE(SUM(EXTRACT(HOUR FROM (he.fecha_hora_fin_estatus - he.fecha_hora_inicio_estatus))), 0) as retraso_en_horas
+    FROM
+        equipo e
+        LEFT JOIN avion_equipo ae ON e.codigo_equipo = ae.avion_equipo_fk_equipo
+        LEFT JOIN avion a ON ae.avion_equipo_fk_avion = a.avion_id
+        LEFT JOIN prueba_avion pa ON a.avion_id = pa.prueba_avion_fk_avion
+        LEFT JOIN historico_estatus_prueba_avion he ON pa.prueba_avion_id = he.FK_prueba_avion
+    GROUP BY
+        e.codigo_equipo
+    UNION
+    SELECT
+        e.codigo_equipo as id_equipo,
+        COALESCE(SUM(EXTRACT(HOUR FROM (he.hist_est_pru_piez_fecha_hora_fin - he.hist_est_pru_piez_fecha_hora_inicio))), 0) as retraso_en_horas
+    FROM
+        equipo e
+        LEFT JOIN pieza_equipo pe ON e.codigo_equipo = pe.pieza_equipo_fk_equipo
+        LEFT JOIN pieza p ON pe.pieza_equipo_fk_pieza = p.pieza_id
+        LEFT JOIN prueba_pieza pp ON p.pieza_id = pp.prueba_pieza_fk_pieza
+        LEFT JOIN historico_estatus_prueba_pieza he ON pp.prueba_pieza_id = he.hist_est_pru_piez_fk_prueba_pieza
+    GROUP BY
+        e.codigo_equipo
+    ORDER BY
+        retraso_en_horas ASC
+    LIMIT 1;
+END
+$$;
+
+-- REPORTE 10 (LISTO)
+CREATE OR REPLACE FUNCTION productos_no_pasaron_pruebas_calidad()
+RETURNS TABLE (id_producto INTEGER, tipo_producto TEXT, prueba_no_aprobada VARCHAR(50))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        p.pieza_id as id_producto,
+        'Pieza' as tipo_producto,
+        tipo_pp_nombre as prueba_no_aprobada
+    FROM
+        pieza p
+        INNER JOIN prueba_pieza pp ON p.pieza_id = pp.prueba_pieza_fk_pieza
+        INNER JOIN tipo_prueba_pieza tpp ON pp.prueba_pieza_fk_tipo_prueba = tpp.tipo_pp_id
+        INNER JOIN historico_estatus_prueba_pieza hepp ON pp.prueba_pieza_id = hepp.hist_est_pru_piez_fk_prueba_pieza
+    WHERE
+        hepp.hist_est_pru_piez_fk_estatus_prueba_pieza = 3
+    UNION
+    SELECT
+        m.materia_p_id as id_producto,
+        'Materia Prima' as tipo_producto,
+        tipo_pm_nombre as prueba_no_aprobada
+    FROM
+        materia_prima m
+        INNER JOIN prueba_material pm ON m.materia_p_id = pm.FK_materia_p_pm
+        INNER JOIN tipo_prueba_mate tpm ON pm.FK_tipo_pm = tpm.tipo_pm_id
+        INNER JOIN historico_estatus_prueba_mate hepm ON pm.cod_prueb_map = hepm.FK_prueba_mate
+    WHERE
+        hepm.FK_estatus_pm = 3
+    UNION
+    SELECT
+        a.avion_id as id_producto,
+        'Avion' as tipo_producto,
+        tipo_pa_nombre as prueba_no_aprobada
+    FROM
+        avion a
+        INNER JOIN prueba_avion pa ON a.avion_id = pa.prueba_avion_fk_avion
+        INNER JOIN tipo_prueba_avion tpa ON pa.prueba_avion_fk_tipo_p_avion = tpa.tipo_pa_id
+        INNER JOIN historico_estatus_prueba_avion hepa ON pa.prueba_avion_id = hepa.FK_prueba_avion
+    WHERE
+        hepa.FK_estatus_prueb_avion = 3;
 END
 $$;
