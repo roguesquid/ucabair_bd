@@ -865,7 +865,7 @@ END;
 $$ LANGUAGE plpgsql;
 
  CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_piezas
- AFTER INSERT ON Pieza
+ AFTER INSERT ON AVION
  FOR EACH ROW
  EXECUTE FUNCTION insertar_pruebas_piezas();
 
@@ -897,15 +897,15 @@ m_pieza_descripcion as descripcion_pieza,
 sede_nombre as nombre_sede, 
 area_nombre as nombre_area,
 estatus_ped_nombre as estatus_pieza
-FROM modelo_pieza, pieza_zona
+FROM detalle_pedido dp,pieza_avion, modelo_pieza, pieza_zona
 inner join pieza on pieza_zona_fk_pieza = pieza_id
 inner join zona on pieza_zona_fk_zona = zona_id
 inner join area on fk_area = area_id
 inner join sede on fk_sede = sede_id
 inner join pedido on sede_id = pedido_fk_sede
 inner join historico_estatus_pedido on historico_estatus_pedido_fk_pedido = pedido_id
-inner join estatus_pedido on historico_estatus_pedido_fk_estatus_pedido = estatus_ped_id
-Where pieza_id = m_pieza_id;
+inner join estatus_pedido on historico_estatus_pedido_fk_estatus_pedido = estatus_ped_id 
+Where pieza_id = m_pieza_id and pieza_avion_fk_pieza = pieza_id and detalle_pedido_fk_modelo_avion is null and dp.detalle_pedido_fk_pedido = pedido_id;
 END
 $$;
 
@@ -939,7 +939,7 @@ $$;
 
 
 CREATE OR REPLACE FUNCTION obtener_inventario_fecha()
-RETURNS TABLE(codigo INTEGER, stock INTEGER, direccion_almacen VARCHAR(40), nombre_sede VARCHAR(40),nombre_materiap VARCHAR(40), nompre_pieza VARCHAR(30), fecha_entrada_almacen DATE)
+RETURNS TABLE(codigo INTEGER, stock INTEGER, direccion_almacen VARCHAR(40), nombre_sede VARCHAR(40),nombre_materiap VARCHAR(40), nombre_pieza VARCHAR(30), fecha_entrada_almacen DATE)
 LANGUAGE plpgsql
 AS $$
 BEGIN
