@@ -1016,7 +1016,7 @@ BEGIN
     VALUES ((SELECT MAX(tdc_metodo_pago_cod)+1 FROM tdc),numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDC, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
-    VALUES (pedido_id, (SELECT MAX(tdc_id) FROM tdc), monto, CURRENT_DATE);
+    VALUES (pedido_id, (SELECT MAX(tdc_metodo_pago_cod) FROM tdc), monto, CURRENT_DATE);
 END
 $$;
 
@@ -1029,7 +1029,7 @@ BEGIN
     VALUES ((SELECT MAX(tdd_metodo_pago_cod)+1 FROM tdd),numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDD, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
-    VALUES (pedido_id, (SELECT MAX(tdd_id) FROM tdd), monto, CURRENT_DATE);
+    VALUES (pedido_id, (SELECT MAX(tdd_metodo_pago_cod) FROM tdd), monto, CURRENT_DATE);
 END
 $$;
 
@@ -1042,7 +1042,7 @@ BEGIN
     VALUES ((SELECT MAX(cheque_metodo_pago_cod)+1 FROM cheque),numero_cheque, banco_id, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_cheque, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
-    VALUES (pedido_id, (SELECT MAX(cheque_id) FROM cheque), monto, CURRENT_DATE);
+    VALUES (pedido_id, (SELECT MAX(cheque_metodo_pago_cod) FROM cheque), monto, CURRENT_DATE);
 END
 $$;
 
@@ -1059,3 +1059,15 @@ BEGIN
 END
 $$;
 
+CREATE OR REPLACE FUNCTION calcular_nomina()
+RETURNS TABLE(Cedula NUMERIC, Nombre VARCHAR(100), Sueldo DECIMAL(10,2), HorasTrabajadas INTEGER, HorasExtra INTEGER, TotalCompensacion DECIMAL(10,2))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        pn.persona_nat_cedula as Cedula,
+        pn.persona_nat_p_nombre || ' ' || pn.persona_nat_s_nombre || ' ' || pn.persona_nat_p_apellido || ' ' || pn.persona_nat_s_apellido as Nombre,
+        
+END
+$$;
