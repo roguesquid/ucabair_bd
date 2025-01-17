@@ -926,3 +926,155 @@ ORDER BY
     ia.fecha_entrada DESC;
 END
 $$;
+
+--Registro de asistencia de los empleados
+CREATE OR REPLACE FUNCTION asistencia_empleados()
+RETURNS TABLE(resultado TEXT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    CONCAT(
+      'Cédula: ', P.persona_nat_cedula, ' | ',
+      'Nombre: ', P.persona_nat_p_nombre, ' ', P.persona_nat_p_apellido, ' | ',
+      'Entrada: ', A.asistencia_fecha_hora_entrada, ' | ',
+      'Salida: ', A.asistencia_fecha_hora_salida
+    ) AS resultado
+  FROM 
+    Persona_Natural P 
+    INNER JOIN Empleado E ON E.FK_persona_nat = P.persona_nat_codigo
+    INNER JOIN Contrato_de_personal C ON E.cod_empleado = C.FK_empleado
+    INNER JOIN Asistencia A ON C.contrato_codigo = A.FK_contrato
+  ORDER BY 
+    P.persona_nat_cedula, A.asistencia_fecha_hora_entrada;
+END;
+$$;
+
+--Los 10 mejores clientes en base a la cantidad de compras por año
+CREATE OR REPLACE FUNCTION mejores_clientes()
+RETURNS TABLE(id_cliente INTEGER, nombre_cliente VARCHAR(50), total_compras BIGINT, anio NUMERIC)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    CASE 
+      WHEN P.pedido_fk_cliente_jur IS NOT NULL THEN P.pedido_fk_cliente_jur
+      WHEN P.pedido_fk_cliente_nat IS NOT NULL THEN P.pedido_fk_cliente_nat
+    END as id_cliente,
+    CASE 
+      WHEN P.pedido_fk_cliente_jur IS NOT NULL THEN PJ.persona_jur_razon_social
+      WHEN P.pedido_fk_cliente_nat IS NOT NULL THEN CONCAT(PN.persona_nat_p_nombre, ' ', PN.persona_nat_p_apellido)
+    END as nombre_cliente,
+    COUNT(P.pedido_id) as total_compras,
+    EXTRACT(YEAR FROM P.pedido_fecha) as anio
+  FROM 
+    Pedido P
+    LEFT JOIN Cliente_Juridico CJ ON P.pedido_fk_cliente_jur = CJ.cod_cliente_juri
+    LEFT JOIN Persona_Juridica PJ ON CJ.cj_fk_persona_juri = PJ.persona_jur_codigo
+    LEFT JOIN Cliente_Natural CN ON P.pedido_fk_cliente_nat = CN.cod_client_nat
+    LEFT JOIN Persona_Natural PN ON CN.FK_persona_nat = PN.persona_nat_codigo
+    LEFT JOIN Pedido_Metodo_Pago PP ON PP.pedido_metodo_pago_fk_pedido = P.pedido_id
+  WHERE 
+    P.pedido_fk_cliente_jur IS NOT NULL OR P.pedido_fk_cliente_nat IS NOT NULL
+  GROUP BY 
+    id_cliente, nombre_cliente, anio
+  ORDER BY 
+    anio, total_compras DESC
+  LIMIT 10;
+END
+$$;
+
+--Especificaciones de modelo
+CREATE OR REPLACE FUNCTION getCaracteristicasModelos(models text[])
+RETURNS TABLE(resultado jsonb) 
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    query text;
+    model text;
+BEGIN
+    query := 'SELECT jsonb_build_object(''caracteristica'', C.caracteristica_nombre';
+
+    FOREACH model IN ARRAY models
+    LOOP
+        query := query || ', ' || quote_literal(model || '_caracteristica') || ', COALESCE(' || quote_ident('M' || model) || '.caracteristica, '''')';
+    END LOOP;
+
+    query := query || ') FROM Caracteristica C';
+ 
+    FOREACH model IN ARRAY models
+    LOOP
+        query := query || ' LEFT JOIN (SELECT C.caracteristica_nombre, ' ||
+                          'COALESCE(MAC.modelo_avion_caract_valor::text, '''') || ' ||
+                          'COALESCE(MAC.modelo_avion_caract_unidad_medida, '''') AS caracteristica ' ||
+                          'FROM Caracteristica C ' ||
+                          'JOIN Modelo_Avion_Caracteristica MAC ON MAC.modelo_avion_caract_fk_caract = C.caracteristica_id ' ||
+                          'JOIN Modelo_Avion M ON M.modelo_avion_id = MAC.modelo_avion_caract_fk_modelo ' ||
+                          'WHERE M.modelo_avion_nombre = ' || quote_literal(model) || ') AS ' || quote_ident('M' || model) || ' ' ||
+                          'ON lower(C.caracteristica_nombre) = lower(' || quote_ident('M' || model) || '.caracteristica_nombre)';
+    END LOOP;
+
+    query := query || ' ORDER BY C.caracteristica_nombre';
+
+    RETURN QUERY EXECUTE query;
+END;
+$$;
+
+--Aviones más rentables con base al cumplimiento de las fechas durante su fabricación
+CREATE OR REPLACE FUNCTION aviones_cumplidores()
+RETURNS TABLE(avion_id INTEGER, modelo_avion_nombre VARCHAR(50), fecha_inicio TIMESTAMP, fecha_entrega DATE, tiempo_fabricacion INTERVAL)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    A.avion_id,
+    MA.modelo_avion_nombre,
+    MIN(HEPA.fecha_hora_inicio_estatus) as fecha_inicio,
+    A.avion_fecha_entrega as fecha_entrega,
+    AGE(A.avion_fecha_entrega, MIN(HEPA.fecha_hora_inicio_estatus)) as tiempo_fabricacion
+  FROM 
+    avion A
+    INNER JOIN Modelo_Avion MA ON A.avion_fk_modelo = MA.modelo_avion_id
+    INNER JOIN Prueba_Avion PA ON PA.prueba_avion_fk_avion = A.avion_id
+    INNER JOIN Historico_Estatus_Prueba_Avion HEPA ON HEPA.FK_prueba_avion = PA.prueba_avion_id
+  WHERE 
+    A.avion_fecha_entrega IS NOT NULL
+  GROUP BY 
+    A.avion_id, MA.modelo_avion_nombre, A.avion_fecha_entrega
+  ORDER BY 
+    tiempo_fabricacion;
+END
+$$;
+
+
+--Promedio de producción mensual por sede
+CREATE OR REPLACE FUNCTION produccion_mensual_sede()
+RETURNS TABLE(promedio_produccion NUMERIC(2,5), mes TEXT, sede VARCHAR(50))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    ROUND(AVG(cantidad_pedidos)::numeric(5, 2), 2) as promedio_produccion,
+    X.mes,
+    X.sede
+  FROM (
+    SELECT 
+      COUNT(P.pedido_id) as cantidad_pedidos,
+      TO_CHAR(P.pedido_fecha, 'MM') AS mes,
+      S.sede_nombre as sede
+    FROM
+      SEDE S
+      INNER JOIN Pedido P ON S.sede_id = P.pedido_fk_sede
+    GROUP BY 
+      S.sede_nombre, TO_CHAR(P.pedido_fecha, 'MM')
+  ) AS X
+  GROUP BY 
+    X.mes, X.sede
+  ORDER BY 
+    X.sede, X.mes;
+END
+$$;
