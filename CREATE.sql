@@ -490,6 +490,7 @@ CREATE TABLE Modelo_Avion (
     modelo_avion_id INTEGER NOT NULL,
     modelo_avion_descripcion VARCHAR(200),
     modelo_avion_nombre VARCHAR(50) NOT NULL,
+    modelo_avion_precio DECIMAL(10,2) NOT NULL,
     CONSTRAINT PK_modelo_avion PRIMARY KEY (modelo_avion_id)
 );
 

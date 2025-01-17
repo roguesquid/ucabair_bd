@@ -296,56 +296,56 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER trigger_insertar_pruebas_avion
+ CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_avion
 AFTER INSERT ON avion
 FOR EACH ROW
 EXECUTE FUNCTION insertar_pruebas_avion();
 
 
 -- -- Solicitar las piezas a las sedes correspondientes, luego de pedir el avion, e insertar en hist y estatus (ARREGLADO)
- CREATE OR REPLACE FUNCTION solicitar_piezas_avion() 
+ CREATE OR REPLACE FUNCTION solicitar_piezas_avion()
 RETURNS TRIGGER AS $$
-DECLARE 
-    record RECORD; 
-BEGIN 
-    FOR record IN 
-        SELECT * FROM ma_mp X 
-        WHERE X.ma_mp_fk_modelo_avion = NEW.avion_fk_modelo 
-    LOOP 
+DECLARE
+    record RECORD;
+BEGIN
+    FOR record IN
+        SELECT * FROM ma_mp X
+        WHERE X.ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
+    LOOP
         INSERT INTO Pedido (
-            pedido_id, 
-            pedido_fecha, 
-            pedido_subtotal, 
-            pedido_total, 
-            pedido_fk_cliente_jur, 
-            pedido_fk_cliente_nat, 
-            pedido_fk_sede, 
+            pedido_id,
+            pedido_fecha,
+            pedido_subtotal,
+            pedido_total,
+            pedido_fk_cliente_jur,
+            pedido_fk_cliente_nat,
+            pedido_fk_sede,
             pedido_fk_historico_tasa_dolar
-        ) 
+        )
         VALUES (
-            (SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P), 
-            CURRENT_DATE, 
-            NULL, 
-            NULL, 
-            NULL, 
-            NULL, 
-            (SELECT A.fk_sede 
-             FROM Pieza P, Area A, Zona Z, Pieza_Zona PZ 
-             WHERE P.pieza_fk_modelo_p = record.ma_mp_fk_modelo_pieza 
-             AND PZ.pieza_zona_fk_pieza = P.pieza_id 
-             AND PZ.pieza_zona_fk_zona = Z.zona_id 
-             AND Z.fk_area = A.area_id), 
+            (SELECT COALESCE(MAX(P.pedido_id),1)+1 FROM Pedido P),
+            CURRENT_DATE,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            (SELECT A.fk_sede
+             FROM Pieza P, Area A, Zona Z, Pieza_Zona PZ
+             WHERE P.pieza_fk_modelo_p = record.ma_mp_fk_modelo_pieza
+             AND PZ.pieza_zona_fk_pieza = P.pieza_id
+             AND PZ.pieza_zona_fk_zona = Z.zona_id
+             AND Z.fk_area = A.area_id),
             (SELECT MAX(HT.h_tasa_id) FROM Historico_Tasa_Dolar HT)
-        ); 
+        );
 
         INSERT INTO Detalle_Pedido (
-            detalle_pedido_id, 
-            detalle_pedido_cantidad, 
-            detalle_pedido_precio_unitario, 
-            detalle_pedido_fk_pedido, 
-            detalle_pedido_fk_modelo_avion, 
+            detalle_pedido_id,
+            detalle_pedido_cantidad,
+            detalle_pedido_precio_unitario,
+            detalle_pedido_fk_pedido,
+            detalle_pedido_fk_modelo_avion,
             detalle_pedido_fk_modelo_pieza
-        ) 
+        )
         VALUES (
             (SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D), 
             10, 
@@ -353,8 +353,8 @@ BEGIN
             (SELECT MAX(P.pedido_id) FROM Pedido P), 
             NULL, 
             record.ma_mp_fk_modelo_pieza
-        ); 
-        
+        );
+
         INSERT INTO Historico_Estatus_Pedido (
             historico_estatus_pedido_id,
             historico_estatus_pedido_fecha_hora_inicio,
@@ -368,11 +368,10 @@ BEGIN
             1
         );
 
-    END LOOP; 
-    RETURN NEW; 
-END; 
+    END LOOP;
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
-
 
  CREATE OR REPLACE TRIGGER trigger_solicitar_piezas_avion
  AFTER INSERT ON avion
@@ -383,11 +382,11 @@ $$ LANGUAGE plpgsql;
 -- CRUD AVION
 -- READ
 CREATE OR REPLACE FUNCTION obtener_aviones()
-RETURNS TABLE(id integer, nombre character varying, descripcion character varying)
+RETURNS TABLE(id integer, nombre character varying, descripcion character varying, precio numeric)
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  RETURN QUERY SELECT modelo_avion_id as id, modelo_avion_nombre as nombre, modelo_avion_descripcion as descripcion
+  RETURN QUERY SELECT modelo_avion_id as id, modelo_avion_nombre as nombre, modelo_avion_descripcion as descripcion, modelo_avion_precio as precio
   FROM modelo_avion;
 END
 $$;
@@ -405,7 +404,7 @@ $$;
 
 -- DELETE
 CREATE OR REPLACE FUNCTION eliminar_modelo_avion(p_id INT)
-RETURNS VOID 
+RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -749,7 +748,7 @@ BEGIN
 END
 $$;
 
--- $$ LANGUAGE plpgsql;
+ -- $$ LANGUAGE plpgsql;
 --  Crear orden de reposicion de materia prima luego de un pedido cuando no hay en el inventario, e insertar en hist estatus (ARREGLADO)
 CREATE OR REPLACE FUNCTION comprar_material() 
 RETURNS TRIGGER AS $$
@@ -865,12 +864,21 @@ END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 
+ CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_piezas
+ AFTER INSERT ON Pieza
+ FOR EACH ROW
+ EXECUTE FUNCTION insertar_pruebas_piezas();
 
 
-CREATE TRIGGER trigger_insertar_pruebas_piezas
-AFTER INSERT ON avion
-FOR EACH ROW
-EXECUTE FUNCTION insertar_pruebas_piezas();
+CREATE OR REPLACE FUNCTION devolver_privilegios_por_id_usuario(id_usuario INT) RETURNS TABLE (
+    nombre_permiso VARCHAR(50)
+) AS $$
+    SELECT p.privilegio_descripcion
+    FROM privilegio p
+    INNER JOIN rol_privilegio rp ON p.privilegio_codigo = rp.rp_fk_privilegio
+    INNER JOIN usuario u ON u.usuario_fk_rol = rp.rp_fk_rol
+    WHERE u.usuario_codigo = id_usuario;
+$$ LANGUAGE SQL;
 
 
 
