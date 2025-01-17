@@ -343,8 +343,8 @@ BEGIN
             detalle_pedido_cantidad,
             detalle_pedido_precio_unitario,
             detalle_pedido_fk_pedido,
-            detalle_pedido_fk_modelo_avion,
-            detalle_pedido_fk_modelo_pieza
+            detalle_pedido_fk_avion,
+            detalle_pedido_fk_pieza
         )
         VALUES (
             (SELECT COALESCE(MAX(D.detalle_pedido_id),1)+1 FROM Detalle_Pedido D), 
@@ -988,25 +988,22 @@ AS $$
 DECLARE
     pedido_codigo INTEGER;
 BEGIN
-    INSERT INTO Pedido(pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_historico_tasa_dolar)
-    VALUES(CURRENT_DATE, NULL, NULL, CASE WHEN tipo_cliente = 'juridico' THEN cliente_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN cliente_id ELSE NULL END, (SELECT MAX(h_tasa_id) FROM historico_tasa_dolar));
+    INSERT INTO Pedido(pedido_id,pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_historico_tasa_dolar)
+    VALUES((SELECT MAX(pedido_id)+1 FROM Pedido), CURRENT_DATE, NULL, NULL, CASE WHEN tipo_cliente = 'juridico' THEN cliente_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN cliente_id ELSE NULL END, (SELECT MAX(h_tasa_id) FROM historico_tasa_dolar));
 
     SELECT MAX(pedido_id) INTO pedido_codigo FROM Pedido;
     RETURN pedido_codigo;
 END
 $$;
 
-CREATE OR REPLACE FUNCTION crear_detalle_pedido_avion(IN cantidad INTEGER, IN pedido_id INTEGER, IN avion_id INTEGER)
+CREATE OR REPLACE FUNCTION crear_detalle_pedido_avion(IN cantidad INTEGER, IN pedido_id INTEGER, IN avions_id INTEGER)
 RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO Detalle_Pedido(detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion)
-    VALUES(cantidad, (SELECT ma.modelo_avion_precio
-                      FROM avion a
-                      INNER JOIN modelo_avion ma ON a.avion_fk_modelo = ma.modelo_avion_id
-                      WHERE a.avion_id = avion_id), 
-          pedido_id, avion_id);
+    INSERT INTO Detalle_Pedido(detalle_pedido_id,detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_avion)
+    VALUES((SELECT MAX(detalle_pedido_id)+1 FROM Detalle_Pedido),cantidad, (SELECT ma.modelo_avion_precio FROM avion a INNER JOIN modelo_avion ma ON a.avion_fk_modelo = ma.modelo_avion_id WHERE a.avion_id = avions_id), 
+          pedido_id, avions_id);
 END
 $$;
 
@@ -1015,8 +1012,8 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO tdc(tdc_numero, tdc_fecha_vencimiento, tdc_cvv,tdc_fk_cliente_jur, tdc_fk_cliente_nat, tdc_fk_banco)
-    VALUES (numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
+    INSERT INTO tdc(tdc_metodo_pago_cod,tdc_numero_tarjeta, tdc_fecha_vencimiento, tdc_cvv,tdc_fk_persona_jur, tdc_fk_persona_nat, tdc_fk_banco)
+    VALUES ((SELECT MAX(tdc_metodo_pago_cod)+1 FROM tdc),numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDC, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
     VALUES (pedido_id, (SELECT MAX(tdc_id) FROM tdc), monto, CURRENT_DATE);
@@ -1028,8 +1025,8 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO tdd(tdd_numero, tdd_fecha_vencimiento, tdd_cvv,tdd_fk_cliente_jur, tdd_fk_cliente_nat, tdd_fk_banco)
-    VALUES (numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
+    INSERT INTO tdd(tdd_metodo_pago_cod, tdd_numero_tarjeta, tdd_fecha_vencimiento, tdd_cvv,tdd_fk_persona_jur, tdd_fk_persona_nat, tdd_fk_banco)
+    VALUES ((SELECT MAX(tdd_metodo_pago_cod)+1 FROM tdd),numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDD, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
     VALUES (pedido_id, (SELECT MAX(tdd_id) FROM tdd), monto, CURRENT_DATE);
@@ -1041,8 +1038,8 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO cheque(cheque_numero, cheque_fk_banco, cheque_fk_cliente_jur, cheque_fk_cliente_nat)
-    VALUES (numero_cheque, banco_id, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
+    INSERT INTO cheque(cheque_metodo_pago_cod,cheque_numero, cheque_fk_banco, cheque_fk_per_jur, cheque_fk_per_nat)
+    VALUES ((SELECT MAX(cheque_metodo_pago_cod)+1 FROM cheque),numero_cheque, banco_id, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_cheque, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
     VALUES (pedido_id, (SELECT MAX(cheque_id) FROM cheque), monto, CURRENT_DATE);
@@ -1054,11 +1051,11 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO efectivo(efectivo_denominacion, efectivo_cant_piezas, efectivo_fk_per_jur, efectivo_fk_per_nat)
-    VALUES (denominacion, cantidad_piezas, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
+    INSERT INTO efectivo(efectivo_metodo_pago_cod,efectivo_denominacion, efectivo_cant_piezas, efectivo_fk_per_jur, efectivo_fk_per_nat)
+    VALUES ((SELECT MAX(efectivo_metodo_pago_cod)+1 FROM efectivo),denominacion, cantidad_piezas, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
 
     INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_efectivo, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
-    VALUES (pedido_id, (SELECT MAX(efectivo_id) FROM efectivo), monto, CURRENT_DATE);
+    VALUES (pedido_id, (SELECT MAX(efectivo_metodo_pago_cod) FROM efectivo), monto, CURRENT_DATE);
 END
 $$;
 
