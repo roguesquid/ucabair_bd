@@ -714,12 +714,12 @@ CREATE TABLE Detalle_Pedido(
     detalle_pedido_cantidad INTEGER NOT NULL,
     detalle_pedido_precio_unitario DECIMAL(10,2) NOT NULL,
     detalle_pedido_fk_pedido INTEGER NOT NULL,
-    detalle_pedido_fk_modelo_avion INTEGER,
-    detalle_pedido_fk_modelo_pieza INTEGER,
+    detalle_pedido_fk_avion INTEGER,
+    detalle_pedido_fk_pieza INTEGER,
     CONSTRAINT pk_detalle_pedido PRIMARY KEY(detalle_pedido_id),
     CONSTRAINT fk_pedido_detalle_pedido FOREIGN KEY(detalle_pedido_fk_pedido) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
-    CONSTRAINT fk_avion_detalle_pedido FOREIGN KEY(detalle_pedido_fk_modelo_avion) REFERENCES Modelo_Avion(modelo_avion_id) ON DELETE CASCADE,
-    CONSTRAINT fk_pieza_detalle_pedido FOREIGN KEY(detalle_pedido_fk_modelo_pieza) REFERENCES Modelo_Pieza(m_pieza_id) ON DELETE CASCADE
+    CONSTRAINT fk_avion_detalle_pedido FOREIGN KEY(detalle_pedido_fk_avion) REFERENCES Avion(avion_id) ON DELETE CASCADE,
+    CONSTRAINT fk_pieza_detalle_pedido FOREIGN KEY(detalle_pedido_fk_pieza) REFERENCES Pieza(pieza_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Historico_Estatus_Pedido(

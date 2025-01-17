@@ -934,3 +934,102 @@ ORDER BY
     ia.fecha_entrada DESC;
 END
 $$;
+
+--Crea avion
+CREATE OR REPLACE FUNCTION crear_avion(IN avion_matricula_d VARCHAR(20), IN p_modelo INTEGER)
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    avion_codigo INTEGER;
+BEGIN
+    INSERT INTO avion(avion_matricula, avion_fk_modelo)
+    VALUES(avion_matricula_d, p_modelo);
+
+    SELECT MAX(avion_id) INTO avion_codigo FROM avion;
+    RETURN avion_codigo;
+END
+$$;
+
+--Crea el pedido del avion
+CREATE OR REPLACE FUNCTION crear_pedido_avion(IN cliente_id INTEGER, tipo_cliente TEXT)
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    pedido_codigo INTEGER;
+BEGIN
+    INSERT INTO Pedido(pedido_fecha, pedido_subtotal, pedido_total, pedido_fk_cliente_jur, pedido_fk_cliente_nat, pedido_fk_historico_tasa_dolar)
+    VALUES(CURRENT_DATE, NULL, NULL, CASE WHEN tipo_cliente = 'juridico' THEN cliente_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN cliente_id ELSE NULL END, (SELECT MAX(h_tasa_id) FROM historico_tasa_dolar));
+
+    SELECT MAX(pedido_id) INTO pedido_codigo FROM Pedido;
+    RETURN pedido_codigo;
+END
+$$;
+
+CREATE OR REPLACE FUNCTION crear_detalle_pedido_avion(IN cantidad INTEGER, IN pedido_id INTEGER, IN avion_id INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO Detalle_Pedido(detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion)
+    VALUES(cantidad, (SELECT ma.modelo_avion_precio
+                      FROM avion a
+                      INNER JOIN modelo_avion ma ON a.avion_fk_modelo = ma.modelo_avion_id
+                      WHERE a.avion_id = avion_id), 
+          pedido_id, avion_id);
+END
+$$;
+
+CREATE OR REPLACE FUNCTION anadir_pago_tdc(IN monto NUMERIC, IN numero_tarjeta VARCHAR(16), IN fecha_vencimiento DATE, IN cvv VARCHAR(3), IN titular_id INTEGER, IN tipo_cliente TEXT, IN pedido_id INTEGER, IN banco_id INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO tdc(tdc_numero, tdc_fecha_vencimiento, tdc_cvv,tdc_fk_cliente_jur, tdc_fk_cliente_nat, tdc_fk_banco)
+    VALUES (numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
+
+    INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDC, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
+    VALUES (pedido_id, (SELECT MAX(tdc_id) FROM tdc), monto, CURRENT_DATE);
+END
+$$;
+
+CREATE OR REPLACE FUNCTION anadir_pago_tdd(IN monto NUMERIC, IN numero_tarjeta VARCHAR(16), IN fecha_vencimiento DATE, IN cvv VARCHAR(3), IN titular_id INTEGER, IN tipo_cliente TEXT, IN pedido_id INTEGER, IN banco_id INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO tdd(tdd_numero, tdd_fecha_vencimiento, tdd_cvv,tdd_fk_cliente_jur, tdd_fk_cliente_nat, tdd_fk_banco)
+    VALUES (numero_tarjeta, fecha_vencimiento, cvv, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END, banco_id);
+
+    INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_TDD, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
+    VALUES (pedido_id, (SELECT MAX(tdd_id) FROM tdd), monto, CURRENT_DATE);
+END
+$$;
+
+CREATE OR REPLACE FUNCTION anadir_pago_cheque(IN monto NUMERIC, IN numero_cheque VARCHAR(8), IN banco_id INTEGER, IN titular_id INTEGER, IN tipo_cliente TEXT, IN pedido_id INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO cheque(cheque_numero, cheque_fk_banco, cheque_fk_cliente_jur, cheque_fk_cliente_nat)
+    VALUES (numero_cheque, banco_id, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
+
+    INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_cheque, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
+    VALUES (pedido_id, (SELECT MAX(cheque_id) FROM cheque), monto, CURRENT_DATE);
+END
+$$;
+
+CREATE OR REPLACE FUNCTION anadir_pago_efectivo(IN monto NUMERIC, IN titular_id INTEGER, IN tipo_cliente TEXT, IN pedido_id INTEGER, IN denominacion VARCHAR(20), IN cantidad_piezas INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO efectivo(efectivo_denominacion, efectivo_cant_piezas, efectivo_fk_per_jur, efectivo_fk_per_nat)
+    VALUES (denominacion, cantidad_piezas, CASE WHEN tipo_cliente = 'juridico' THEN titular_id ELSE NULL END, CASE WHEN tipo_cliente = 'natural' THEN titular_id ELSE NULL END);
+
+    INSERT INTO Pedido_Metodo_Pago(pedido_metodo_pago_fk_pedido, pedido_metodo_pago_fk_efectivo, pedido_metodo_pago_monto, pedido_metodo_pago_fecha)
+    VALUES (pedido_id, (SELECT MAX(efectivo_id) FROM efectivo), monto, CURRENT_DATE);
+END
+$$;
+
