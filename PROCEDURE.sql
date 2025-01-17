@@ -905,7 +905,7 @@ inner join sede on fk_sede = sede_id
 inner join pedido on sede_id = pedido_fk_sede
 inner join historico_estatus_pedido on historico_estatus_pedido_fk_pedido = pedido_id
 inner join estatus_pedido on historico_estatus_pedido_fk_estatus_pedido = estatus_ped_id 
-Where pieza_id = m_pieza_id and pieza_avion_fk_pieza = pieza_id and detalle_pedido_fk_modelo_avion is null and dp.detalle_pedido_fk_pedido = pedido_id;
+Where pieza_id = m_pieza_id and pieza_avion_fk_pieza = pieza_id and detalle_pedido_fk_avion is null and dp.detalle_pedido_fk_pedido = pedido_id;
 END
 $$;
 
@@ -1061,12 +1061,12 @@ $$;
 
 -- REPORTE 4 (LISTO)
 CREATE OR REPLACE FUNCTION calcular_nomina()
-RETURNS TABLE(Cedula NUMERIC, Nombre VARCHAR(100), Sueldo DECIMAL(10,2), HorasTrabajadas INTEGER, HorasExtra INTEGER, TotalCompensacion DECIMAL(10,2))
+RETURNS TABLE(Cedula NUMERIC, Nombre TEXT, Sueldo DECIMAL(10,2), HorasTrabajadas NUMERIC, HorasExtra NUMERIC, TotalCompensacion DECIMAL(10,2))
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT
+    SELECT DISTINCT
         pn.persona_nat_cedula as Cedula,
         pn.persona_nat_p_nombre || ' ' || pn.persona_nat_s_nombre || ' ' || pn.persona_nat_p_apellido || ' ' || pn.persona_nat_s_apellido as Nombre,
         cc.cont_carg_sueldo_mensual as Sueldo,
