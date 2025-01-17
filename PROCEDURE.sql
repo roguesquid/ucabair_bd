@@ -535,7 +535,7 @@ BEGIN
         SET tipo_pm_nombre = p_nombre, tipo_pm_duracion = p_duracion, FK_zona = fk_zonsa
         WHERE tipo_pm_id = p_id;
     ELSE
-        UPDATE tipo_prueba_avion
+      UPDATE tipo_prueba_avion
         SET tipo_pa_nombre = p_nombre, tipo_pa_duracion = p_duracion, tipo_pa_fk_zona = fk_zonsa
         WHERE tipo_pa_id = p_id;
     END IF;
@@ -827,7 +827,18 @@ RETURNS TRIGGER AS $$
 DECLARE
     record RECORD;
     pieza RECORD;
+    piez RECORD;
 BEGIN
+FOR piez IN
+SELECT pieza_id from pieza 
+inner join ma_mp on pieza_fk_modelo_p = ma_mp_fk_modelo_pieza
+WHERE ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
+LOOP
+
+INSERT INTO pieza_avion (pieza_avion_id,pieza_avion_fk_pieza, pieza_avion_fk_avion)
+VALUES ((SELECT COALESCE(MAX(pieza_avion_id),1)+1 FROM pieza_avion),piez.pieza_id, new.avion_id);
+END LOOP;
+
     FOR pieza IN 
         SELECT pieza_avion_fk_pieza FROM Pieza_Avion WHERE pieza_avion_fk_avion = NEW.avion_id
     LOOP
@@ -848,6 +859,7 @@ BEGIN
             );
         END LOOP;
     END LOOP;
+    
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -868,17 +880,31 @@ CREATE OR REPLACE FUNCTION devolver_privilegios_por_id_usuario(id_usuario INT) R
     WHERE u.usuario_codigo = id_usuario;
 $$ LANGUAGE SQL;
 
+
+
+
+
  CREATE OR REPLACE FUNCTION fabricacion_estatus_pieza()
-RETURNS TABLE(nombre_pieza VARCHAR(40), descripcion_pieza VARCHAR(40), nombre_sede VARCHAR(40), nombre_area VARCHAR(40),descripcion_area VARCHAR(40))
+RETURNS TABLE(id_pieza INTEGER,nombre_pieza VARCHAR(40), descripcion_pieza VARCHAR(40), nombre_sede VARCHAR(40), nombre_area VARCHAR(40), estatus_pieza VARCHAR(40))
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  RETURN QUERY
-select m_pieza_nombre as nombre_pieza, m_pieza_descripcion as descripcion_pieza, sede_nombre as nombre_sede, area_nombre as nombre_area, area_descripcion as descripcion_area
-from modelo_pieza, pieza_zona 
-inner join pieza on pieza_zona_fk_pieza = pieza_id 
+ RETURN QUERY
+SELECT DISTINCT  
+pieza_id as id_pieza , 
+m_pieza_nombre as nombre_pieza, 
+m_pieza_descripcion as descripcion_pieza, 
+sede_nombre as nombre_sede, 
+area_nombre as nombre_area,
+estatus_ped_nombre as estatus_pieza
+FROM modelo_pieza, pieza_zona
+inner join pieza on pieza_zona_fk_pieza = pieza_id
 inner join zona on pieza_zona_fk_zona = zona_id
-inner join area on fk_area = area_id inner join sede on fk_sede = sede_id
+inner join area on fk_area = area_id
+inner join sede on fk_sede = sede_id
+inner join pedido on sede_id = pedido_fk_sede
+inner join historico_estatus_pedido on historico_estatus_pedido_fk_pedido = pedido_id
+inner join estatus_pedido on historico_estatus_pedido_fk_estatus_pedido = estatus_ped_id
 Where pieza_id = m_pieza_id;
 END
 $$;
@@ -890,10 +916,12 @@ RETURNS TABLE (
     pieza_id INTEGER,
     pieza_nombre VARCHAR(30),
     pieza_descripcion VARCHAR(40),
-    total INTEGER
+    total BIGINT 
 )
-LANGUAGE sql
+LANGUAGE plpgsql
 AS $$
+BEGIN
+ RETURN QUERY 
     SELECT mp.m_pieza_id as pieza_id, 
            mp.m_pieza_nombre as pieza_nombre, 
            mp.m_pieza_descripcion as pieza_descripcion, 
@@ -905,6 +933,7 @@ AS $$
     GROUP BY mp.m_pieza_id, mp.m_pieza_nombre, mp.m_pieza_descripcion
     ORDER BY total DESC
     LIMIT 1;
+    END
 $$;
 
 
