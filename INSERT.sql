@@ -5440,7 +5440,7 @@ INSERT INTO empleado_prueba_avion (
 
 
 INSERT INTO detalle_pedido (
-    detalle_pedido_id, detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_modelo_avion, detalle_pedido_fk_modelo_pieza
+    detalle_pedido_id, detalle_pedido_cantidad, detalle_pedido_precio_unitario, detalle_pedido_fk_pedido, detalle_pedido_fk_avion, detalle_pedido_fk_pieza
 ) VALUES
     (1, 5, 600, 1, NULL, 1),
     (2, 10, 500, 2, 1, NULL),
