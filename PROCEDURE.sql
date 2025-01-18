@@ -822,40 +822,69 @@ CREATE OR REPLACE TRIGGER trigger_comprar_material
 
 
 -- Insertar las pruebas que se le deben hacer a las piezas luego de la insersion de un avion (ARREGLADO)
-CREATE OR REPLACE FUNCTION insertar_pruebas_piezas()
+CREATE OR REPLACE FUNCTION insertar_pruebas_piezas() 
 RETURNS TRIGGER AS $$
 DECLARE
     record RECORD;
     pieza RECORD;
     piez RECORD;
+    new_pieza_id INTEGER;
+    equipo_id INTEGER;
 BEGIN
-FOR piez IN
-SELECT pieza_id from pieza 
-inner join ma_mp on pieza_fk_modelo_p = ma_mp_fk_modelo_pieza
-WHERE ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
-LOOP
+    -- Insertar en la tabla 'pieza' primero
+    FOR piez IN
+        SELECT * 
+        FROM ma_mp 
+        WHERE ma_mp_fk_modelo_avion = NEW.avion_fk_modelo
+    LOOP
+        INSERT INTO pieza (pieza_id, pieza_caracteristica_esp, pieza_fk_modelo_p)
+        VALUES (
+            (SELECT COALESCE(MAX(pieza_id), 0) + 1 FROM pieza), 
+            'Característica generada automáticamente', 
+            piez.ma_mp_fk_modelo_pieza
+        )
+        RETURNING pieza_id INTO new_pieza_id;
 
-INSERT INTO pieza_avion (pieza_avion_id,pieza_avion_fk_pieza, pieza_avion_fk_avion)
-VALUES ((SELECT COALESCE(MAX(pieza_avion_id),1)+1 FROM pieza_avion),piez.pieza_id, new.avion_id);
-END LOOP;
+        -- Asignar un equipo a la pieza en la tabla 'pieza_equipo'
+        equipo_id := (SELECT codigo_equipo FROM equipo ORDER BY RANDOM() LIMIT 1); -- Seleccionar equipo aleatorio
+        INSERT INTO pieza_equipo (pieza_equipo_id, pieza_equipo_fk_pieza, pieza_equipo_fk_equipo)
+        VALUES (
+            (SELECT COALESCE(MAX(pieza_equipo_id), 0) + 1 FROM pieza_equipo),
+            new_pieza_id,
+            equipo_id
+        );
 
+        -- Insertar en la tabla 'pieza_avion' usando la pieza recién creada
+        INSERT INTO pieza_avion (pieza_avion_id, pieza_avion_fk_pieza, pieza_avion_fk_avion)
+        VALUES (
+            (SELECT COALESCE(MAX(pieza_avion_id), 0) + 1 FROM pieza_avion),
+            new_pieza_id,
+            NEW.avion_id
+        );
+    END LOOP;
+
+    -- Insertar pruebas para cada pieza asociada al avión
     FOR pieza IN 
-        SELECT pieza_avion_fk_pieza FROM Pieza_Avion WHERE pieza_avion_fk_avion = NEW.avion_id
+        SELECT pieza_avion_fk_pieza FROM pieza_avion WHERE pieza_avion_fk_avion = NEW.avion_id
     LOOP
         FOR record IN 
-            SELECT * FROM Tipo_Prueba_Pieza
+            SELECT * FROM tipo_prueba_pieza
         LOOP
-            INSERT INTO Prueba_Pieza (prueba_pieza_id, prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba)
-            VALUES ((SELECT COALESCE(MAX(P.prueba_pieza_id),1)+1 FROM Prueba_Pieza P), pieza.pieza_avion_fk_pieza, record.tipo_pp_id);
+            INSERT INTO prueba_pieza (prueba_pieza_id, prueba_pieza_fk_pieza, prueba_pieza_fk_tipo_prueba)
+            VALUES (
+                (SELECT COALESCE(MAX(P.prueba_pieza_id), 0) + 1 FROM prueba_pieza P), 
+                pieza.pieza_avion_fk_pieza, 
+                record.tipo_pp_id
+            );
 
-            INSERT INTO Historico_Estatus_Prueba_Pieza (
+            INSERT INTO historico_estatus_prueba_pieza (
                 hist_est_pru_piez_id, hist_est_pru_piez_fecha_hora_inicio, hist_est_pru_piez_fecha_hora_fin, hist_est_pru_piez_fk_prueba_pieza, hist_est_pru_piez_fk_estatus_prueba_pieza
             ) VALUES (
-                (SELECT COALESCE(MAX(H.hist_est_pru_piez_id),1)+1 FROM Historico_Estatus_Prueba_Pieza H),
+                (SELECT COALESCE(MAX(H.hist_est_pru_piez_id), 0) + 1 FROM historico_estatus_prueba_pieza H),
                 CURRENT_DATE,
                 NULL,
-                (SELECT MAX(P.prueba_pieza_id) FROM Prueba_Pieza P),
-                4 -- Valor por defecto para hist_est_pru_piez_fk_estatus_prueba_pieza para decir que no se han iniciado
+                (SELECT MAX(P.prueba_pieza_id) FROM prueba_pieza P),
+                4 -- Valor por defecto para indicar que no se han iniciado
             );
         END LOOP;
     END LOOP;
@@ -864,10 +893,11 @@ END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 
- CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_piezas
- AFTER INSERT ON AVION
- FOR EACH ROW
- EXECUTE FUNCTION insertar_pruebas_piezas();
+-- Trigger para ejecutar la función después de insertar en 'avion'
+CREATE OR REPLACE TRIGGER trigger_insertar_pruebas_piezas
+AFTER INSERT ON avion
+FOR EACH ROW
+EXECUTE FUNCTION insertar_pruebas_piezas();
 
 
 CREATE OR REPLACE FUNCTION devolver_privilegios_por_id_usuario(id_usuario INT) RETURNS TABLE (
@@ -1163,5 +1193,154 @@ BEGIN
         INNER JOIN historico_estatus_prueba_avion hepa ON pa.prueba_avion_id = hepa.FK_prueba_avion
     WHERE
         hepa.FK_estatus_prueb_avion = 3;
+END
+$$;
+
+-- Zarah
+CREATE OR REPLACE FUNCTION asistencia_empleados()
+RETURNS TABLE(cedula NUMERIC, nombre TEXT, entrada TIMESTAMP, salida TIMESTAMP)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+ SELECT
+   P.persona_nat_cedula as cedula,
+   P.persona_nat_p_nombre || ' ' || P.persona_nat_p_apellido as nombre,
+   A.asistencia_fecha_hora_entrada as entrada,
+   A.asistencia_fecha_hora_salida as salida
+ FROM
+   Persona_Natural P
+   INNER JOIN Empleado E ON E.FK_persona_nat = P.persona_nat_codigo
+   INNER JOIN Contrato_de_personal C ON E.cod_empleado = C.FK_empleado
+   INNER JOIN Asistencia A ON C.contrato_codigo = A.FK_contrato
+ ORDER BY
+   P.persona_nat_cedula, A.asistencia_fecha_hora_entrada;
+END;
+$$;
+
+--Los 10 mejores clientes en base a la cantidad de compras por año
+CREATE OR REPLACE FUNCTION mejores_clientes()
+RETURNS TABLE(id_cliente INTEGER, nombre_cliente VARCHAR(50), total_compras BIGINT, anio NUMERIC)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    CASE 
+      WHEN P.pedido_fk_cliente_jur IS NOT NULL THEN P.pedido_fk_cliente_jur
+      WHEN P.pedido_fk_cliente_nat IS NOT NULL THEN P.pedido_fk_cliente_nat
+    END as id_cliente,
+    CASE 
+      WHEN P.pedido_fk_cliente_jur IS NOT NULL THEN PJ.persona_jur_razon_social
+      WHEN P.pedido_fk_cliente_nat IS NOT NULL THEN CONCAT(PN.persona_nat_p_nombre, ' ', PN.persona_nat_p_apellido)
+    END as nombre_cliente,
+    COUNT(P.pedido_id) as total_compras,
+    EXTRACT(YEAR FROM P.pedido_fecha) as anio
+  FROM 
+    Pedido P
+    LEFT JOIN Cliente_Juridico CJ ON P.pedido_fk_cliente_jur = CJ.cod_cliente_juri
+    LEFT JOIN Persona_Juridica PJ ON CJ.cj_fk_persona_juri = PJ.persona_jur_codigo
+    LEFT JOIN Cliente_Natural CN ON P.pedido_fk_cliente_nat = CN.cod_client_nat
+    LEFT JOIN Persona_Natural PN ON CN.FK_persona_nat = PN.persona_nat_codigo
+    LEFT JOIN Pedido_Metodo_Pago PP ON PP.pedido_metodo_pago_fk_pedido = P.pedido_id
+  WHERE 
+    P.pedido_fk_cliente_jur IS NOT NULL OR P.pedido_fk_cliente_nat IS NOT NULL
+  GROUP BY 
+    id_cliente, nombre_cliente, anio
+  ORDER BY 
+    anio, total_compras DESC
+  LIMIT 10;
+END
+$$;
+
+--Especificaciones de modelo
+CREATE OR REPLACE FUNCTION getCaracteristicasModelos(models text[])
+RETURNS TABLE(resultado jsonb) 
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    query text;
+    model text;
+BEGIN
+    query := 'SELECT jsonb_build_object(''caracteristica'', C.caracteristica_nombre';
+
+    FOREACH model IN ARRAY models
+    LOOP
+        query := query || ', ' || quote_literal(model || '_caracteristica') || ', COALESCE(' || quote_ident('M' || model) || '.caracteristica, '''')';
+    END LOOP;
+
+    query := query || ') FROM Caracteristica C';
+ 
+    FOREACH model IN ARRAY models
+    LOOP
+        query := query || ' LEFT JOIN (SELECT C.caracteristica_nombre, ' ||
+                          'COALESCE(MAC.modelo_avion_caract_valor::text, '''') || ' ||
+                          'COALESCE(MAC.modelo_avion_caract_unidad_medida, '''') AS caracteristica ' ||
+                          'FROM Caracteristica C ' ||
+                          'JOIN Modelo_Avion_Caracteristica MAC ON MAC.modelo_avion_caract_fk_caract = C.caracteristica_id ' ||
+                          'JOIN Modelo_Avion M ON M.modelo_avion_id = MAC.modelo_avion_caract_fk_modelo ' ||
+                          'WHERE M.modelo_avion_nombre = ' || quote_literal(model) || ') AS ' || quote_ident('M' || model) || ' ' ||
+                          'ON lower(C.caracteristica_nombre) = lower(' || quote_ident('M' || model) || '.caracteristica_nombre)';
+    END LOOP;
+
+    query := query || ' ORDER BY C.caracteristica_nombre';
+
+    RETURN QUERY EXECUTE query;
+END;
+$$;
+
+--Aviones más rentables con base al cumplimiento de las fechas durante su fabricación
+CREATE OR REPLACE FUNCTION aviones_cumplidores()
+RETURNS TABLE(avion_id INTEGER, modelo_avion_nombre VARCHAR(50), fecha_inicio TIMESTAMP, fecha_entrega DATE, tiempo_fabricacion INTERVAL)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    A.avion_id,
+    MA.modelo_avion_nombre,
+    MIN(HEPA.fecha_hora_inicio_estatus) as fecha_inicio,
+    A.avion_fecha_entrega as fecha_entrega,
+    AGE(A.avion_fecha_entrega, MIN(HEPA.fecha_hora_inicio_estatus)) as tiempo_fabricacion
+  FROM 
+    avion A
+    INNER JOIN Modelo_Avion MA ON A.avion_fk_modelo = MA.modelo_avion_id
+    INNER JOIN Prueba_Avion PA ON PA.prueba_avion_fk_avion = A.avion_id
+    INNER JOIN Historico_Estatus_Prueba_Avion HEPA ON HEPA.FK_prueba_avion = PA.prueba_avion_id
+  WHERE 
+    A.avion_fecha_entrega IS NOT NULL
+  GROUP BY 
+    A.avion_id, MA.modelo_avion_nombre, A.avion_fecha_entrega
+  ORDER BY 
+    tiempo_fabricacion;
+END
+$$;
+
+--Promedio de producción mensual por sede
+CREATE OR REPLACE FUNCTION produccion_mensual_sede()
+RETURNS TABLE(promedio_produccion NUMERIC(2,5), mes TEXT, sede VARCHAR(50))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    ROUND(AVG(cantidad_pedidos)::numeric(5, 2), 2) as promedio_produccion,
+    X.mes,
+    X.sede
+  FROM (
+    SELECT 
+      COUNT(P.pedido_id) as cantidad_pedidos,
+      TO_CHAR(P.pedido_fecha, 'MM') AS mes,
+      S.sede_nombre as sede
+    FROM
+      SEDE S
+      INNER JOIN Pedido P ON S.sede_id = P.pedido_fk_sede
+    GROUP BY 
+      S.sede_nombre, TO_CHAR(P.pedido_fecha, 'MM')
+  ) AS X
+  GROUP BY 
+    X.mes, X.sede
+  ORDER BY 
+    X.sede, X.mes;
 END
 $$;
